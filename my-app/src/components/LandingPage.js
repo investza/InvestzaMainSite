@@ -233,12 +233,7 @@ const LandingPage = () => {
         const backdropHeight = backdropSection.offsetHeight;
         const backdropBottom = backdropTop + backdropHeight;
         const wealthApproachTop = wealthApproachSection.offsetTop;
-        const processCardsTop = processCardsSection.offsetTop;
         const processCardsHeight = processCardsSection.offsetHeight;
-        const processCardsBottom = processCardsTop + processCardsHeight;
-        const founderTop = founderSection.offsetTop;
-        const founderHeight = founderSection.offsetHeight;
-        const founderBottom = founderTop + founderHeight;
 
         // Lift up effect: cards section reveals founder background from bottom to top
         const processCardsElement = document.querySelector('.process-cards-section');
@@ -900,12 +895,19 @@ const LandingPage = () => {
       <section className="team-section">
         <div className="container">
           <h2 className="team-title">WHO'S BEHIND INVESTZA</h2>
-          
+
           <div className="team-grid">
             <div className="team-member">
-              <div className="member-image">
-                Photo Coming Soon
-              </div>
+              <a href="https://www.linkedin.com/in/abhishek-mehta-ca-cfa/" target="_blank" rel="noopener noreferrer" className="member-image-link">
+                <div className="member-image">
+                  <img src="/abhishek.webp" alt="Abhishek Mehta" />
+                  <div className="hover-overlay">
+                    <div className="linkedin-icon">
+                      <img src="/linkedin_icon.png" alt="LinkedIn" />
+                    </div>
+                  </div>
+                </div>
+              </a>
               <div className="member-info">
                 <h3 className="member-name">Abhishek Mehta</h3>
                 <p className="member-role">Founder & Chief Strategist</p>
@@ -913,9 +915,16 @@ const LandingPage = () => {
             </div>
 
             <div className="team-member">
-              <div className="member-image">
-                Photo Coming Soon
-              </div>
+              <a href="https://www.linkedin.com/in/pooja-chandgothia-470054108/" target="_blank" rel="noopener noreferrer" className="member-image-link">
+                <div className="member-image">
+                  <img src="/pooja.webp" alt="Pooja Chandgothia" />
+                  <div className="hover-overlay">
+                    <div className="linkedin-icon">
+                      <img src="/linkedin_icon.png" alt="LinkedIn" />
+                    </div>
+                  </div>
+                </div>
+              </a>
               <div className="member-info">
                 <h3 className="member-name">Pooja Chandgothia</h3>
                 <p className="member-role">Founder & CEO</p>
@@ -923,9 +932,16 @@ const LandingPage = () => {
             </div>
 
             <div className="team-member">
-              <div className="member-image">
-                Photo Coming Soon
-              </div>
+              <a href="https://www.linkedin.com/in/varunvinayan/" target="_blank" rel="noopener noreferrer" className="member-image-link">
+                <div className="member-image">
+                  <img src="/varun.webp" alt="Varun Vinayan" />
+                  <div className="hover-overlay">
+                    <div className="linkedin-icon">
+                      <img src="/linkedin_icon.png" alt="LinkedIn" />
+                    </div>
+                  </div>
+                </div>
+              </a>
               <div className="member-info">
                 <h3 className="member-name">Varun Vinayan</h3>
                 <p className="member-role">Vice President</p>
@@ -939,6 +955,161 @@ const LandingPage = () => {
               <div className="btn-arrow">→</div>
             </button>
           </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="testimonials-section">
+        <div className="container">
+          <h2 className="testimonials-title">What Our Client Says</h2>
+
+          <div className="testimonials-carousel">
+            <div className="testimonials-track">
+              {/* First set of testimonials */}
+              <div className="testimonial-card">
+                <div className="testimonial-content">
+                  <p className="testimonial-text">"My portfolio is now aligned with my values and goals. Investza made that happen with deep insight and care."</p>
+                  <div className="client-info">
+                    <div className="client-avatar">
+                      <img src="/client1.jpg" alt="Parish Tekriwal" />
+                    </div>
+                    <div className="client-details">
+                      <h4 className="client-name">Parish Tekriwal</h4>
+                      <p className="client-title">MD & CEO at Picture Post</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="testimonial-card">
+                <div className="testimonial-content">
+                  <p className="testimonial-text">"What I appreciate most about Investza is the transparency. I know where my money is, why it's there, and what to expect next."</p>
+                  <div className="client-info">
+                    <div className="client-avatar">
+                      <img src="/client2.jpg" alt="Adnan Khan" />
+                    </div>
+                    <div className="client-details">
+                      <h4 className="client-name">Adnan Khan</h4>
+                      <p className="client-title">Actor</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="testimonial-card">
+                <div className="testimonial-content">
+                  <p className="testimonial-text">"With Investza, I feel like I have a real partner- not just an advisor. They've helped me build wealth with clarity and confidence."</p>
+                  <div className="client-info">
+                    <div className="client-avatar">
+                      <img src="/client3.jpg" alt="Ankit Mehta" />
+                    </div>
+                    <div className="client-details">
+                      <h4 className="client-name">Ankit Mehta</h4>
+                      <p className="client-title">MD at Chemkart LTD</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="testimonial-card">
+                <div className="testimonial-content">
+                  <p className="testimonial-text">"The personalized approach and institutional-grade research have transformed my investment strategy completely."</p>
+                  <div className="client-info">
+                    <div className="client-avatar">
+                      <img src="/client4.jpg" alt="Priya Sharma" />
+                    </div>
+                    <div className="client-details">
+                      <h4 className="client-name">Priya Sharma</h4>
+                      <p className="client-title">Entrepreneur</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="testimonial-card">
+                <div className="testimonial-content">
+                  <p className="testimonial-text">"Investza's tax planning integration has saved me significantly while growing my wealth smartly."</p>
+                  <div className="client-info">
+                    <div className="client-avatar">
+                      <img src="/client5.jpg" alt="Rajesh Kumar" />
+                    </div>
+                    <div className="client-details">
+                      <h4 className="client-name">Rajesh Kumar</h4>
+                      <p className="client-title">Business Owner</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="testimonial-card">
+                <div className="testimonial-content">
+                  <p className="testimonial-text">"The continuous monitoring and portfolio rebalancing gives me peace of mind about my financial future."</p>
+                  <div className="client-info">
+                    <div className="client-avatar">
+                      <img src="/client6.jpg" alt="Meera Patel" />
+                    </div>
+                    <div className="client-details">
+                      <h4 className="client-name">Meera Patel</h4>
+                      <p className="client-title">Tech Executive</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Duplicate set for infinite scroll */}
+              <div className="testimonial-card">
+                <div className="testimonial-content">
+                  <p className="testimonial-text">"My portfolio is now aligned with my values and goals. Investza made that happen with deep insight and care."</p>
+                  <div className="client-info">
+                    <div className="client-avatar">
+                      <img src="/client1.jpg" alt="Parish Tekriwal" />
+                    </div>
+                    <div className="client-details">
+                      <h4 className="client-name">Parish Tekriwal</h4>
+                      <p className="client-title">MD & CEO at Picture Post</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="testimonial-card">
+                <div className="testimonial-content">
+                  <p className="testimonial-text">"What I appreciate most about Investza is the transparency. I know where my money is, why it's there, and what to expect next."</p>
+                  <div className="client-info">
+                    <div className="client-avatar">
+                      <img src="/client2.jpg" alt="Adnan Khan" />
+                    </div>
+                    <div className="client-details">
+                      <h4 className="client-name">Adnan Khan</h4>
+                      <p className="client-title">Actor</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="testimonial-card">
+                <div className="testimonial-content">
+                  <p className="testimonial-text">"With Investza, I feel like I have a real partner- not just an advisor. They've helped me build wealth with clarity and confidence."</p>
+                  <div className="client-info">
+                    <div className="client-avatar">
+                      <img src="/client3.jpg" alt="Ankit Mehta" />
+                    </div>
+                    <div className="client-details">
+                      <h4 className="client-name">Ankit Mehta</h4>
+                      <p className="client-title">MD at Chemkart LTD</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Wealth Expertise Section */}
+      <section className="wealth-expertise-section">
+        <div className="container">
+          <h2 className="wealth-expertise-title">Your Wealth, Our Expertise</h2>
         </div>
       </section>
 
