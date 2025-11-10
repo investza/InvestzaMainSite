@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Lenis from 'lenis';
+import Header from './Header';
 import './LandingPage.css';
 
 const LandingPage = () => {
@@ -420,21 +421,7 @@ const LandingPage = () => {
   return (
     <div className="landing-page">
       {/* Header/Navigation */}
-      <header className="header">
-        <nav className="navbar">
-          <div className="nav-brand">
-            <img src="/logo.svg" alt="Investza" className="logo" />
-          </div>
-          <ul className="nav-menu">
-            <li><a href="#events">Events</a></li>
-            <li><a href="#teams">Teams</a></li>
-            <li><a href="#about">About Us</a></li>
-          </ul>
-          <div className="nav-cta">
-            <button className="nav-button">Review my Portfolio</button>
-          </div>
-        </nav>
-      </header>
+      <Header />
 
       {/* Hero Section */}
       <section id="home" className="hero">
