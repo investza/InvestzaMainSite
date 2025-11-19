@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import Lenis from 'lenis';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Header from './Header';
+import Footer from './Footer';
 import './LandingPage.css';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const LandingPage = () => {
   const video1Ref = useRef(null);
@@ -158,6 +163,7 @@ const LandingPage = () => {
     });
 
     lenisRef.current = lenis;
+    window.lenis = lenis;
 
     // Backdrop image is now loaded via img element in HTML
 
@@ -376,8 +382,6 @@ const LandingPage = () => {
         }
       }
 
-
-
     };
 
     // Add Lenis class to html element
@@ -418,6 +422,57 @@ const LandingPage = () => {
       lenis.destroy();
     };
   }, []);
+
+  // GSAP Stacking Cards Animation
+  useEffect(() => {
+    const cards = gsap.utils.toArray('.lenis-card');
+    const wrapper = document.querySelector('.lenis-cards-wrapper');
+    const leftText = document.querySelector('.lenis-left');
+    
+    if (!wrapper) return;
+    
+    // Pin the left text
+    if (leftText) {
+      ScrollTrigger.create({
+        trigger: leftText,
+        start: 'top 20%',
+        endTrigger: wrapper,
+        end: 'bottom bottom',
+        pin: true,
+        pinSpacing: false,
+        markers: false
+      });
+    }
+    
+    // Pin each card with 20px offset
+    cards.forEach((card, index) => {
+      const offset = index * 20; // 20px gap between cards
+      
+      ScrollTrigger.create({
+        trigger: card,
+        start: `top ${20 + (offset / window.innerHeight * 100)}%`,
+        endTrigger: wrapper,
+        end: 'bottom bottom',
+        pin: true,
+        pinSpacing: false,
+        markers: false,
+        invalidateOnRefresh: true
+      });
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => {
+        const triggerElement = trigger.vars.trigger;
+        if (triggerElement && (
+          triggerElement.classList.contains('lenis-card') ||
+          triggerElement.classList.contains('lenis-left')
+        )) {
+          trigger.kill();
+        }
+      });
+    };
+  }, []);
+
   return (
     <div className="landing-page">
       {/* Header/Navigation */}
@@ -456,7 +511,9 @@ const LandingPage = () => {
           <h2 className="hero-text-below">with Tailored Strategies</h2>
 
           <div className="hero-buttons">
-            <button className="cta-button single">Schedule a Call</button>
+            <button className="cta-button single" onClick={() => {
+              window.dispatchEvent(new CustomEvent('openScheduleModal'));
+            }}>Schedule a Call</button>
           </div>
         </div>
       </section>
@@ -627,7 +684,14 @@ const LandingPage = () => {
           </div>
 
           <div className="insights-footer">
-            <button className="view-episodes-btn">View All Episodes <span className="arrow-circle">→</span></button>
+            <a 
+              href="https://www.youtube.com/@investzaWealth/podcasts" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="view-episodes-btn"
+            >
+              View All Episodes <span className="arrow-circle">→</span>
+            </a>
           </div>
 
           {/* Statistics Section */}
@@ -676,10 +740,10 @@ const LandingPage = () => {
             </div>
 
             <div className="stats-learn-section">
-              <button className="learn-why-btn">
+              <a href="/learn-why" className="learn-why-btn">
                 Learn Why
                 <div className="learn-arrow-circle">→</div>
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -937,7 +1001,7 @@ const LandingPage = () => {
           </div>
 
           <div className="team-cta">
-            <button className="meet-team-btn">
+            <button className="meet-team-btn" onClick={() => window.location.href = '/team'}>
               Meet the Team
               <div className="btn-arrow">→</div>
             </button>
@@ -958,7 +1022,7 @@ const LandingPage = () => {
                   <p className="testimonial-text">"My portfolio is now aligned with my values and goals. Investza made that happen with deep insight and care."</p>
                   <div className="client-info">
                     <div className="client-avatar">
-                      <img src="/client1.jpg" alt="Parish Tekriwal" />
+                      <img src="/client1.webp" alt="Parish Tekriwal" />
                     </div>
                     <div className="client-details">
                       <h4 className="client-name">Parish Tekriwal</h4>
@@ -973,7 +1037,7 @@ const LandingPage = () => {
                   <p className="testimonial-text">"What I appreciate most about Investza is the transparency. I know where my money is, why it's there, and what to expect next."</p>
                   <div className="client-info">
                     <div className="client-avatar">
-                      <img src="/client2.jpg" alt="Adnan Khan" />
+                      <img src="/client2.webp" alt="Adnan Khan" />
                     </div>
                     <div className="client-details">
                       <h4 className="client-name">Adnan Khan</h4>
@@ -988,7 +1052,7 @@ const LandingPage = () => {
                   <p className="testimonial-text">"With Investza, I feel like I have a real partner- not just an advisor. They've helped me build wealth with clarity and confidence."</p>
                   <div className="client-info">
                     <div className="client-avatar">
-                      <img src="/client3.jpg" alt="Ankit Mehta" />
+                      <img src="/client3.webp" alt="Ankit Mehta" />
                     </div>
                     <div className="client-details">
                       <h4 className="client-name">Ankit Mehta</h4>
@@ -1000,14 +1064,14 @@ const LandingPage = () => {
 
               <div className="testimonial-card">
                 <div className="testimonial-content">
-                  <p className="testimonial-text">"The personalized approach and institutional-grade research have transformed my investment strategy completely."</p>
+                  <p className="testimonial-text">"I used to invest based on trends. Investza changed that-now every fund I hold has a reason and a stratery behind it."</p>
                   <div className="client-info">
                     <div className="client-avatar">
-                      <img src="/client4.jpg" alt="Priya Sharma" />
+                      <img src="/client4.webp" alt="Anik Chhabria" />
                     </div>
                     <div className="client-details">
-                      <h4 className="client-name">Priya Sharma</h4>
-                      <p className="client-title">Entrepreneur</p>
+                      <h4 className="client-name">Anik Chhabria</h4>
+                      <p className="client-title">Senior VP at HDFC</p>
                     </div>
                   </div>
                 </div>
@@ -1015,14 +1079,14 @@ const LandingPage = () => {
 
               <div className="testimonial-card">
                 <div className="testimonial-content">
-                  <p className="testimonial-text">"Investza's tax planning integration has saved me significantly while growing my wealth smartly."</p>
+                  <p className="testimonial-text">"Investza dosen't just manage my portfolio-they help me understand it. Every decision feels informed, strategic, and built for the long term."</p>
                   <div className="client-info">
                     <div className="client-avatar">
-                      <img src="/client5.jpg" alt="Rajesh Kumar" />
+                      <img src="/client5.webp" alt="Shishir Gupta" />
                     </div>
                     <div className="client-details">
-                      <h4 className="client-name">Rajesh Kumar</h4>
-                      <p className="client-title">Business Owner</p>
+                      <h4 className="client-name">Shishir Gupta</h4>
+                      <p className="client-title">SVP and Head at SONY</p>
                     </div>
                   </div>
                 </div>
@@ -1030,14 +1094,14 @@ const LandingPage = () => {
 
               <div className="testimonial-card">
                 <div className="testimonial-content">
-                  <p className="testimonial-text">"The continuous monitoring and portfolio rebalancing gives me peace of mind about my financial future."</p>
+                  <p className="testimonial-text">"Their SIP recommendations helped me build a disciplined approach to wealth. I don't even worry about market ups and downs anymore."</p>
                   <div className="client-info">
                     <div className="client-avatar">
-                      <img src="/client6.jpg" alt="Meera Patel" />
+                      <img src="/client6.webp" alt="Vishnu Priya Jyotula" />
                     </div>
                     <div className="client-details">
-                      <h4 className="client-name">Meera Patel</h4>
-                      <p className="client-title">Tech Executive</p>
+                      <h4 className="client-name">Vishnu Priya Jyotula</h4>
+                      <p className="client-title">Senior architect at RI</p>
                     </div>
                   </div>
                 </div>
@@ -1049,7 +1113,7 @@ const LandingPage = () => {
                   <p className="testimonial-text">"My portfolio is now aligned with my values and goals. Investza made that happen with deep insight and care."</p>
                   <div className="client-info">
                     <div className="client-avatar">
-                      <img src="/client1.jpg" alt="Parish Tekriwal" />
+                      <img src="/client1.webp" alt="Parish Tekriwal" />
                     </div>
                     <div className="client-details">
                       <h4 className="client-name">Parish Tekriwal</h4>
@@ -1064,7 +1128,7 @@ const LandingPage = () => {
                   <p className="testimonial-text">"What I appreciate most about Investza is the transparency. I know where my money is, why it's there, and what to expect next."</p>
                   <div className="client-info">
                     <div className="client-avatar">
-                      <img src="/client2.jpg" alt="Adnan Khan" />
+                      <img src="/client2.webp" alt="Adnan Khan" />
                     </div>
                     <div className="client-details">
                       <h4 className="client-name">Adnan Khan</h4>
@@ -1079,7 +1143,7 @@ const LandingPage = () => {
                   <p className="testimonial-text">"With Investza, I feel like I have a real partner- not just an advisor. They've helped me build wealth with clarity and confidence."</p>
                   <div className="client-info">
                     <div className="client-avatar">
-                      <img src="/client3.jpg" alt="Ankit Mehta" />
+                      <img src="/client3.webp" alt="Ankit Mehta" />
                     </div>
                     <div className="client-details">
                       <h4 className="client-name">Ankit Mehta</h4>
@@ -1101,11 +1165,7 @@ const LandingPage = () => {
       </section>
 
       {/* Footer */}
-      <footer className="footer">
-        <div className="container">
-          <p>&copy; 2024 Your Brand. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
 
       {/* Apple Glass Style Download Widget */}
       <div className="download-widget">

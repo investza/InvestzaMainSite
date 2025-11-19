@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap');
+
+/* Refund Policy Page */
+.refund-policy-page {
+  min-height: 100vh;
+  background: #000;
+  color: white;
+}
+
+/* Header Styling for Refund Policy Page */
+.refund-policy-page .header {
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Content Section */
+.refund-policy-content {
+  min-height: calc(100vh - 80px);
+  padding: 150px 20px 100px 20px;
+  background: #000;
+}
+
+.refund-policy-container {
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: 'Manrope', sans-serif;
+  text-align: left;
+}
+
+.refund-policy-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 40px;
+  text-align: left;
+  line-height: 1.2;
+}
+
+.refund-policy-intro {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 30px;
+  line-height: 1.8;
+}
+
+.refund-policy-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 40px 0;
+}
+
+.refund-policy-list > li {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 25px;
+  padding-left: 35px;
+  position: relative;
+  line-height: 1.8;
+}
+
+.refund-policy-list > li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #4a9eff;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+.refund-policy-list strong {
+  color: white;
+  font-weight: 600;
+}
+
+.refund-policy-sublist {
+  list-style: decimal;
+  margin-top: 15px;
+  margin-left: 20px;
+  padding-left: 10px;
+}
+
+.refund-policy-sublist li {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 10px;
+  line-height: 1.7;
+}
+
+.refund-policy-contact {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 25px;
+  line-height: 1.8;
+}
+
+.refund-policy-contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.refund-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.05rem;
+}
+
+.refund-contact-item svg {
+  color: #4a9eff;
+  flex-shrink: 0;
+}
+
+.refund-contact-item a {
+  color: #4a9eff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.refund-contact-item a:hover {
+  color: #6bb3ff;
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .refund-policy-content {
+    padding: 120px 20px 80px 20px;
+  }
+
+  .refund-policy-title {
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+  }
+
+  .refund-policy-intro,
+  .refund-policy-contact {
+    font-size: 1rem;
+  }
+
+  .refund-policy-list > li {
+    font-size: 1rem;
+    padding-left: 30px;
+  }
+
+  .refund-policy-sublist li {
+    font-size: 0.95rem;
+  }
+
+  .refund-contact-item {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .refund-policy-title {
+    font-size: 1.8rem;
+  }
+
+  .refund-policy-intro,
+  .refund-policy-contact {
+    font-size: 0.95rem;
+  }
+
+  .refund-policy-list > li {
+    font-size: 0.95rem;
+    padding-left: 25px;
+  }
+}

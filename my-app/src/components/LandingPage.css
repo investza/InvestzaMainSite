@@ -460,7 +460,7 @@ body {
 /* Apple Glass Style Download Widget */
 .download-widget {
   position: fixed;
-  bottom: 80px;
+  bottom: 50px;
   right: 30px;
   width: 280px;
   height: 100px;
@@ -1109,10 +1109,10 @@ body {
   background: transparent;
   border: none;
   color: white;
-  font-size: 2rem;
+  font-size: 2.5rem;
   cursor: pointer;
   padding: 1rem;
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
   z-index: 10;
   top: 50%;
   transform: translateY(-50%);
@@ -1120,14 +1120,15 @@ body {
 
 .carousel-arrow:hover {
   opacity: 0.7;
+  transform: translateY(-50%) scale(1.15);
 }
 
 .left-arrow {
-  left: -120px;
+  left: -40px;
 }
 
 .right-arrow {
-  right: -120px;
+  right: -40px;
 }
 
 .insights-cards {
@@ -2297,7 +2298,6 @@ is Cards Section */
   background-color: #000000;
   z-index: 10;
   margin-top: 10vh;
-  /* No min-height to eliminate gap */
 }
 
 .lenis-cards-container {
@@ -2315,8 +2315,6 @@ is Cards Section */
 }
 
 .lenis-left {
-  position: sticky;
-  top: 20%;
   color: white;
   padding-right: 2rem;
 }
@@ -2339,81 +2337,58 @@ is Cards Section */
   position: relative;
 }
 
-.section-header {
-  text-align: center;
-  color: white;
-  margin-bottom: 4rem;
-}
-
-.section-header h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 3.5rem;
-  font-weight: 400;
-  line-height: 1.2;
-  margin-bottom: 1.5rem;
-}
-
-.section-header p {
-  font-size: 1.2rem;
-  opacity: 0.8;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
 .lenis-cards-wrapper {
-  position: relative;
-  height: 120vh;
-  /* Enough space for all 4 cards to scroll through properly */
+  padding-bottom: 100vh;
 }
 
 .lenis-card {
-  position: sticky;
   width: 560px;
   height: 220px;
-  margin: 0 auto 2rem;
-  background: rgba(255, 255, 255, 0.12) !important;
-  border-radius: 24px !important;
-  backdrop-filter: blur(40px) !important;
-  -webkit-backdrop-filter: blur(40px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+  margin: 0 auto 30vh;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.37),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  position: relative;
+}
+
+.lenis-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+.lenis-card:last-child {
+  margin-bottom: 0;
 }
 
 .lenis-card[data-card="1"] {
-  top: 20%;
-  margin-top: 0px;
+  background: linear-gradient(135deg, rgba(35, 49, 90, 0.85), rgba(60, 90, 170, 0.75)) !important;
 }
 
 .lenis-card[data-card="2"] {
-  top: calc(20% + 25px);
+  background: linear-gradient(135deg, rgba(25, 55, 89, 0.85), rgba(100, 150, 200, 0.75)) !important;
 }
 
 .lenis-card[data-card="3"] {
-  top: calc(20% + 50px);
+  background: linear-gradient(135deg, rgba(25, 73, 92, 0.85), rgba(55, 180, 210, 0.75)) !important;
 }
 
 .lenis-card[data-card="4"] {
-  top: calc(20% + 75px);
-}
-
-.lenis-card[data-card="1"] {
-  background: linear-gradient(135deg, rgba(102, 142, 234, 0.2), rgba(102, 137, 234, 0.1)) !important;
-}
-
-.lenis-card[data-card="2"] {
-  background: linear-gradient(135deg, rgba(66, 142, 213, 0.2), rgba(147, 196, 251, 0.1)) !important;
-}
-
-.lenis-card[data-card="3"] {
-  background: linear-gradient(135deg, rgba(79, 210, 254, 0.2), rgba(79, 225, 254, 0.1)) !important;
-}
-
-.lenis-card[data-card="4"] {
-  background: linear-gradient(135deg, rgba(67, 230, 233, 0.2), rgba(67, 233, 225, 0.1)) !important;
+  background: linear-gradient(135deg, rgba(22, 81, 85, 0.85), rgba(50, 190, 180, 0.75)) !important;
 }
 
 .lenis-card:hover {
@@ -2450,25 +2425,10 @@ is Cards Section */
   flex: 1;
 }
 
-.card-image {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 40%;
-  height: 100%;
-  opacity: 0.3;
-  z-index: 1;
-}
-
-.card-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 /* Team Section */
 .team-section {
   padding: 50px 0 100px 0;
+  margin-top: -95vh;
   background: #000;
   color: white;
   text-align: center;
@@ -2891,7 +2851,8 @@ is Cards Section */
 .client-info {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 2px;
+  padding-left: 20px;
 }
 
 .client-avatar {
@@ -2901,6 +2862,7 @@ is Cards Section */
   overflow: hidden;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   flex-shrink: 0;
+  margin-left: 15px;
 }
 
 .client-avatar img {
@@ -2911,6 +2873,7 @@ is Cards Section */
 
 .client-details {
   flex: 1;
+  margin-right: 10px;
 }
 
 .client-name {
@@ -3026,4 +2989,24 @@ is Cards Section */
     letter-spacing: 0.5px;
     padding: 0 1rem;
   }
+}
+
+/* View 
+Episodes Button - Remove underline from link */
+.view-episodes-btn {
+  text-decoration: none;
+}
+
+.view-episodes-btn:hover {
+  text-decoration: none;
+}
+
+
+/* Learn Why Button - Remove underline from link */
+.learn-why-btn {
+  text-decoration: none;
+}
+
+.learn-why-btn:hover {
+  text-decoration: none;
 }

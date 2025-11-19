@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Lenis from 'lenis';
 import Header from '../components/Header';
+import EventsFooter from './EventsFooter';
 import './EventsPage.css';
 
 const EventsPage = () => {
@@ -49,7 +50,7 @@ const EventsPage = () => {
       // Lift up effect: content section reveals from bottom
       if (eventsContent && scrollY < heroHeight) {
         const liftProgress = scrollY / heroHeight;
-        const translateY = (1 - liftProgress) * 100;
+        const translateY = (1 - liftProgress) * 10;
         eventsContent.style.transform = `translateY(${translateY}vh)`;
       } else if (eventsContent) {
         eventsContent.style.transform = 'translateY(0)';
@@ -114,53 +115,7 @@ const EventsPage = () => {
 
       <section className="events-content">
         <div className="container">
-          <h2 className="section-title">Past Events</h2>
-          
-          <div className="events-grid">
-            <div className="event-card">
-              <div className="event-image">
-                <img src="/event1.jpg" alt="Event" />
-              </div>
-              <div className="event-details">
-                <span className="event-date">October 15, 2024</span>
-                <h3 className="event-title">Management Masterclass</h3>
-                <p className="event-description">
-                  Learn advanced strategies for portfolio diversification and risk management
-                </p>
-                <button className="event-register-btn">View Details</button>
-              </div>
-            </div>
-
-            <div className="event-card">
-              <div className="event-image">
-                <img src="/event2.jpg" alt="Event" />
-              </div>
-              <div className="event-details">
-                <span className="event-date">September 22, 2024</span>
-                <h3 className="event-title">Tax Planning Workshop</h3>
-                <p className="event-description">
-                  Discover effective tax-saving strategies and optimize your investment returns
-                </p>
-                <button className="event-register-btn">View Details</button>
-              </div>
-            </div>
-
-            <div className="event-card">
-              <div className="event-image">
-                <img src="/event3.jpg" alt="Event" />
-              </div>
-              <div className="event-details">
-                <span className="event-date">August 10, 2024</span>
-                <h3 className="event-title">Market Trends & Analysis</h3>
-                <p className="event-description">
-                  Expert insights on current market conditions and future investment opportunities
-                </p>
-                <button className="event-register-btn">View Details</button>
-              </div>
-            </div>
-          </div>
-
-          <h2 className="section-title" style={{ marginTop: '80px' }}>Upcoming Events</h2>
+          <h2 className="section-title">Upcoming Events</h2>
           
           <div className="events-grid">
             <div className="event-card">
@@ -202,6 +157,52 @@ const EventsPage = () => {
                   Explore alternative investment opportunities beyond traditional markets
                 </p>
                 <button className="event-register-btn">Register</button>
+              </div>
+            </div>
+          </div>
+
+          <h2 className="section-title" style={{ marginTop: '80px' }}>Past Events</h2>
+          
+          <div className="events-grid">
+            <div className="event-card">
+              <div className="event-image">
+                <img src="/event1.jpg" alt="Event" />
+              </div>
+              <div className="event-details">
+                <span className="event-date">October 15, 2024</span>
+                <h3 className="event-title">Management Masterclass</h3>
+                <p className="event-description">
+                  Learn advanced strategies for portfolio diversification and risk management
+                </p>
+                <button className="event-register-btn">View Details</button>
+              </div>
+            </div>
+
+            <div className="event-card">
+              <div className="event-image">
+                <img src="/event2.jpg" alt="Event" />
+              </div>
+              <div className="event-details">
+                <span className="event-date">September 22, 2024</span>
+                <h3 className="event-title">Tax Planning Workshop</h3>
+                <p className="event-description">
+                  Discover effective tax-saving strategies and optimize your investment returns
+                </p>
+                <button className="event-register-btn">View Details</button>
+              </div>
+            </div>
+
+            <div className="event-card">
+              <div className="event-image">
+                <img src="/event3.jpg" alt="Event" />
+              </div>
+              <div className="event-details">
+                <span className="event-date">August 10, 2024</span>
+                <h3 className="event-title">Market Trends & Analysis</h3>
+                <p className="event-description">
+                  Expert insights on current market conditions and future investment opportunities
+                </p>
+                <button className="event-register-btn">View Details</button>
               </div>
             </div>
           </div>
@@ -296,7 +297,7 @@ const EventsPage = () => {
           </div>
 
           <div className="team-cta">
-            <button className="meet-team-btn">
+            <button className="meet-team-btn" onClick={() => window.location.href = '/team'}>
               Meet the Team
               <div className="btn-arrow">→</div>
             </button>
@@ -318,7 +319,7 @@ const EventsPage = () => {
                     <span className="faq-icon">›</span>
                   </button>
                   <div className="faq-answer">
-                    <p>Once you register for the event, you'll receive a confirmation email with the event link and all necessary details to join the program.</p>
+                    <p>You will get a link to join 24 hours before, and one hour before we start. You will also get an email as soon as you enroll with our Whatsapp contact in case you have an issue.</p>
                   </div>
                 </div>
 
@@ -328,7 +329,7 @@ const EventsPage = () => {
                     <span className="faq-icon">›</span>
                   </button>
                   <div className="faq-answer">
-                    <p>The masterclass will be conducted in English with Hindi support available for better understanding.</p>
+                    <p>It will be in simple English Language!</p>
                   </div>
                 </div>
 
@@ -338,7 +339,7 @@ const EventsPage = () => {
                     <span className="faq-icon">›</span>
                   </button>
                   <div className="faq-answer">
-                    <p>Absolutely! Our events are designed for all levels, from beginners to experienced investors. We start with the basics and build up to more advanced concepts.</p>
+                    <p>You’re in the right place. You are going to be transformed financial knowledge wise!</p>
                   </div>
                 </div>
 
@@ -348,7 +349,7 @@ const EventsPage = () => {
                     <span className="faq-icon">›</span>
                   </button>
                   <div className="faq-answer">
-                    <p>Our support team is available to help you with any registration or login issues. You can reach out to us via email or phone, and we'll assist you promptly.</p>
+                    <p>Email us at hello@investza.in from your registered email id and we will help you right away!</p>
                   </div>
                 </div>
               </div>
@@ -362,6 +363,9 @@ const EventsPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <EventsFooter />
     </div>
   );
 };
