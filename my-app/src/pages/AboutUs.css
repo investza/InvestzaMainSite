@@ -478,7 +478,7 @@ html.lenis {
   border-radius: 1rem;
   overflow: hidden;
   flex: 1;
-  min-width: 320px;
+  /* min-width: 320px; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -629,8 +629,112 @@ html.lenis {
   }
 }
 
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
   .heading {
     font-size: 2.5rem;
   }
+} */
+
+@media (max-width: 600px) and (min-width: 480px) {
+.scrolling-card {
+padding: 30px 20px;
+}
+
+.whyus-grid {
+grid-template-columns: 1fr;
+row-gap: 2rem;
+}
+
+.plain-card {
+min-height: auto;
+}
+
+.heading {
+font-size: 2.5rem;
+}
+
+.mv-img-bottom {
+height: 180px;
+}
+}
+
+
+@media (max-width: 480px) {
+.heading {
+font-size: 2.2rem;
+letter-spacing: 0;
+}
+
+.scrolling-card {
+padding: 25px 18px;
+}
+
+.card-content-inner h3 {
+font-size: 1.6rem;
+}
+
+.card-content-inner p {
+font-size: 0.9rem;
+}
+
+.whyus-heading {
+font-size: 1.9rem;
+}
+
+.whyus-card {
+max-width: 100%;
+}
+
+.counter-item {
+padding: 1.2rem 2.5rem;
+}
+
+.counter-item h3 {
+font-size: 1.6rem;
+}
+
+.mv-content p {
+font-size: 0.9rem;
+}
+
+.mv-img-bottom {
+height: 160px;
+}
+}
+
+/* ========================================
+ULTRA SMALL DEVICES (≤ 360px)
+======================================== */
+@media (max-width: 360px) {
+.heading {
+font-size: 1.9rem;
+}
+
+.whyus-heading {
+font-size: 1.6rem;
+}
+
+.whyus-intro {
+font-size: 0.9rem;
+}
+
+.scrolling-card {
+padding: 20px;
+}
+
+.mv-content h5 {
+font-size: 1.2rem;
+}
+
+.mv-img-bottom {
+height: 140px;
+}
+
+.counter-item {
+padding: 1rem 2rem;
+}
+
+.counter-item h3 {
+font-size: 1.4rem;
+}
 }

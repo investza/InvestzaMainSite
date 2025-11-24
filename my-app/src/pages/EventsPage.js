@@ -336,7 +336,7 @@ const EventsPage = () => {
             </div>
 
             {/* Mentor Content */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'flex-start' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'flex-start', paddingTop : "80px" }} className="mentor-content">
               <div>
                 <h2 style={{ fontSize: '52px', fontWeight: '700', marginBottom: '20px', color: 'white', lineHeight: '1.2' }}>Meet Your Mentor</h2>
                 <p style={{ fontSize: '18px', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '30px', lineHeight: '1.7' }}>
@@ -357,7 +357,7 @@ const EventsPage = () => {
                   </li>
                 </ul>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh' }}>
                 <div style={{ width: '100%', maxWidth: '450px', borderRadius: '25px', overflow: 'hidden', marginBottom: '30px' }}>
                   <img src="/abhishek_working.webp" alt="Abhishek Mehta" style={{ width: '100%', height: 'auto', display: 'block' }} />
                 </div>
@@ -373,7 +373,7 @@ const EventsPage = () => {
       </section>
 
       {/* Meet Your Mentor Section */}
-      <section style={{ background: '#000', padding: '80px 0', fontFamily: 'Manrope, sans-serif' }}>
+      <section style={{ background: '#000', padding: '80px 0', fontFamily: 'Manrope, sans-serif' }} className="meet-your-mentor-section">
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 40px' }}>
           {/* Icon Bar */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '40px', marginBottom: '80px' }}>
@@ -439,7 +439,7 @@ const EventsPage = () => {
           </div>
 
           {/* Mentor Content */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'flex-start' }}>
+          {/* <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'flex-start' }} className="mentor-content">
             <div style={{ paddingRight: '20px' }}>
               <h2 style={{ fontSize: '52px', fontWeight: '700', marginBottom: '20px', color: 'white', lineHeight: '1.2' }}>Meet Your Mentor</h2>
               <p style={{ fontSize: '18px', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '30px', lineHeight: '1.7' }}>
@@ -480,7 +480,7 @@ const EventsPage = () => {
                 <p style={{ fontSize: '16px', color: 'rgba(255, 255, 255, 0.7)', margin: 0 }}>Founder & Chief Strategist</p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -779,7 +779,7 @@ const EventsPage = () => {
               flex: 1,
               overflow: 'auto',
               paddingRight: '10px'
-            }}>
+            }} className='event-div'>
               <h3 style={{
                 fontSize: '20px',
                 fontWeight: '600',
@@ -793,7 +793,7 @@ const EventsPage = () => {
                 <div style={{
                   textAlign: 'center',
                   padding: '0 80px'
-                }}>
+                }} className='para-padding'>
                   {eventDetailsModal.details.slice(0, 4).map((detail, index) => (
                     <p key={index} style={{
                       fontSize: '17px',
