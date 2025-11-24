@@ -1025,6 +1025,8 @@ body {
   flex-direction: column;
   gap: 1.5rem;
   transition: all 0.3s ease;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .feature-card:nth-child(1) {
@@ -1053,6 +1055,8 @@ body {
   color: white;
   margin: 0;
   line-height: 1.3;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .feature-card p {
@@ -1061,6 +1065,9 @@ body {
   color: #e0e0e0;
   line-height: 1.5;
   margin: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 /* Wealth Insights Section */
@@ -1347,67 +1354,78 @@ body {
     padding: 0 1rem;
   }
 
-  /* Carousel container - NO padding, arrows positioned absolutely outside */
+  /* Carousel container - override desktop flex */
   .insights-carousel {
     position: relative;
-    margin: 0 0 2.5rem 0;
+    display: block !important;
+    margin: 0 0 1rem 0;
     padding: 0;
-    width: 100%;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    box-sizing: border-box;
   }
 
   .carousel-viewport {
-    width: calc(100% - 100px);
-    margin: 0 auto;
+    width: 100vw;
     overflow: hidden;
+    position: relative;
   }
 
-  /* Arrows - positioned below the video */
+  /* Arrows - positioned using top for precise control */
   .carousel-arrow {
-    position: absolute;
-    top: 280px;
-    /* Position arrows below the 220px video + 60px margin */
+    position: absolute !important;
+    top: 290px !important;
+    /* 220px video + 24px margin + 150px text area + 26px spacing */
+    transform: none !important;
     z-index: 100;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    color: white;
-    font-size: 1.5rem;
+    background: transparent !important;
+    border: none !important;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 2.5rem;
     cursor: pointer;
-    padding: 0;
+    padding: 0 !important;
     line-height: 1;
-    width: 35px;
-    height: 35px;
+    width: 40px !important;
+    height: 40px !important;
     display: flex;
     align-items: center;
     justify-content: center;
   }
+  
+  .carousel-arrow:hover {
+    color: white !important;
+    transform: scale(1.1) !important;
+  }
 
   .left-arrow {
-    left: 10px;
+    left: 20px !important;
   }
 
   .right-arrow {
-    right: 10px;
+    right: 20px !important;
   }
 
   /* Cards container */
   .insights-cards {
     display: flex;
-    gap: 15px;
+    gap: 0;
     transition: transform 0.5s ease;
   }
 
-  /* Mobile card - vertical layout */
+  /* Mobile card - vertical layout, perfectly centered */
   .insights-cards .insight-card {
-    flex: 0 0 100%;
-    width: 100%;
+    flex-shrink: 0;
+    width: 100vw;
+    padding: 0;
     min-height: 400px;
+    /* Compact height */
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
     background: transparent;
     border: none;
-    padding: 0;
+    box-sizing: border-box;
   }
 
   /* Video container - centered and visible */
@@ -1549,6 +1567,199 @@ body {
   .learn-arrow-circle {
     width: 34px;
     height: 34px;
+  }
+
+  /* Why INVESTZA section mobile styles */
+  .why-investza-content {
+    flex-direction: column;
+    padding: 0 1.5rem;
+    gap: 2rem;
+  }
+
+  .why-investza-left {
+    width: 100%;
+    text-align: center;
+  }
+
+  .why-investza-left h2 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+
+  .why-investza-right {
+    width: 100%;
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .why-subtitle {
+    font-size: 1.1rem;
+    margin: 0 0 1rem 0;
+  }
+
+  .why-description {
+    font-size: 1.1rem;
+  }
+
+  /* Feature cards mobile styles */
+  .feature-cards-section {
+    margin-top: 4rem;
+    padding: 0 1rem;
+  }
+
+  .feature-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .feature-card {
+    height: auto !important;
+    min-height: 200px;
+    margin-top: 0 !important;
+    padding: 2rem;
+  }
+
+  .feature-card:nth-child(1),
+  .feature-card:nth-child(2),
+  .feature-card:nth-child(3) {
+    height: auto !important;
+    margin-top: 0 !important;
+  }
+
+  .feature-card h3 {
+    font-size: 1.3rem;
+  }
+
+  .feature-card p {
+    font-size: 0.9rem;
+  }
+
+  /* Backdrop section mobile styles */
+  .backdrop-section {
+    min-height: 150vh;
+    padding: 10rem 0 8rem 0;
+  }
+
+  .backdrop-content {
+    padding: 5rem 1.5rem;
+    transform: translateY(0);
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .backdrop-stats {
+    flex-direction: column;
+    gap: 7rem;
+    align-items: center;
+  }
+
+  .backdrop-stat-item {
+    width: 100%;
+    align-items: center !important;
+    position: static !important;
+    transform: none !important;
+  }
+
+  .backdrop-stat-item:nth-child(1),
+  .backdrop-stat-item:nth-child(2),
+  .backdrop-stat-item:nth-child(3) {
+    align-items: center !important;
+    position: static !important;
+    transform: none !important;
+  }
+
+  .backdrop-stat-item:nth-child(1) .backdrop-stat-label,
+  .backdrop-stat-item:nth-child(3) .backdrop-stat-label {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .backdrop-stat-number {
+    font-size: 3rem;
+    text-align: center;
+  }
+
+  .backdrop-stat-label {
+    font-size: 1rem;
+    text-align: center;
+    max-width: 250px;
+  }
+
+  /* Process cards mobile styles */
+  .process-cards-section {
+    padding: 0 0 60px 0;
+    margin-top: -300px;
+  }
+
+  .process-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .process-card {
+    min-height: 250px;
+  }
+
+  .process-card-content {
+    padding: 0.5rem;
+    padding-top: 1.5rem;
+  }
+
+  .process-number {
+    top: 0.3rem;
+    left: 0.3rem;
+    font-size: 1.5rem;
+    opacity: 0.4;
+  }
+
+  .process-title {
+    font-size: 1rem;
+    top: 50px !important;
+    right: 0.5rem;
+    left: 0.5rem;
+    text-align: left;
+    line-height: 1.2;
+  }
+
+  .process-description {
+    font-size: 0.9rem;
+    margin-top: 40px;
+  }
+
+  /* Founder section mobile styles - v6 updated */
+  .founder-image img {
+    object-position: 15% 20% !important;
+    object-fit: cover !important;
+    transform: scale(1.5) !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .founder-section .founder-content {
+    padding: 2rem 1rem !important;
+  }
+
+  .founder-section .founder-text {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .founder-section .founder-text h2 {
+    font-size: 0.8rem !important;
+    line-height: 1.1 !important;
+    margin-bottom: 0.3rem !important;
+    font-weight: 400 !important;
+  }
+
+  .founder-section .founder-text p {
+    font-size: 0.55rem !important;
+    line-height: 1.15 !important;
+    margin-bottom: 0.2rem !important;
+    font-weight: 300 !important;
   }
 }
 
@@ -2036,8 +2247,15 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center center;
+  object-position: 30% center;
   transform: scale(1.0);
+}
+
+@media (max-width: 768px) {
+  .founder-image img {
+    object-position: 20% 25% !important;
+    transform: scale(1.6) !important;
+  }
 }
 
 /* Content overlay area for founder content */
@@ -2417,9 +2635,26 @@ body {
     font-size: 1rem;
   }
 
+  .founder-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
   .founder-profile-image {
     width: 200px;
     height: 250px;
+    margin: 2rem auto 0 auto;
+    overflow: hidden;
+  }
+
+  .founder-profile-image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    transform: none !important;
   }
 
   .founder-text {
