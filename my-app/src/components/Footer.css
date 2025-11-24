@@ -348,6 +348,8 @@
 @media (max-width: 768px) {
   .footer-section {
     padding: 60px 0 0 0;
+    background-size: cover !important;
+    background-position: center center !important;
   }
 
   .footer-container {
@@ -669,20 +671,50 @@
 
 @media (max-width: 768px) {
   .footer-end-section {
-    padding: 40px 0 30px 0;
+    padding: 40px 0 150px 0 !important;
+    margin: 50px 0 0 0 !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    height: auto !important;
   }
 
   .footer-end-container {
-    padding: 0 20px 30px 20px;
+    padding: 0 20px 30px 20px !important;
   }
 
   .footer-end-bottom-container {
-    padding: 0 20px;
+    padding: 0 20px 80px 20px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .footer-end-bottom {
+    padding-bottom: 50px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .footer-end-left {
+    justify-content: center;
+    display: flex;
+    width: 100%;
   }
 
   .app-download-section {
     flex-direction: column;
     text-align: center;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  .app-download-text h4,
+  .app-download-text p {
+    text-align: center;
+  }
+
+  .app-store-icons {
+    justify-content: center;
   }
 
   .newsletter-form {
@@ -691,5 +723,18 @@
 
   .newsletter-button {
     width: 100%;
+  }
+
+  .footer-bottom-center,
+  .footer-bottom-right {
+    text-align: center;
+  }
+
+  .footer-links {
+    align-items: center;
+  }
+
+  .footer-end-bottom {
+    padding-bottom: 50px;
   }
 }

@@ -16,7 +16,18 @@ const LandingPage = () => {
   const [currentSlide, setCurrentSlide] = useState(1); // Start at 1 (first real card)
   const carouselRef = useRef(null);
   const lenisRef = useRef(null);
-  const [cardWidth, setCardWidth] = useState(612); // Default desktop width (580px card + 32px gap)
+  // Initialize with proper width based on window size
+  const [cardWidth, setCardWidth] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const width = window.innerWidth;
+      if (width <= 768) {
+        return width; // Mobile: full viewport width
+      } else if (width <= 1024) {
+        return 552; // Tablet
+      }
+    }
+    return 612; // Desktop default
+  });
 
   const nextSlide = () => {
     setCurrentSlide((prev) => prev + 1);
@@ -32,10 +43,8 @@ const LandingPage = () => {
       const width = window.innerWidth;
       
       if (width <= 768) {
-        // Mobile: viewport width - 80px (for arrows) + gap
-        const viewportWidth = width - 80;
-        const gap = 20; // 20px gap between cards
-        setCardWidth(viewportWidth + gap);
+        // Mobile: full viewport width (cards have internal padding)
+        setCardWidth(width);
       } else if (width <= 1024) {
         // Tablet: 520px card + 32px gap
         setCardWidth(552);
@@ -332,6 +341,8 @@ const LandingPage = () => {
           const wealthApproachTitle = document.querySelector('.wealth-approach-title');
 
           // Founder background stays fixed throughout
+          const isMobile = window.innerWidth <= 768;
+          
           founderImage.style.opacity = '1';
           founderImage.style.position = 'fixed';
           founderImage.style.top = '0px';
@@ -340,6 +351,17 @@ const LandingPage = () => {
           founderImage.style.height = '100vh';
           founderImage.style.transform = 'translateY(0px)';
           founderImage.style.zIndex = '1';
+          founderImage.style.background = 'transparent';
+          
+          // Target the img element directly for mobile positioning
+          if (isMobile) {
+            const founderImg = founderImage.querySelector('img');
+            if (founderImg) {
+              founderImg.style.setProperty('object-position', '15% 20%', 'important');
+              founderImg.style.setProperty('transform', 'scale(1.5)', 'important');
+              founderImg.style.setProperty('object-fit', 'cover', 'important');
+            }
+          }
 
           // Cards behavior
           if (scrollProgress < 0.7) {
@@ -366,8 +388,10 @@ const LandingPage = () => {
 
         // Founder content positioning - ALWAYS fixed, never transitions
         if (founderContent && scrollY >= wealthApproachTop) {
+          const isMobile = window.innerWidth <= 768;
+          
           founderContent.style.position = 'fixed';
-          founderContent.style.top = '0px';
+          founderContent.style.top = isMobile ? '5%' : '0px';
           founderContent.style.left = '0px';
           founderContent.style.width = '100vw';
           founderContent.style.height = '100vh';
@@ -376,6 +400,22 @@ const LandingPage = () => {
           founderContent.style.opacity = '1';
           founderContent.style.visibility = 'visible';
           founderContent.style.display = 'flex';
+          if (isMobile) {
+            founderContent.style.setProperty('gap', '0', 'important');
+            founderContent.style.setProperty('justify-content', 'center', 'important');
+            founderContent.style.setProperty('padding-top', '0', 'important');
+            founderContent.style.setProperty('align-items', 'center', 'important');
+            
+            // Directly manipulate child positions
+            const founderText = founderContent.querySelector('.founder-text');
+            const founderProfile = founderContent.querySelector('.founder-profile');
+            if (founderText && founderProfile) {
+              founderText.style.setProperty('transform', 'translateY(100px)', 'important');
+              founderText.style.setProperty('margin-bottom', '0', 'important');
+              founderProfile.style.setProperty('transform', 'translateY(-200px)', 'important');
+              founderProfile.style.setProperty('margin-top', '0', 'important');
+            }
+          }
         }
       }
 
@@ -537,7 +577,7 @@ const LandingPage = () => {
 
           <div className="hero-buttons">
             <button className="cta-button single" onClick={() => {
-              window.dispatchEvent(new CustomEvent('openScheduleModal'));
+              window.location.href = '/schedule-call';
             }}>Schedule a Call</button>
           </div>
         </div>
@@ -1213,6 +1253,23 @@ const LandingPage = () => {
           </div>
         </div>
       </a>
+
+      {/* Floating Download Badge - Mobile Only */}
+      <div className="floating-download-badge" id="downloadBadge">
+        <div className="badge-logo">
+          <div className="badge-logo-text">WEALTH</div>
+          <div className="badge-logo-text">TRACKER</div>
+        </div>
+        <div className="badge-content">
+          <p className="badge-title">Download Wealth Tracker App</p>
+        </div>
+        <button className="badge-button" onClick={() => window.open('https://play.google.com/store', '_blank')}>
+          Get App
+        </button>
+        <div className="badge-close" onClick={() => document.getElementById('downloadBadge').classList.add('hidden')}>
+          ✕
+        </div>
+      </div>
     </div>
   );
 };

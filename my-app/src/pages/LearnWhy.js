@@ -78,22 +78,26 @@ function LearnWhy() {
     {
       title: 'Higher Exposure to Thematic Funds/High Allocation to Exciting Themes',
       description: 'Investors tend to get enticed by exciting themes like Defense, FinTech, Infra and EV, and end up with high allocation in those funds. Around 90-95% of thematic mutual funds underperformed Nifty 50 over the past year, according to Ace Equity data.',
-      media: '/placeholder1.jpg', // Replace with actual image/video
+      media: '/learnwhy_1.mp4',
+      type: 'video',
     },
     {
       title: 'Risk-Averse Investors with Under-diversified portfolios',
       description: 'Investors tend to find it safer to invest in large cap or index funds and end up with a highly under-diversified portfolio, but the reality is active large-cap mutual funds, about 60-70%, tend to Underperform the benchmark indices like Nifty 50 or Nifty 100 in recent years.',
-      media: '/placeholder2.jpg', // Replace with actual image/video
+      media: '/learnwhy_2.mp4',
+      type: 'video',
     },
     {
       title: 'Focused on timing of investments and fund selection rather than asset allocation',
       description: 'Most mutual fund investors tend to focus on exciting aspects like timing the markets and fund selection rather than smarter and well-suited asset allocation that has proven to be the differentiator and the leading factor in market beating returns',
-      media: '/placeholder3.jpg', // Replace with actual image/video
+      media: '/learnwhy_3.mp4',
+      type: 'video',
     },
     {
       title: 'Not having a reliable advisor, financial planner or mutual fund distributor with expertise',
       description: 'Many investors are misled and fall prey to believing and acting like market experts and choose direct plans through trading applications, which leads to little to no oversight, no periodic reviews, lack of effective rebalancing and choosing funds based on past performance without any metric to gauge their future performance.',
-      media: '/placeholder4.jpg', // Replace with actual image/video
+      media: '/learnwhy_4.mp4',
+      type: 'video',
     },
   ];
 
@@ -116,7 +120,18 @@ function LearnWhy() {
                 </div>
                 <div className="card-content-right">
                   <div className="card-media-placeholder">
-                    <img src={card.media} alt={card.title} />
+                    {card.type === 'video' ? (
+                      <video
+                        src={card.media}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="card-video"
+                      />
+                    ) : (
+                      <img src={card.media} alt={card.title} />
+                    )}
                   </div>
                 </div>
               </div>

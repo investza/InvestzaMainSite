@@ -298,7 +298,10 @@
 
 @media (max-width: 768px) {
   .contact-footer-end-section {
-    padding: 40px 0 30px 0;
+    padding: 40px 0 250px 0;
+    margin: 50px 0 0 0;
+    min-height: auto;
+    overflow: visible;
   }
 
   .contact-footer-end-container {
@@ -306,7 +309,7 @@
   }
 
   .contact-footer-end-bottom-container {
-    padding: 0 20px;
+    padding: 0 20px 100px 20px;
   }
 
   .contact-app-download-section {

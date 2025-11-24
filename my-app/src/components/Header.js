@@ -389,7 +389,7 @@ const Header = () => {
               }}
             >
               Resources
-              <span className="mobile-dropdown-arrow">{isMobileResourcesOpen ? '▼' : '▶'}</span>
+              <span className="mobile-dropdown-arrow"></span>
             </button>
             {isResourcesOpen && window.innerWidth > 768 && (
               <div 
