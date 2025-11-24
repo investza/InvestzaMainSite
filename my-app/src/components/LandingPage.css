@@ -2645,16 +2645,16 @@ body {
   .founder-profile-image {
     width: 200px;
     height: 250px;
-    margin: 2rem auto 0 auto;
+    margin: 0 auto 0 auto;
     overflow: hidden;
   }
 
   .founder-profile-image img {
-    width: 100% !important;
-    height: 100% !important;
+    width: 130% !important;
+    height: 151% !important;
     object-fit: cover !important;
-    object-position: center !important;
-    transform: none !important;
+    object-position: left top !important;
+    transform: translateX(-28%) translateY(0%) !important;
   }
 
   .founder-text {
