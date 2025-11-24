@@ -8,11 +8,13 @@
   overflow-x: hidden;
   margin: 0;
   padding: 0;
+  width: 100%;
+  display: block;
 }
 
 .events-page .footer-section {
   position: relative;
-  z-index: 10;
+  z-index: 100;
 }
 
 html.lenis body {
@@ -52,8 +54,7 @@ html.lenis {
   background-size: cover;
   background-position: center 30%;
   background-repeat: no-repeat;
-  position: sticky;
-  top: 0;
+  position: relative;
   padding-top: 80px;
   z-index: 1;
   font-family: 'Manrope', sans-serif;
@@ -66,7 +67,7 @@ html.lenis {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.3);
-  z-index: 1;
+  z-index: 0;
   transition: background 0.3s ease;
 }
 
@@ -95,16 +96,19 @@ html.lenis {
 }
 
 .events-content {
-  padding: 60px 0 350px 0;
+  padding: 60px 0 60px 0;
   background: #000;
   position: relative;
-  z-index: 10;
+  z-index: 100;
+  width: 100%;
+  display: block;
 }
 
 .container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 40px;
+  width: 100%;
 }
 
 .section-title {
@@ -119,6 +123,12 @@ html.lenis {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 40px;
+}
+
+.events-grid-two {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .event-card {
@@ -175,36 +185,134 @@ html.lenis {
   margin-bottom: 25px;
 }
 
-.event-register-btn {
+.event-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.event-register-btn,
+.event-details-btn {
   background: rgba(74, 158, 255, 0.15);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(74, 158, 255, 0.3);
   color: white;
-  padding: 12px 30px;
+  padding: 12px 24px;
   border-radius: 30px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 8px 32px rgba(74, 158, 255, 0.1);
+  flex: 1;
+  min-width: 120px;
 }
 
-.event-register-btn:hover {
+.event-register-btn:hover,
+.event-details-btn:hover {
   background: rgba(74, 158, 255, 0.25);
   border: 1px solid rgba(74, 158, 255, 0.4);
   transform: translateY(-2px);
   box-shadow: 0 12px 40px rgba(74, 158, 255, 0.2);
 }
 
+.event-details-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.event-details-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+
+/* Mentor Icon Bar */
+.mentor-icon-bar {
+  background: #1a1a2e;
+  padding: 60px 0 40px 0;
+  position: relative;
+  z-index: 100;
+  width: 100%;
+  display: block;
+  min-height: 200px;
+  border: 3px solid #4a9eff;
+}
+
+.icon-bar-content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 15px;
+}
+
+.icon-circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(0, 212, 255, 0.1) 100%);
+  border: 2px solid rgba(74, 158, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4a9eff;
+  transition: all 0.3s ease;
+}
+
+.icon-item:hover .icon-circle {
+  background: linear-gradient(135deg, rgba(74, 158, 255, 0.3) 0%, rgba(0, 212, 255, 0.2) 100%);
+  border-color: rgba(74, 158, 255, 0.6);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(74, 158, 255, 0.2);
+}
+
+.icon-item p {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  font-family: 'Manrope', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .icon-bar-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 0 20px;
+  }
+
+  .icon-circle {
+    width: 60px;
+    height: 60px;
+  }
+
+  .icon-item p {
+    font-size: 14px;
+  }
+}
 
 /* Meet Your Mentor Section */
 .mentor-section {
-  padding: 80px 0 60px 0;
-  background: #000;
+  padding: 80px 0 80px 0;
+  background: #1a1a2e;
   position: relative;
-  z-index: 10;
+  z-index: 100;
   font-family: 'Manrope', sans-serif;
+  width: 100%;
+  display: block;
+  min-height: 500px;
+  border: 3px solid #ff4a9e;
 }
 
 .mentor-content {
@@ -341,14 +449,194 @@ html.lenis {
 }
 
 
+/* Meet Your Mentor Section - New */
+.events-mentor-section {
+  background: #000;
+  padding: 80px 0;
+  font-family: 'Manrope', sans-serif;
+}
+
+.mentor-icons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  margin-bottom: 80px;
+}
+
+.mentor-icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 15px;
+}
+
+.mentor-icon-circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(0, 212, 255, 0.1) 100%);
+  border: 2px solid rgba(74, 158, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4a9eff;
+  transition: all 0.3s ease;
+}
+
+.mentor-icon-item:hover .mentor-icon-circle {
+  background: linear-gradient(135deg, rgba(74, 158, 255, 0.3) 0%, rgba(0, 212, 255, 0.2) 100%);
+  border-color: rgba(74, 158, 255, 0.6);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(74, 158, 255, 0.2);
+}
+
+.mentor-icon-item p {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+.mentor-main-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: flex-start;
+}
+
+.mentor-text-side {
+  padding-right: 20px;
+}
+
+.mentor-heading {
+  font-size: 52px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: white;
+  line-height: 1.2;
+}
+
+.mentor-quote-text {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 30px;
+  line-height: 1.7;
+}
+
+.mentor-points {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 40px 0;
+}
+
+.mentor-points li {
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 15px;
+  padding-left: 35px;
+  position: relative;
+  line-height: 1.6;
+}
+
+.mentor-points li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 18px;
+  height: 18px;
+  background: #4a9eff;
+  border-radius: 50%;
+}
+
+.mentor-button {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 14px 35px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mentor-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.mentor-image-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mentor-img-wrapper {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 25px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.mentor-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.mentor-info {
+  text-align: center;
+}
+
+.mentor-person-name {
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 8px 0;
+}
+
+.mentor-person-role {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+@media (max-width: 968px) {
+  .mentor-icons {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .mentor-main-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .mentor-text-side {
+    padding-right: 0;
+  }
+
+  .mentor-heading {
+    font-size: 36px;
+  }
+}
+
 /* Team Section */
 .team-section {
-  padding: 20px 0 60px 0;
+  padding: 100px 0 60px 0;
   background: #000;
   color: white;
   text-align: center;
   position: relative;
-  z-index: 10;
+  z-index: 100;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  display: block;
 }
 
 .team-title {
@@ -547,13 +835,40 @@ html.lenis {
   }
 }
 
+/* Event Details Modal Animations */
+@keyframes slideUpModal {
+  0% {
+    opacity: 0;
+    transform: translateY(5px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.event-modal-container {
+  animation: slideUpModal 0.3s ease-out;
+}
+
+.event-modal-close {
+  transition: all 0.2s ease;
+}
+
+.event-modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
 
 /* FAQ Section */
 .faq-section {
   padding: 30px 0 0 0;
   background: #000;
   position: relative;
-  z-index: 10;
+  z-index: 100;
+  width: 100%;
+  display: block;
 }
 
 .faq-content {

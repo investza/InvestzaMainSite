@@ -1092,7 +1092,6 @@ body {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-
 }
 
 .carousel-viewport {
@@ -1153,6 +1152,16 @@ body {
   box-sizing: border-box;
 }
 
+/* Mobile-first: vertical layout on small screens */
+@media (max-width: 768px) {
+  .insight-card {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
 .expert-image {
   width: 280px;
   height: 280px;
@@ -1162,6 +1171,17 @@ body {
   box-sizing: border-box;
 }
 
+/* Mobile: square centered image */
+@media (max-width: 768px) {
+  .expert-image {
+    width: 100%;
+    max-width: 320px;
+    height: 320px;
+    border-radius: 20px;
+    margin: 0 auto 2rem auto;
+  }
+}
+
 .expert-image img {
   width: 100%;
   height: 100%;
@@ -1169,11 +1189,23 @@ body {
   border-radius: 20px 0 0 20px;
 }
 
+@media (max-width: 768px) {
+  .expert-image img {
+    border-radius: 20px;
+  }
+}
+
 .expert-image video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 20px 0 0 20px;
+}
+
+@media (max-width: 768px) {
+  .expert-image video {
+    border-radius: 20px;
+  }
 }
 
 .expert-video {
@@ -1184,6 +1216,12 @@ body {
   background: #000;
 }
 
+@media (max-width: 768px) {
+  .expert-video {
+    border-radius: 20px !important;
+  }
+}
+
 .insight-content {
   flex: 1;
   padding: 2rem;
@@ -1191,6 +1229,15 @@ body {
   flex-direction: column;
   justify-content: center;
   text-align: left;
+}
+
+@media (max-width: 768px) {
+  .insight-content {
+    flex: none;
+    width: 100%;
+    padding: 0 1.5rem;
+    text-align: center;
+  }
 }
 
 .insight-quote {
@@ -1203,6 +1250,15 @@ body {
   font-weight: 400;
 }
 
+@media (max-width: 768px) {
+  .insight-quote {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: white;
+    margin: 0 0 2rem 0;
+  }
+}
+
 .expert-name {
   font-family: 'Playfair Display', serif;
   font-size: 1.2rem;
@@ -1210,6 +1266,13 @@ body {
   margin-bottom: 0.3rem;
   color: white;
   line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+  .expert-name {
+    font-size: 1.3rem;
+    margin: 0 0 0.5rem 0;
+  }
 }
 
 .expert-title {
@@ -1220,6 +1283,272 @@ body {
   letter-spacing: 0.6px;
   font-weight: 500;
   line-height: 1.3;
+}
+
+@media (max-width: 768px) {
+  .expert-title {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    text-transform: none;
+  }
+}
+
+/* Tablet responsive styles for carousel */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .insights-title {
+    font-size: 3rem;
+  }
+
+  .carousel-viewport {
+    max-width: 90%;
+  }
+
+  .carousel-arrow {
+    font-size: 2.2rem;
+  }
+
+  .left-arrow {
+    left: -30px;
+  }
+
+  .right-arrow {
+    right: -30px;
+  }
+
+  .insight-card {
+    width: 520px;
+    height: 260px;
+  }
+
+  .expert-image {
+    width: 260px;
+    height: 260px;
+  }
+
+  .insight-content {
+    padding: 1.5rem;
+  }
+
+  .insight-quote {
+    font-size: 1rem;
+  }
+}
+
+/* Mobile responsive styles for carousel */
+@media (max-width: 768px) {
+  .wealth-insights {
+    padding: 60px 0;
+  }
+
+  .insights-title {
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+    padding: 0 1rem;
+  }
+
+  /* Carousel container - NO padding, arrows positioned absolutely outside */
+  .insights-carousel {
+    position: relative;
+    margin: 0 0 2.5rem 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .carousel-viewport {
+    width: calc(100% - 100px);
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  /* Arrows - OUTSIDE the viewport */
+  .carousel-arrow {
+    position: absolute;
+    top: 100px;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .left-arrow {
+    left: 10px;
+  }
+
+  .right-arrow {
+    right: 10px;
+  }
+
+  /* Cards container */
+  .insights-cards {
+    display: flex;
+    gap: 15px;
+    transition: transform 0.5s ease;
+  }
+
+  /* Mobile card - vertical layout */
+  .insights-cards .insight-card {
+    flex: 0 0 100%;
+    width: 100%;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+
+  /* Video container - centered and visible */
+  .insights-cards .insight-card .expert-image {
+    width: 220px;
+    height: 220px;
+    border-radius: 12px;
+    margin: 0 auto 1.5rem auto;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #000;
+  }
+
+  /* Video element - ensure visibility */
+  .insights-cards .insight-card .expert-image video,
+  .insights-cards .insight-card .expert-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* Text content - ensure visibility */
+  .insights-cards .insight-card .insight-content {
+    width: 100%;
+    padding: 0 1.5rem;
+    text-align: center;
+    flex: none;
+    display: block;
+  }
+
+  .insights-cards .insight-card .insight-quote {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: white;
+    margin: 0 0 1.5rem 0;
+    display: block;
+  }
+
+  .insights-cards .insight-card .expert-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: white;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    display: block;
+  }
+
+  .insights-cards .insight-card .expert-title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    display: block;
+  }
+
+  .carousel-dots {
+    margin-bottom: 2rem;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .insights-footer {
+    padding: 0 1rem;
+  }
+
+  .view-episodes-btn {
+    font-size: 0.95rem;
+    padding: 12px 24px;
+  }
+
+  /* Statistics section mobile styles */
+  .statistics-section {
+    margin-top: 4rem;
+    padding: 0 1rem;
+  }
+
+  .stats-header {
+    padding: 0 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .stats-header h2 {
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  .stat-card {
+    width: 100%;
+    height: auto;
+    min-height: 120px;
+    padding: 1.2rem;
+    transform: none !important;
+  }
+
+  .stat-card:nth-child(1),
+  .stat-card:nth-child(2),
+  .stat-card:nth-child(3),
+  .stat-card:nth-child(4) {
+    transform: none !important;
+  }
+
+  .stat-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .stat-card p {
+    font-size: 0.85rem;
+  }
+
+  .stats-footer {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 0 1rem;
+    margin-top: 2rem;
+  }
+
+  .stats-learn-section {
+    margin-top: 2rem;
+  }
+
+  .learn-why-btn {
+    font-size: 1rem;
+    padding: 10px 6px 10px 18px;
+  }
+
+  .learn-arrow-circle {
+    width: 34px;
+    height: 34px;
+  }
 }
 
 .carousel-dots {
@@ -1827,30 +2156,7 @@ body {
     grid-template-columns: 1fr;
   }
 
-  .insights-title {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-  }
-
-  .insights-carousel {
-    flex-direction: column;
-  }
-
-  .carousel-arrow {
-    display: none;
-  }
-
-  .insights-cards {
-    flex-direction: column;
-    max-width: 100%;
-  }
-
-  .insight-card {
-    min-width: auto;
-    flex-direction: column;
-    text-align: center;
-    padding: 1.5rem;
-  }
+  /* Carousel styles moved to dedicated mobile section above */
 
   .insights-footer {
     flex-direction: column;
@@ -3009,4 +3315,19 @@ Episodes Button - Remove underline from link */
 
 .learn-why-btn:hover {
   text-decoration: none;
+}
+
+/* Download Widget Link Wrapper */
+.download-widget-link {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 999;
+  text-decoration: none;
+  color: inherit;
+}
+
+.download-widget-link:hover .download-widget {
+  transform: scale(1.02);
+  box-shadow: 0 20px 60px rgba(74, 158, 255, 0.3);
 }

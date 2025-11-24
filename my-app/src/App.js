@@ -8,7 +8,9 @@ import ContactUs from './pages/ContactUs';
 import FAQPage from './pages/FAQPage';
 import LearnWhy from './pages/LearnWhy';
 import Newsletter from './pages/Newsletter';
+import NewsletterDetail from './pages/NewsletterDetail';
 import RefundPolicy from './pages/RefundPolicy';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 import Disclaimer from './pages/Disclaimer';
 import TermsConditions from './pages/TermsConditions';
 import './App.css';
@@ -26,7 +28,9 @@ function App() {
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/learn-why" element={<LearnWhy />} />
           <Route path="/newsletter" element={<Newsletter />} />
+          <Route path="/newsletter/:id" element={<NewsletterDetail />} />
           <Route path="/refund" element={<RefundPolicy />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/terms" element={<TermsConditions />} />
         </Routes>

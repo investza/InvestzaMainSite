@@ -32,6 +32,8 @@ const Header = () => {
   const recaptchaRef = useRef(null);
   const [isResourcesOpen, setIsResourcesOpen] = useState(false);
   const [isResourcesClosing, setIsResourcesClosing] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileResourcesOpen, setIsMobileResourcesOpen] = useState(false);
 
   // Handle Resources dropdown scroll lock
   useEffect(() => {
@@ -87,10 +89,39 @@ const Header = () => {
       setIsModalOpen(true);
     };
 
+    const handleOpenRegisterModal = () => {
+      // Stop Lenis if it exists
+      const lenis = window.lenis;
+      if (lenis) {
+        lenis.stop();
+      }
+      
+      const scrollY = window.scrollY;
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      const header = document.querySelector('.header');
+      
+      // Store scroll position
+      document.body.dataset.scrollY = scrollY;
+      
+      // Simple overflow hidden approach - no position fixed
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+      
+      if (header) {
+        header.style.paddingRight = `${scrollbarWidth}px`;
+      }
+      
+      // Set modal type and open
+      setModalType('register');
+      setIsModalOpen(true);
+    };
+
     window.addEventListener('openScheduleModal', handleOpenScheduleModal);
+    window.addEventListener('openRegisterModal', handleOpenRegisterModal);
     
     return () => {
       window.removeEventListener('openScheduleModal', handleOpenScheduleModal);
+      window.removeEventListener('openRegisterModal', handleOpenRegisterModal);
     };
   }, []);
 
@@ -149,7 +180,7 @@ const Header = () => {
     if (currentStep > 1) setCurrentStep(currentStep - 1);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (modalType === 'clientLogin' || modalType === 'partnerLogin') {
@@ -165,11 +196,32 @@ const Header = () => {
       return;
     }
     
-    console.log('Form submitted:', formData);
-    console.log('reCAPTCHA token:', recaptchaToken);
-    
-    // Move to thank you screen
-    setCurrentStep(5);
+    try {
+      const endpoint = modalType === 'portfolio' ? '/api/portfolio-review' : '/api/schedule-call';
+      const response = await fetch(`http://localhost:5000${endpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          recaptchaToken
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
+      }
+
+      const data = await response.json();
+      console.log('Form submitted successfully:', data);
+      
+      // Move to thank you screen
+      setCurrentStep(5);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('Failed to submit form. Please try again.');
+    }
   };
 
   const closeModal = () => {
@@ -191,6 +243,13 @@ const Header = () => {
     setIsModalOpen(false);
     setModalType('portfolio');
     setCurrentStep(1);
+    setFormData({
+      fullName: '',
+      contactNumber: '',
+      investmentValue: '',
+      email: '',
+      agreeToPolicy: false
+    });
     setRecaptchaToken(null);
     if (recaptchaRef.current) {
       recaptchaRef.current.reset();
@@ -212,6 +271,22 @@ const Header = () => {
     }, 400); // Match animation duration
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+    if (!isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      setIsMobileResourcesOpen(false);
+    }
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+    setIsMobileResourcesOpen(false);
+    document.body.style.overflow = '';
+  };
+
   return (
     <>
     {/* Resources Overlay - rendered at root level to cover entire page */}
@@ -223,25 +298,100 @@ const Header = () => {
     
     <header className="header">
       <nav className="navbar">
-        <div className="nav-brand">
-          <Link to="/">
-            <img src="/logo.svg" alt="Investza" className="logo" />
-          </Link>
+        <div className="mobile-header-wrapper">
+          {/* Burger Menu Button - Mobile Only */}
+          <button 
+            className={`burger-menu ${isMobileMenuOpen ? 'active' : ''}`}
+            onClick={toggleMobileMenu}
+            aria-label="Toggle menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <div className="nav-brand">
+            <Link to="/">
+              <img src="/logo.svg" alt="Investza" className="logo" />
+            </Link>
+          </div>
+
+          <button className="mobile-login-icon" onClick={() => {
+            closeMobileMenu();
+            const lenis = window.lenis;
+            if (lenis) lenis.stop();
+            const scrollY = window.scrollY;
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            const header = document.querySelector('.header');
+            document.body.dataset.scrollY = scrollY;
+            document.body.style.overflow = 'hidden';
+            document.body.style.paddingRight = `${scrollbarWidth}px`;
+            if (header) header.style.paddingRight = `${scrollbarWidth}px`;
+            setModalType('clientLogin');
+            setIsModalOpen(true);
+          }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </button>
         </div>
-        <ul className="nav-menu">
-          <li><Link to="/events">Events</Link></li>
+
+        <ul className={`nav-menu ${isMobileMenuOpen ? 'mobile-active' : ''}`}>
+          {/* Mobile: Close Button */}
+          <button className="mobile-close-btn" onClick={closeMobileMenu}>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+
+          {/* Mobile: Review Portfolio Button */}
+          <li className="mobile-portfolio-item">
+            <button className="mobile-portfolio-btn" onClick={() => {
+              closeMobileMenu();
+              const lenis = window.lenis;
+              if (lenis) lenis.stop();
+              const scrollY = window.scrollY;
+              const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+              const header = document.querySelector('.header');
+              document.body.dataset.scrollY = scrollY;
+              document.body.style.overflow = 'hidden';
+              document.body.style.paddingRight = `${scrollbarWidth}px`;
+              if (header) header.style.paddingRight = `${scrollbarWidth}px`;
+              setModalType('portfolio');
+              setIsModalOpen(true);
+            }}>
+              Review my Portfolio
+            </button>
+          </li>
+          <li><Link to="/events" onClick={closeMobileMenu}>Events</Link></li>
           <li 
             className="resources-dropdown"
             onMouseEnter={() => {
-              setIsResourcesClosing(false);
-              setIsResourcesOpen(true);
+              if (window.innerWidth > 768) {
+                setIsResourcesClosing(false);
+                setIsResourcesOpen(true);
+              }
             }}
-            onMouseLeave={() => closeResourcesDropdown()}
+            onMouseLeave={() => {
+              if (window.innerWidth > 768) {
+                closeResourcesDropdown();
+              }
+            }}
           >
-            <button className="resources-button">
+            <button 
+              className="resources-button"
+              onClick={() => {
+                if (window.innerWidth <= 768) {
+                  setIsMobileResourcesOpen(!isMobileResourcesOpen);
+                }
+              }}
+            >
               Resources
+              <span className="mobile-dropdown-arrow">{isMobileResourcesOpen ? '▼' : '▶'}</span>
             </button>
-            {isResourcesOpen && (
+            {isResourcesOpen && window.innerWidth > 768 && (
               <div 
                 className={`resources-menu ${isResourcesClosing ? 'closing' : ''}`}
                 onMouseEnter={() => {
@@ -250,22 +400,37 @@ const Header = () => {
                 }}
                 onMouseLeave={() => closeResourcesDropdown()}
               >
-                <Link to="/mutual-funds" className="resources-menu-item" onClick={closeResourcesDropdown}>
+                <Link to="/mutual-funds" className="resources-menu-item" onClick={() => { closeResourcesDropdown(); closeMobileMenu(); }}>
                   <span>Mutual Funds</span>
                 </Link>
-                <Link to="/mutual-funds-2" className="resources-menu-item" onClick={closeResourcesDropdown}>
+                <Link to="/mutual-funds-2" className="resources-menu-item" onClick={() => { closeResourcesDropdown(); closeMobileMenu(); }}>
                   <span>Mutual Funds 2</span>
                 </Link>
-                <Link to="/mutual-funds-3" className="resources-menu-item" onClick={closeResourcesDropdown}>
+                <Link to="/mutual-funds-3" className="resources-menu-item" onClick={() => { closeResourcesDropdown(); closeMobileMenu(); }}>
                   <span>Mutual Funds 3</span>
                 </Link>
               </div>
             )}
+            {isMobileResourcesOpen && (
+              <div className="mobile-resources-submenu">
+                <Link to="/mutual-funds" className="mobile-resources-link" onClick={closeMobileMenu}>
+                  Mutual Funds
+                </Link>
+                <Link to="/mutual-funds-2" className="mobile-resources-link" onClick={closeMobileMenu}>
+                  Mutual Funds 2
+                </Link>
+                <Link to="/mutual-funds-3" className="mobile-resources-link" onClick={closeMobileMenu}>
+                  Mutual Funds 3
+                </Link>
+              </div>
+            )}
           </li>
-          <li><Link to="/about">About Us</Link></li>
+          <li><Link to="/about" onClick={closeMobileMenu}>About Us</Link></li>
         </ul>
+
         <div className="nav-cta">
           <button className="nav-button" onClick={() => {
+            closeMobileMenu();
             // Stop Lenis if it exists
             const lenis = window.lenis;
             if (lenis) {
@@ -291,11 +456,34 @@ const Header = () => {
             setModalType('portfolio');
             setIsModalOpen(true);
           }}>Review my Portfolio</button>
-          <div className="login-dropdown">
+          
+          {/* Mobile Login Icon */}
+          <button className="mobile-login-icon" onClick={() => {
+            closeMobileMenu();
+            const lenis = window.lenis;
+            if (lenis) lenis.stop();
+            const scrollY = window.scrollY;
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            const header = document.querySelector('.header');
+            document.body.dataset.scrollY = scrollY;
+            document.body.style.overflow = 'hidden';
+            document.body.style.paddingRight = `${scrollbarWidth}px`;
+            if (header) header.style.paddingRight = `${scrollbarWidth}px`;
+            setModalType('clientLogin');
+            setIsModalOpen(true);
+          }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </button>
+
+          <div className="login-dropdown desktop-only">
             <button className="login-button">Login</button>
             <div className="login-menu">
               <button onClick={(e) => {
                 e.preventDefault();
+                closeMobileMenu();
                 const lenis = window.lenis;
                 if (lenis) lenis.stop();
                 const scrollY = window.scrollY;
@@ -312,6 +500,7 @@ const Header = () => {
               </button>
               <button onClick={(e) => {
                 e.preventDefault();
+                closeMobileMenu();
                 const lenis = window.lenis;
                 if (lenis) lenis.stop();
                 const scrollY = window.scrollY;
@@ -351,7 +540,8 @@ const Header = () => {
             ) : currentStep !== 5 && (
               <>
                 <h2 className="modal-title">
-                  {modalType === 'schedule' ? 'SCHEDULE A CALL' : 'REVIEW YOUR PORTFOLIO'}
+                  {modalType === 'schedule' ? 'SCHEDULE A CALL' : 
+                   modalType === 'register' ? 'REGISTER FOR EVENT' : 'REVIEW YOUR PORTFOLIO'}
                 </h2>
                 <p className="modal-subtitle">Fill out the form below, and we will be in touch shortly.</p>
               </>

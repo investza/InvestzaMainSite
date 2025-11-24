@@ -7,9 +7,35 @@ import './EventsPage.css';
 const EventsPage = () => {
   const lenisRef = useRef(null);
   const [activeFaq, setActiveFaq] = useState(null);
+  const [eventDetailsModal, setEventDetailsModal] = useState(null);
+  const [carouselIndex, setCarouselIndex] = useState(0);
 
   const toggleFaq = (index) => {
     setActiveFaq(activeFaq === index ? null : index);
+  };
+
+  const openEventDetails = (eventData) => {
+    setEventDetailsModal(eventData);
+    setCarouselIndex(0);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeEventDetails = () => {
+    setEventDetailsModal(null);
+    setCarouselIndex(0);
+    document.body.style.overflow = '';
+  };
+
+  const nextSlide = () => {
+    if (eventDetailsModal && eventDetailsModal.images) {
+      setCarouselIndex((prev) => (prev + 1) % eventDetailsModal.images.length);
+    }
+  };
+
+  const prevSlide = () => {
+    if (eventDetailsModal && eventDetailsModal.images) {
+      setCarouselIndex((prev) => (prev - 1 + eventDetailsModal.images.length) % eventDetailsModal.images.length);
+    }
   };
 
   useEffect(() => {
@@ -117,56 +143,79 @@ const EventsPage = () => {
         <div className="container">
           <h2 className="section-title">Upcoming Events</h2>
           
-          <div className="events-grid">
+          <div className="events-grid events-grid-two">
             <div className="event-card">
               <div className="event-image">
-                <img src="/event4.jpg" alt="Event" />
+                <img src="/event2.png" alt="Event" />
               </div>
               <div className="event-details">
                 <span className="event-date">December 15, 2024</span>
-                <h3 className="event-title">Investment Strategy Summit</h3>
+                <h3 className="event-title">retirement planning session</h3>
                 <p className="event-description">
-                  Join industry leaders to explore cutting-edge investment strategies for 2025
+                  Held a retirement planning session for 30+ senior leaders at Markolines
                 </p>
-                <button className="event-register-btn">Register</button>
+                <div className="event-buttons">
+                  <button className="event-register-btn" onClick={() => {
+                    window.dispatchEvent(new CustomEvent('openRegisterModal'));
+                  }}>Register</button>
+                  <button className="event-details-btn" onClick={() => openEventDetails({
+                    title: 'Investment Strategy Summit',
+                    date: 'December 15, 2024',
+                    images: [
+                      '/event1.jpeg',
+                      '/event2.png',
+                      '/event3.jpeg',
+                      '/event4.jpeg'
+                    ],
+                    details: [
+                      'Engaged with industry leaders on emerging wealth trends and global investor behaviour.',
+                      'Shared perspectives on tax efficiency, succession planning, and international asset exposure.',
+                      'Exchanged insights on global economic cues impacting multi-asset strategies and long-term wealth goals.'
+                    ]
+                  })}>View Details</button>
+                </div>
               </div>
             </div>
 
             <div className="event-card">
               <div className="event-image">
-                <img src="/event5.jpg" alt="Event" />
+                <img src="/event3.jpeg" alt="Event" />
               </div>
               <div className="event-details">
                 <span className="event-date">January 20, 2025</span>
-                <h3 className="event-title">Retirement Planning Seminar</h3>
+                <h3 className="event-title">Investor awareness program</h3>
                 <p className="event-description">
-                  Plan your retirement with confidence through comprehensive wealth strategies
+                  Investza Held an amazing IAP at Markolines Pavement Technologies
                 </p>
-                <button className="event-register-btn">Register</button>
-              </div>
-            </div>
-
-            <div className="event-card">
-              <div className="event-image">
-                <img src="/event6.jpg" alt="Event" />
-              </div>
-              <div className="event-details">
-                <span className="event-date">February 8, 2025</span>
-                <h3 className="event-title">Investments Forums</h3>
-                <p className="event-description">
-                  Explore alternative investment opportunities beyond traditional markets
-                </p>
-                <button className="event-register-btn">Register</button>
+                <div className="event-buttons">
+                  <button className="event-register-btn" onClick={() => {
+                    window.dispatchEvent(new CustomEvent('openRegisterModal'));
+                  }}>Register</button>
+                  <button className="event-details-btn" onClick={() => openEventDetails({
+                    title: 'Investor awareness program',
+                    date: 'January 20, 2025',
+                    images: [
+                      '/event1.jpeg',
+                      '/event2.png',
+                      '/event3.jpeg',
+                      '/event4.jpeg'
+                    ],
+                    details: [
+                      'Use SIP for consistent investing over time. Use Lump Sum when valuations are attractive and you have liquidity. At Investza, we help investors combine both strategies smartly to align with their financial goals. Talk to us to find your ideal strategy!!'
+                    ],
+                    centerAlign: true
+                  })}>View Details</button>
+                </div>
               </div>
             </div>
           </div>
 
           <h2 className="section-title" style={{ marginTop: '80px' }}>Past Events</h2>
           
-          <div className="events-grid">
+          <div className="events-grid events-grid-two">
             <div className="event-card">
               <div className="event-image">
-                <img src="/event1.jpg" alt="Event" />
+                <img src="/event1.jpeg" alt="Event" />
               </div>
               <div className="event-details">
                 <span className="event-date">October 15, 2024</span>
@@ -174,13 +223,26 @@ const EventsPage = () => {
                 <p className="event-description">
                   Learn advanced strategies for portfolio diversification and risk management
                 </p>
-                <button className="event-register-btn">View Details</button>
+                <button className="event-register-btn" onClick={() => openEventDetails({
+                    title: 'Management Masterclass',
+                    date: 'October 15, 2024',
+                    images: [
+                      '/event1.jpeg',
+                      '/event2.png',
+                      '/event3.jpeg',
+                      '/event4.jpeg'
+                    ],
+                    details: [
+                      'Learn advanced strategies for portfolio diversification and risk management from industry experts.'
+                    ],
+                    centerAlign: true
+                  })}>View Details</button>
               </div>
             </div>
 
             <div className="event-card">
               <div className="event-image">
-                <img src="/event2.jpg" alt="Event" />
+                <img src="/event4.jpeg" alt="Event" />
               </div>
               <div className="event-details">
                 <span className="event-date">September 22, 2024</span>
@@ -188,50 +250,234 @@ const EventsPage = () => {
                 <p className="event-description">
                   Discover effective tax-saving strategies and optimize your investment returns
                 </p>
-                <button className="event-register-btn">View Details</button>
-              </div>
-            </div>
-
-            <div className="event-card">
-              <div className="event-image">
-                <img src="/event3.jpg" alt="Event" />
-              </div>
-              <div className="event-details">
-                <span className="event-date">August 10, 2024</span>
-                <h3 className="event-title">Market Trends & Analysis</h3>
-                <p className="event-description">
-                  Expert insights on current market conditions and future investment opportunities
-                </p>
-                <button className="event-register-btn">View Details</button>
+                <button className="event-register-btn" onClick={() => openEventDetails({
+                    title: 'Tax Planning Workshop',
+                    date: 'September 22, 2024',
+                    images: [
+                      '/event1.jpeg',
+                      '/event2.png',
+                      '/event3.jpeg',
+                      '/event4.jpeg'
+                    ],
+                    details: [
+                      'Discover effective tax-saving strategies and optimize your investment returns with expert guidance.'
+                    ],
+                    centerAlign: true
+                  })}>View Details</button>
               </div>
             </div>
           </div>
+
+          {/* Meet Your Mentor Section - INSIDE events-content */}
+          <div style={{ marginTop: '80px', padding: '60px 0 80px 0', background: '#000' }}>
+            {/* Icon Bar */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '40px', marginBottom: '80px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '15px' }}>
+                <div style={{ 
+                  width: '70px', 
+                  height: '70px', 
+                  borderRadius: '50%', 
+                  background: 'linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(0, 212, 255, 0.1) 100%)',
+                  border: '2px solid rgba(74, 158, 255, 0.4)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#fff'
+                }}>
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </div>
+                <p style={{ fontSize: '16px', fontWeight: '600', color: 'rgba(255, 255, 255, 0.9)', margin: 0 }}>September 30<sup>th</sup></p>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '15px' }}>
+                <div style={{ 
+                  width: '70px', 
+                  height: '70px', 
+                  borderRadius: '50%', 
+                  background: 'linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(0, 212, 255, 0.1) 100%)',
+                  border: '2px solid rgba(74, 158, 255, 0.4)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#fff'
+                }}>
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                </div>
+                <p style={{ fontSize: '16px', fontWeight: '600', color: 'rgba(255, 255, 255, 0.9)', margin: 0 }}>4 PM (IST)</p>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '15px' }}>
+                <div style={{ 
+                  width: '70px', 
+                  height: '70px', 
+                  borderRadius: '50%', 
+                  background: 'linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(0, 212, 255, 0.1) 100%)',
+                  border: '2px solid rgba(74, 158, 255, 0.4)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#fff'
+                }}>
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                    <line x1="12" y1="19" x2="12" y2="23"></line>
+                    <line x1="8" y1="23" x2="16" y2="23"></line>
+                  </svg>
+                </div>
+                <p style={{ fontSize: '16px', fontWeight: '600', color: 'rgba(255, 255, 255, 0.9)', margin: 0 }}>Duration 90 Minutes</p>
+              </div>
+            </div>
+
+            {/* Mentor Content */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'flex-start' }}>
+              <div>
+                <h2 style={{ fontSize: '52px', fontWeight: '700', marginBottom: '20px', color: 'white', lineHeight: '1.2' }}>Meet Your Mentor</h2>
+                <p style={{ fontSize: '18px', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '30px', lineHeight: '1.7' }}>
+                  "Early Retirement isn't a dream-it's a strategy. And with the right tools, you can make it a reality."
+                </p>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                  <li style={{ fontSize: '17px', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '15px', paddingLeft: '35px', position: 'relative', lineHeight: '1.6' }}>
+                    <span style={{ position: 'absolute', left: 0, top: '4px', width: '18px', height: '18px', background: '#4a9eff', borderRadius: '50%', display: 'inline-block' }}></span>
+                    Over 15 years of experience in wealth management
+                  </li>
+                  <li style={{ fontSize: '17px', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '15px', paddingLeft: '35px', position: 'relative', lineHeight: '1.6' }}>
+                    <span style={{ position: 'absolute', left: 0, top: '4px', width: '18px', height: '18px', background: '#4a9eff', borderRadius: '50%', display: 'inline-block' }}></span>
+                    Helped 10,000+ professionals reshape their financial future
+                  </li>
+                  <li style={{ fontSize: '17px', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '15px', paddingLeft: '35px', position: 'relative', lineHeight: '1.6' }}>
+                    <span style={{ position: 'absolute', left: 0, top: '4px', width: '18px', height: '18px', background: '#4a9eff', borderRadius: '50%', display: 'inline-block' }}></span>
+                    Known for simplifying complex strategies into actionable steps
+                  </li>
+                </ul>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{ width: '100%', maxWidth: '450px', borderRadius: '25px', overflow: 'hidden', marginBottom: '30px' }}>
+                  <img src="/abhishek_working.webp" alt="Abhishek Mehta" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <h3 style={{ fontSize: '28px', fontWeight: '700', color: 'white', margin: '0 0 8px 0' }}>Abhishek Mehta</h3>
+                  <p style={{ fontSize: '16px', color: 'rgba(255, 255, 255, 0.7)', margin: 0 }}>Founder & Chief Strategist</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
       {/* Meet Your Mentor Section */}
-      <section className="mentor-section">
-        <div className="container">
-          <div className="mentor-content">
-            <div className="mentor-left">
-              <h2 className="mentor-title">Meet Your Mentor</h2>
-              <p className="mentor-quote">
+      <section style={{ background: '#000', padding: '80px 0', fontFamily: 'Manrope, sans-serif' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 40px' }}>
+          {/* Icon Bar */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '40px', marginBottom: '80px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '15px' }}>
+              <div style={{ 
+                width: '70px', 
+                height: '70px', 
+                borderRadius: '50%', 
+                background: 'linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(0, 212, 255, 0.1) 100%)',
+                border: '2px solid rgba(74, 158, 255, 0.4)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#4a9eff'
+              }}>
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <path d="M16 2C8.27 2 2 8.27 2 16s6.27 14 14 14 14-6.27 14-14S23.73 2 16 2zm0 26c-6.63 0-12-5.37-12-12s5.37-12 12-12 12 5.37 12 12-5.37 12-12 12z" fill="currentColor"/>
+                  <path d="M16 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" fill="currentColor"/>
+                  <path d="M16 18c-3.31 0-6.29 1.66-8 4.18.33 2.85 1.99 5.34 4.4 6.8 1.38.77 2.99 1.22 4.6 1.22s3.22-.45 4.6-1.22c2.41-1.46 4.07-3.95 4.4-6.8-1.71-2.52-4.69-4.18-8-4.18z" fill="currentColor"/>
+                </svg>
+              </div>
+              <p style={{ fontSize: '16px', fontWeight: '600', color: 'rgba(255, 255, 255, 0.9)', margin: 0 }}>Expert Guidance</p>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '15px' }}>
+              <div style={{ 
+                width: '70px', 
+                height: '70px', 
+                borderRadius: '50%', 
+                background: 'linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(0, 212, 255, 0.1) 100%)',
+                border: '2px solid rgba(74, 158, 255, 0.4)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#4a9eff'
+              }}>
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <path d="M16 2C8.27 2 2 8.27 2 16s6.27 14 14 14 14-6.27 14-14S23.73 2 16 2zm0 26c-6.63 0-12-5.37-12-12s5.37-12 12-12 12 5.37 12 12-5.37 12-12 12z" fill="currentColor"/>
+                  <path d="M14 10h4v8h-4z" fill="currentColor"/>
+                  <path d="M14 20h4v2h-4z" fill="currentColor"/>
+                </svg>
+              </div>
+              <p style={{ fontSize: '16px', fontWeight: '600', color: 'rgba(255, 255, 255, 0.9)', margin: 0 }}>15+ Years Experience</p>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '15px' }}>
+              <div style={{ 
+                width: '70px', 
+                height: '70px', 
+                borderRadius: '50%', 
+                background: 'linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(0, 212, 255, 0.1) 100%)',
+                border: '2px solid rgba(74, 158, 255, 0.4)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#4a9eff'
+              }}>
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <path d="M16 2C8.27 2 2 8.27 2 16s6.27 14 14 14 14-6.27 14-14S23.73 2 16 2zm0 26c-6.63 0-12-5.37-12-12s5.37-12 12-12 12 5.37 12 12-5.37 12-12 12z" fill="currentColor"/>
+                  <path d="M13 16l-3-3 1.41-1.41L13 13.17l5.59-5.59L20 9l-7 7z" fill="currentColor"/>
+                </svg>
+              </div>
+              <p style={{ fontSize: '16px', fontWeight: '600', color: 'rgba(255, 255, 255, 0.9)', margin: 0 }}>Proven Track Record</p>
+            </div>
+          </div>
+
+          {/* Mentor Content */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'flex-start' }}>
+            <div style={{ paddingRight: '20px' }}>
+              <h2 style={{ fontSize: '52px', fontWeight: '700', marginBottom: '20px', color: 'white', lineHeight: '1.2' }}>Meet Your Mentor</h2>
+              <p style={{ fontSize: '18px', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '30px', lineHeight: '1.7' }}>
                 "Early Retirement isn't a dream-it's a strategy. And with the right tools, you can make it a reality."
               </p>
-              <ul className="mentor-highlights">
-                <li>Over 15 years of experience in wealth management</li>
-                <li>Helped 10,000+ professionals reshape their financial future</li>
-                <li>Known for simplifying complex strategies into actionable steps</li>
+              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 40px 0' }}>
+                <li style={{ fontSize: '17px', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '15px', paddingLeft: '35px', position: 'relative', lineHeight: '1.6' }}>
+                  <span style={{ content: '', position: 'absolute', left: 0, top: '4px', width: '18px', height: '18px', background: '#4a9eff', borderRadius: '50%', display: 'inline-block', marginRight: '15px' }}></span>
+                  Over 15 years of experience in wealth management
+                </li>
+                <li style={{ fontSize: '17px', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '15px', paddingLeft: '35px', position: 'relative', lineHeight: '1.6' }}>
+                  <span style={{ content: '', position: 'absolute', left: 0, top: '4px', width: '18px', height: '18px', background: '#4a9eff', borderRadius: '50%', display: 'inline-block', marginRight: '15px' }}></span>
+                  Helped 10,000+ professionals reshape their financial future
+                </li>
+                <li style={{ fontSize: '17px', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '15px', paddingLeft: '35px', position: 'relative', lineHeight: '1.6' }}>
+                  <span style={{ content: '', position: 'absolute', left: 0, top: '4px', width: '18px', height: '18px', background: '#4a9eff', borderRadius: '50%', display: 'inline-block', marginRight: '15px' }}></span>
+                  Known for simplifying complex strategies into actionable steps
+                </li>
               </ul>
-              <button className="mentor-cta-btn">Know More</button>
+              <button style={{ 
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                color: 'white',
+                padding: '14px 35px',
+                borderRadius: '25px',
+                fontSize: '16px',
+                fontWeight: '600',
+                cursor: 'pointer'
+              }}>Know More</button>
             </div>
-            <div className="mentor-right">
-              <div className="mentor-image-wrapper">
-                <img src="/abhishek_working.webp" alt="Abhishek Mehta" className="mentor-image" />
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{ width: '100%', maxWidth: '450px', borderRadius: '25px', overflow: 'hidden', marginBottom: '30px' }}>
+                <img src="/abhishek_working.webp" alt="Abhishek Mehta" style={{ width: '100%', height: 'auto', display: 'block' }} />
               </div>
-              <div className="mentor-name-card">
-                <h3 className="mentor-name">Abhishek Mehta</h3>
-                <p className="mentor-role">Founder & Chief Strategist</p>
+              <div style={{ textAlign: 'center' }}>
+                <h3 style={{ fontSize: '28px', fontWeight: '700', color: 'white', margin: '0 0 8px 0' }}>Abhishek Mehta</h3>
+                <p style={{ fontSize: '16px', color: 'rgba(255, 255, 255, 0.7)', margin: 0 }}>Founder & Chief Strategist</p>
               </div>
             </div>
           </div>
@@ -366,6 +612,238 @@ const EventsPage = () => {
 
       {/* Footer */}
       <EventsFooter />
+
+      {/* Event Details Modal */}
+      {eventDetailsModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0, 0, 0, 0.75)',
+          backdropFilter: 'blur(10px)',
+          zIndex: 1000,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px'
+        }} onClick={closeEventDetails}>
+          <div className="event-modal-container" style={{
+            background: 'rgba(255, 255, 255, 0.08)',
+            backdropFilter: 'blur(40px)',
+            border: '1px solid rgba(255, 255, 255, 0.15)',
+            borderRadius: '30px',
+            maxWidth: '1050px',
+            width: '100%',
+            height: '85vh',
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '40px',
+            position: 'relative',
+            boxShadow: '0 25px 50px rgba(0, 0, 0, 0.5)',
+            overflow: 'hidden'
+          }} onClick={(e) => e.stopPropagation()}>
+            {/* Close Button */}
+            <button onClick={closeEventDetails} className="event-modal-close" style={{
+              position: 'absolute',
+              top: '20px',
+              right: '20px',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              color: 'white',
+              fontSize: '24px',
+              zIndex: 30,
+              lineHeight: 1,
+              padding: 0
+            }}>×</button>
+
+            {/* Event Title */}
+            <h2 style={{
+              fontSize: '28px',
+              fontWeight: '700',
+              color: 'white',
+              marginBottom: '8px',
+              fontFamily: 'Manrope, sans-serif',
+              textAlign: 'center',
+              width: '100%'
+            }}>{eventDetailsModal.title}</h2>
+            <p style={{
+              fontSize: '14px',
+              color: '#4a9eff',
+              marginBottom: '25px',
+              textAlign: 'center',
+              fontWeight: '600'
+            }}>{eventDetailsModal.date}</p>
+
+            {/* 3D Carousel */}
+            <div style={{
+              position: 'relative',
+              height: '280px',
+              marginBottom: '40px',
+              perspective: '1000px',
+              flexShrink: 0
+            }}>
+              <div style={{
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                {(() => {
+                  const totalImages = eventDetailsModal.images.length;
+                  const visibleImages = [];
+                  
+                  for (let i = -1; i <= 1; i++) {
+                    const index = (carouselIndex + i + totalImages) % totalImages;
+                    visibleImages.push({ img: eventDetailsModal.images[index], offset: i, index });
+                  }
+                  
+                  return visibleImages.map(({ img, offset, index }) => (
+                    <div key={index} style={{
+                      position: 'absolute',
+                      width: offset === 0 ? '380px' : '280px',
+                      height: offset === 0 ? '240px' : '180px',
+                      transform: `translateX(${offset * 320}px) translateZ(${offset === 0 ? '50px' : '0px'}) scale(${offset === 0 ? 1.1 : 0.9})`,
+                      transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                      opacity: offset === 0 ? 1 : 0.6,
+                      zIndex: offset === 0 ? 10 : 5,
+                      borderRadius: '20px',
+                      overflow: 'hidden',
+                      boxShadow: offset === 0 ? '0 20px 40px rgba(0, 0, 0, 0.4)' : '0 10px 20px rgba(0, 0, 0, 0.2)'
+                    }}>
+                      <img src={img} alt={`Event ${index + 1}`} style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                      }} />
+                    </div>
+                  ));
+                })()}
+              </div>
+
+              {/* Navigation Arrows */}
+              <button onClick={prevSlide} style={{
+                position: 'absolute',
+                left: '10px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '50%',
+                width: '50px',
+                height: '50px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                color: 'white',
+                fontSize: '24px',
+                zIndex: 20,
+                transition: 'all 0.3s ease'
+              }}>‹</button>
+              <button onClick={nextSlide} style={{
+                position: 'absolute',
+                right: '10px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '50%',
+                width: '50px',
+                height: '50px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                color: 'white',
+                fontSize: '24px',
+                zIndex: 20,
+                transition: 'all 0.3s ease'
+              }}>›</button>
+            </div>
+
+            {/* Event Details - No Box */}
+            <div style={{
+              flex: 1,
+              overflow: 'auto',
+              paddingRight: '10px'
+            }}>
+              <h3 style={{
+                fontSize: '20px',
+                fontWeight: '600',
+                color: 'white',
+                marginBottom: '20px',
+                fontFamily: 'Manrope, sans-serif',
+                textAlign: 'center'
+              }}>Event Highlights</h3>
+              
+              {eventDetailsModal.centerAlign ? (
+                <div style={{
+                  textAlign: 'center',
+                  padding: '0 80px'
+                }}>
+                  {eventDetailsModal.details.slice(0, 4).map((detail, index) => (
+                    <p key={index} style={{
+                      fontSize: '17px',
+                      color: 'rgba(255, 255, 255, 0.85)',
+                      lineHeight: '1.6',
+                      marginBottom: '15px',
+                      fontFamily: 'Manrope, sans-serif'
+                    }}>
+                      {detail}
+                    </p>
+                  ))}
+                </div>
+              ) : (
+                <ul style={{
+                  listStyle: 'none',
+                  padding: 0,
+                  margin: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center'
+                }}>
+                  {eventDetailsModal.details.slice(0, 3).map((detail, index) => (
+                    <li key={index} style={{
+                      fontSize: '17px',
+                      color: 'rgba(255, 255, 255, 0.85)',
+                      lineHeight: '1.6',
+                      marginBottom: '15px',
+                      fontFamily: 'Manrope, sans-serif',
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '12px',
+                      maxWidth: '600px'
+                    }}>
+                      <span style={{
+                        width: '12px',
+                        height: '12px',
+                        background: '#4a9eff',
+                        borderRadius: '50%',
+                        flexShrink: 0,
+                        marginTop: '6px'
+                      }}></span>
+                      <span>{detail}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

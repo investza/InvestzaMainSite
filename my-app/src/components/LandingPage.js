@@ -16,6 +16,7 @@ const LandingPage = () => {
   const [currentSlide, setCurrentSlide] = useState(1); // Start at 1 (first real card)
   const carouselRef = useRef(null);
   const lenisRef = useRef(null);
+  const [cardWidth, setCardWidth] = useState(612); // Default desktop width (580px card + 32px gap)
 
   const nextSlide = () => {
     setCurrentSlide((prev) => prev + 1);
@@ -24,6 +25,30 @@ const LandingPage = () => {
   const prevSlide = () => {
     setCurrentSlide((prev) => prev - 1);
   };
+
+  // Calculate card width based on screen size
+  useEffect(() => {
+    const updateCardWidth = () => {
+      const width = window.innerWidth;
+      
+      if (width <= 768) {
+        // Mobile: viewport width - 80px (for arrows) + gap
+        const viewportWidth = width - 80;
+        const gap = 20; // 20px gap between cards
+        setCardWidth(viewportWidth + gap);
+      } else if (width <= 1024) {
+        // Tablet: 520px card + 32px gap
+        setCardWidth(552);
+      } else {
+        // Desktop: 580px card + 32px gap
+        setCardWidth(612);
+      }
+    };
+
+    updateCardWidth();
+    window.addEventListener('resize', updateCardWidth);
+    return () => window.removeEventListener('resize', updateCardWidth);
+  }, []);
 
   // Preload all expert images to prevent black screen
   useEffect(() => {
@@ -534,7 +559,7 @@ const LandingPage = () => {
               <div
                 ref={carouselRef}
                 className="insights-cards"
-                style={{ transform: `translateX(-${currentSlide * 612}px)` }}
+                style={{ transform: `translateX(-${currentSlide * cardWidth}px)` }}
               >
 
                 {/* Clone of last card for seamless backward scroll */}
@@ -1168,24 +1193,26 @@ const LandingPage = () => {
       <Footer />
 
       {/* Apple Glass Style Download Widget */}
-      <div className="download-widget">
-        <div className="download-content">
-          <div className="qr-container">
-            <img src="/qr-code.svg" alt="QR Code" className="qr-code-image" />
-          </div>
-          <div className="download-info">
-            <div className="download-title">Download Wealth Tracker</div>
-            <div className="app-store-buttons">
-              <div className="store-button google-play-btn">
-                <img src="/google_play_icon.svg" alt="Google Play" className="store-icon" />
-              </div>
-              <div className="store-button app-store-btn">
-                <img src="/app_store_icon.svg" alt="App Store" className="store-icon" />
+      <a href="https://investza.in/wealth-tracker/" target="_blank" rel="noopener noreferrer" className="download-widget-link">
+        <div className="download-widget">
+          <div className="download-content">
+            <div className="qr-container">
+              <img src="/qr-code.svg" alt="QR Code" className="qr-code-image" />
+            </div>
+            <div className="download-info">
+              <div className="download-title">Download Wealth Tracker</div>
+              <div className="app-store-buttons">
+                <div className="store-button google-play-btn">
+                  <img src="/google_play_icon.svg" alt="Google Play" className="store-icon" />
+                </div>
+                <div className="store-button app-store-btn">
+                  <img src="/app_store_icon.svg" alt="App Store" className="store-icon" />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </a>
     </div>
   );
 };

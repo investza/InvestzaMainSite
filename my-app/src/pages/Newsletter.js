@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Lenis from 'lenis';
 import Header from '../components/Header';
 import AboutUsFooter from './AboutUsFooter';
@@ -6,6 +7,7 @@ import './Newsletter.css';
 
 function Newsletter() {
   const lenisRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -175,7 +177,12 @@ function Newsletter() {
                   <div className="newsletter-date">{newsletter.date}</div>
                   <h3 className="newsletter-title">{newsletter.title}</h3>
                   <p className="newsletter-description">{newsletter.description}</p>
-                  <button className="newsletter-read-btn">Read More →</button>
+                  <button 
+                    className="newsletter-read-btn"
+                    onClick={() => navigate(`/newsletter/${newsletter.id}`)}
+                  >
+                    Read More →
+                  </button>
                 </div>
               </div>
             ))}
