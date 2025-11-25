@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import './Header.css';
+import { ReviewPortfolioSubmit } from '../api/flowApi';
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -198,23 +199,30 @@ const Header = () => {
     
     try {
       const endpoint = modalType === 'portfolio' ? '/api/portfolio-review' : '/api/schedule-call';
-      const response = await fetch(`http://localhost:5000${endpoint}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          recaptchaToken
-        })
-      });
+      // const response = await fetch(`http://localhost:5000${endpoint}`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     ...formData,
+      //     recaptchaToken
+      //   })
+      // });
 
+      const response = await ReviewPortfolioSubmit(
+        formData.fullName, 
+        formData.contactNumber, 
+        formData.investmentValue, 
+        formData.email, 
+        formData.agreeToPolicy
+      );
       if (!response.ok) {
         throw new Error('Failed to submit form');
       }
 
-      const data = await response.json();
-      console.log('Form submitted successfully:', data);
+      // const data = await response.json();
+      // console.log('Form submitted successfully:', data);
       
       // Move to thank you screen
       setCurrentStep(5);
