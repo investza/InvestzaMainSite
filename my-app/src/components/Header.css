@@ -11,6 +11,8 @@
   pointer-events: auto;
 }
 
+
+
 @media (max-width: 768px) {
   .header {
     padding: 8px 0;
@@ -216,6 +218,36 @@
 
 .login-menu-item:hover {
   background: rgba(255, 255, 255, 0.15);
+}
+
+/* Coming Soon Login Items */
+.login-menu-item.login-coming-soon {
+  cursor: default;
+  position: relative;
+}
+
+.login-original-text {
+  transition: opacity 0.3s ease;
+}
+
+.login-coming-soon-text {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.login-menu-item.login-coming-soon:hover .login-original-text {
+  opacity: 0;
+}
+
+.login-menu-item.login-coming-soon:hover .login-coming-soon-text {
+  opacity: 1;
+}
+
+.login-menu-item.login-coming-soon:hover {
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .menu-icon {
@@ -1137,6 +1169,23 @@
   z-index: 1;
 }
 
+/* Coming Soon styling */
+.resources-menu-item.coming-soon-item {
+  cursor: default;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+  margin-top: 30px;
+}
+
+.resources-menu-item.coming-soon-item:hover {
+  color: rgba(255, 255, 255, 0.6);
+  transform: none;
+}
+
+.resources-menu-item.coming-soon-item::after {
+  display: none;
+}
+
 /* Mobile-only elements - hidden on desktop */
 .mobile-portfolio-item,
 .mobile-login-icon,
@@ -1450,6 +1499,19 @@
 
   .mobile-resources-link:hover {
     color: #4a9eff;
+  }
+
+  /* Coming Soon styling for mobile */
+  .mobile-resources-link.coming-soon-item {
+    cursor: default;
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  .mobile-resources-link.coming-soon-item:hover {
+    color: rgba(255, 255, 255, 0.5);
   }
 
   .mobile-close-btn {

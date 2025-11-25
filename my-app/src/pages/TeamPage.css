@@ -1,32 +1,82 @@
 /* Team Page Base */
 .team-page {
-  background-color: #0a0a0a;
+  background-color: #E7F0FF;
   min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
-/* Black background for header on team page */
+/* Header on team page */
 .team-page-wrapper .header {
-  background: #0a0a0a !important;
-  backdrop-filter: blur(10px);
+  background: transparent !important;
+}
+
+.team-page-wrapper .header.scrolled {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Keep login button consistent - no black to white transformation */
+.team-page-wrapper .header .login-button {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.3) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.team-page-wrapper .header.scrolled .login-button,
+.team-page-wrapper .header.past-video .login-button {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.3) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.team-page-wrapper .header .login-dropdown:hover .login-button {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.4) 100%);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 /* Hero Section */
 .team-hero-section {
-  min-height: 100vh;
-  background-color: #0a0a0a;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+  position: sticky;
+  top: 0;
+  padding-top: 80px;
+  z-index: 2;
+  transition: opacity 0.1s ease-out;
+}
+
+.team-hero-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, transparent 0%, transparent 40%, #E7F0FF 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.team-heading-div {
+  position: relative;
+  z-index: 2;
 }
 
 .team-heading {
-  color: #fff;
-  font-size: 4.5em;
-  font-weight: 600;
-  font-family: 'Playfair Display', serif;
-  margin-bottom: 40px;
+  color: #000;
+  font-family: 'Manrope', sans-serif;
+  font-size: 64px;
+  font-weight: 1000;
+  margin-bottom: 20px;
 }
 
 /* Animated Scroll Arrows */
@@ -38,13 +88,14 @@
   align-items: center;
   height: 60px;
   cursor: pointer;
+  z-index: 2;
 }
 
 .arrow {
   position: absolute;
   width: 1.8rem;
   height: 1.8rem;
-  stroke: #ffffff;
+  stroke: #000;
   stroke-width: 1.6;
   opacity: 0;
   transform: translateY(0);
@@ -86,8 +137,8 @@
 }
 
 .arrow-stack:hover .arrow {
-  stroke: #00ffcc;
-  filter: drop-shadow(0 0 8px rgba(0, 255, 204, 0.6));
+  stroke: #000;
+  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.6));
   animation-duration: 1.2s;
 }
 
@@ -98,10 +149,13 @@
   gap: 30px;
   row-gap: 20px;
   padding: 80px 15% 20px 15%;
+  position: relative;
+  z-index: 10;
+  background: transparent;
   align-items: center;
   justify-items: center;
   justify-content: center;
-  background-color: #0a0a0a;
+  background-color: #E7F0FF;
 }
 
 /* Co-Team Section */
@@ -112,7 +166,7 @@
   align-items: center;
   justify-items: center;
   justify-content: center;
-  background-color: #0a0a0a;
+  background-color: #E7F0FF;
 }
 
 .co-team-container {
@@ -134,7 +188,7 @@
 
 @media (max-width: 768px) {
   .team-heading {
-    font-size: 3em;
+    font-size: 48px;
   }
 
   .main-team-section,
@@ -147,5 +201,11 @@
   .co-team-section {
     padding-left: 5%;
     padding-right: 5%;
+  }
+}
+
+@media (max-width: 480px) {
+  .team-heading {
+    font-size: 36px;
   }
 }

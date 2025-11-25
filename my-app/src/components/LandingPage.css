@@ -3195,18 +3195,20 @@ is Cards Section */
   .lenis-card {
     width: 90%;
     height: auto;
-    min-height: 180px;
-    padding: 1.5rem;
+    min-height: 300px;
+    padding: 2.5rem 1.5rem;
   }
 
   .card-content h3 {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     word-wrap: break-word;
+    margin-bottom: 1rem;
   }
 
   .card-content p {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     word-wrap: break-word;
+    line-height: 1.6;
   }
 
   .section-header h2 {

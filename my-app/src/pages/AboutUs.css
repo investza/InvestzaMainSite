@@ -22,10 +22,42 @@ html.lenis {
    HEADER STYLING FOR ABOUT US PAGE ONLY
    ======================================== */
 .about-us-page .header {
-  background: rgba(0, 0, 0, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  background: transparent;
+}
+
+.about-us-page .header.scrolled {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Keep login button consistent - no black to white transformation */
+.about-us-page .header .login-button {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.3) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.about-us-page .header.scrolled .login-button,
+.about-us-page .header.past-video .login-button {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.3) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.about-us-page .header .login-dropdown:hover .login-button {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.4) 100%);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.about-us-page {
+  background: #E7F0FF;
+  color: #000;
+  position: relative;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 /* ========================================
@@ -46,14 +78,28 @@ html.lenis {
    HERO SECTION (About Us)
    ======================================== */
 .aboutUs {
-  background-color: #000;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   overflow: hidden;
-  position: relative;
+  position: sticky;
+  top: 0;
+  padding-top: 80px;
+  z-index: 2;
+  transition: opacity 0.1s ease-out;
+}
+
+.aboutUs::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, transparent 0%, transparent 40%, #E7F0FF 100%);
+  pointer-events: none;
   z-index: 1;
 }
 
@@ -68,16 +114,18 @@ html.lenis {
 
 .content {
   text-align: center;
-  color: #fff;
+  max-width: 800px;
+  padding: 0 20px;
+  position: relative;
   z-index: 2;
 }
 
 .heading {
-  font-family: "Playfair Display", serif;
-  font-size: 4rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  margin: 0;
+  font-family: 'Manrope', sans-serif;
+  font-size: 64px;
+  font-weight: 1000;
+  margin-bottom: 20px;
+  color: #000;
 }
 
 /* ===== Lucide Thin Scroll Arrows ===== */
@@ -97,12 +145,12 @@ html.lenis {
   position: absolute;
   width: 2rem;
   height: 2rem;
-  stroke: #fff;
+  stroke: #000;
   stroke-width: 1.5;
   opacity: 0;
   transform: translateY(0) scale(0.9);
   animation: smoothScroll 2.4s cubic-bezier(0.55, 0.1, 0.45, 1) infinite;
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.25));
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.25));
   will-change: transform, opacity;
 }
 
@@ -149,7 +197,7 @@ html.lenis {
 /* Hover Effects */
 .arrow-stack:hover .arrow {
   animation-duration: 1.6s;
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.4));
 }
 
 .arrow-stack:hover {
@@ -159,10 +207,10 @@ html.lenis {
 @keyframes pulseGlow {
   0%,
   100% {
-    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.25));
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.25));
   }
   50% {
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.4));
   }
 }
 
@@ -176,9 +224,10 @@ html.lenis {
    ======================================== */
 .scrolling-card-section {
   min-height: 200vh;
-  background: #000;
+  background: transparent;
   position: relative;
   display: flex;
+  z-index: 10;
   align-items: flex-start;
   justify-content: center;
   padding-top: 50vh;
@@ -202,12 +251,12 @@ html.lenis {
   max-width: calc(100vw - 200px);
   height: 60vh;
   background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.12) 0%, 
-    rgba(255, 255, 255, 0.08) 50%, 
-    rgba(255, 255, 255, 0.06) 100%);
+    rgba(255, 255, 255, 0.9) 0%, 
+    rgba(255, 255, 255, 0.8) 50%, 
+    rgba(255, 255, 255, 0.7) 100%);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(0, 0, 0, 0.18);
   border-radius: 24px;
   padding: 60px;
   display: flex;
@@ -215,8 +264,8 @@ html.lenis {
   justify-content: center;
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25),
-    0 0 0 1px rgba(255, 255, 255, 0.05);
+    inset 0 1px 0 rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
   position: relative;
   overflow: hidden;
   transform-origin: center center;
@@ -242,9 +291,9 @@ html.lenis {
   right: 0;
   bottom: 0;
   background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.1) 0%, 
+    rgba(0, 0, 0, 0.1) 0%, 
     transparent 50%, 
-    rgba(255, 255, 255, 0.05) 100%);
+    rgba(0, 0, 0, 0.05) 100%);
   border-radius: 24px;
   pointer-events: none;
   z-index: 1;
@@ -271,7 +320,7 @@ html.lenis {
   font-family: 'Manrope', sans-serif;
   font-size: 1.2rem;
   line-height: 1.8;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(0, 0, 0, 0.9);
   font-weight: 400;
 }
 
@@ -303,9 +352,11 @@ html.lenis {
    WHY US SECTION
    ======================================== */
 .whyus {
-  background: #000;
-  color: #fff;
+  background: transparent;
+  color: #000;
   padding: 6rem 2rem;
+  position: relative;
+  z-index: 10;
 }
 
 /* === Top Section (Heading Left, Text Right) === */
@@ -339,7 +390,7 @@ html.lenis {
 }
 
 .whyus-intro {
-  color: #ccc;
+  color: rgba(0, 0, 0, 0.8);
   font-size: 1.1rem;
   line-height: 1.8;
   text-align: left;
@@ -371,24 +422,22 @@ html.lenis {
   max-width: 320px;
   height: 100%;
   overflow: hidden;
-  background-image: url("./3495132.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .whyus-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+  background: transparent;
   border-radius: inherit;
   z-index: 1;
   transition: background 0.3s ease;
 }
 
 .whyus-card:hover::before {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .whyus-card * {
@@ -398,11 +447,12 @@ html.lenis {
 
 .whyus-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .whyus-icon {
   margin-bottom: 1.2rem;
+  filter: brightness(0) saturate(100%);
 }
 
 .whyus-card h4 {
@@ -410,11 +460,11 @@ html.lenis {
   font-weight: 600;
   margin-bottom: 0.75rem;
   font-family: "Playfair Display", serif;
-  color: #fff;
+  color: #000;
 }
 
 .whyus-card p {
-  color: #ddd;
+  color: rgba(0, 0, 0, 0.8);
   font-size: 0.95rem;
   line-height: 1.6;
   flex-grow: 1;
@@ -432,31 +482,31 @@ html.lenis {
 
 .counter-item {
   text-align: center;
-  border: 2px solid #fff;
+  border: 2px solid rgba(0, 0, 0, 0.2);
   padding: 2rem 6rem;
   border-radius: 35px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(8px);
   transition: all 0.3s ease;
 }
 
 .counter-item:hover {
   transform: scale(1.05);
-  border-color: #ffffff;
-  box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+  border-color: #000;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .counter-item h3 {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #fff;
+  color: #000;
   margin: 0;
   letter-spacing: 1px;
 }
 
 .counter-item p {
   margin-top: 0.5rem;
-  color: #ccc;
+  color: rgba(0, 0, 0, 0.7);
   font-size: 1.1rem;
   letter-spacing: 0.5px;
 }
@@ -474,7 +524,8 @@ html.lenis {
 }
 
 .plain-card {
-  background: #111;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 1rem;
   overflow: hidden;
   flex: 1;
@@ -488,7 +539,7 @@ html.lenis {
 
 .plain-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 /* Content evenly fills card */
@@ -506,7 +557,7 @@ html.lenis {
   font-family: "Playfair Display", serif;
   font-size: 1.8rem;
   font-weight: 600;
-  color: #fff;
+  color: #000;
   margin: 0 0 1rem 0;
   position: relative;
 }
@@ -537,16 +588,16 @@ html.lenis {
   object-fit: cover;
   display: block;
   border-radius: 3.5rem;
-  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   margin: 1.5rem auto 2rem;
   cursor: pointer;
-  background: #000;
+  background: transparent;
 }
 
 .mv-img-bottom:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
 }
 
 /* ========================================
@@ -562,7 +613,7 @@ html.lenis {
 
 @media (max-width: 768px) {
   .heading {
-    font-size: 3rem;
+    font-size: 48px;
   }
   .arrow-stack {
     height: 70px;
@@ -578,6 +629,10 @@ html.lenis {
   }
   .a3 {
     top: 40px;
+  }
+  
+  .whyus {
+    padding: 4rem 2rem;
   }
 
   .whyus-top {
@@ -629,11 +684,11 @@ html.lenis {
   }
 }
 
-/* @media (max-width: 600px) {
+@media (max-width: 480px) {
   .heading {
-    font-size: 2.5rem;
+    font-size: 36px;
   }
-} */
+}
 
 @media (max-width: 600px) and (min-width: 480px) {
 .scrolling-card {

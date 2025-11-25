@@ -47,6 +47,45 @@ function AboutUs() {
 
     lenisRef.current = lenis;
 
+    const handleScroll = () => {
+      const scrollY = lenis.scroll;
+      const header = document.querySelector('.header');
+      const heroSection = document.querySelector('.aboutUs');
+      const contentSection = document.querySelector('.whyus');
+      const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
+
+      // Calculate opacity for hero section
+      const scrollProgress = Math.min(scrollY / heroHeight, 1);
+      const heroOpacity = 1 - (scrollProgress * 0.6);
+
+      if (heroSection) {
+        heroSection.style.opacity = heroOpacity;
+      }
+
+      // Lift up effect
+      if (contentSection && scrollY < heroHeight) {
+        const liftProgress = scrollY / heroHeight;
+        const translateY = (1 - liftProgress) * 10;
+        contentSection.style.transform = `translateY(${translateY}vh)`;
+      } else if (contentSection) {
+        contentSection.style.transform = 'translateY(0)';
+      }
+
+      if (scrollY > 50) {
+        header.classList.add('scrolled');
+        if (scrollY >= heroHeight) {
+          header.classList.add('past-video');
+        } else {
+          header.classList.remove('past-video');
+        }
+      } else {
+        header.classList.remove('scrolled');
+        header.classList.remove('past-video');
+      }
+    };
+
+    lenis.on('scroll', handleScroll);
+
     // Add lenis class to html element
     document.documentElement.classList.add('lenis');
 
@@ -274,7 +313,16 @@ function AboutUs() {
       <Header />
       
       {/* ---------- HERO ---------- */}
-      <section className="aboutUs" ref={heroRef}>
+      <section 
+        className="aboutUs" 
+        ref={heroRef}
+        style={{
+          backgroundImage: `url(/team/newsletter_hero.jpeg?v=${Date.now()})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 30%',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
         <div className="content">
           <h1 className="heading">About Us</h1>
           <div

@@ -19,6 +19,45 @@ const TeamPage = () => {
     lenisRef.current = lenis;
     window.lenis = lenis;
 
+    const handleScrollEffect = () => {
+      const scrollY = lenis.scroll;
+      const header = document.querySelector('.header');
+      const heroSection = document.querySelector('.team-hero-section');
+      const contentSection = document.querySelector('.main-team-section');
+      const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
+
+      // Calculate opacity for hero section
+      const scrollProgress = Math.min(scrollY / heroHeight, 1);
+      const heroOpacity = 1 - (scrollProgress * 0.6);
+
+      if (heroSection) {
+        heroSection.style.opacity = heroOpacity;
+      }
+
+      // Lift up effect
+      if (contentSection && scrollY < heroHeight) {
+        const liftProgress = scrollY / heroHeight;
+        const translateY = (1 - liftProgress) * 10;
+        contentSection.style.transform = `translateY(${translateY}vh)`;
+      } else if (contentSection) {
+        contentSection.style.transform = 'translateY(0)';
+      }
+
+      if (scrollY > 50) {
+        header.classList.add('scrolled');
+        if (scrollY >= heroHeight) {
+          header.classList.add('past-video');
+        } else {
+          header.classList.remove('past-video');
+        }
+      } else {
+        header.classList.remove('scrolled');
+        header.classList.remove('past-video');
+      }
+    };
+
+    lenis.on('scroll', handleScrollEffect);
+
     function raf(time) {
       lenis.raf(time);
       requestAnimationFrame(raf);
@@ -48,7 +87,15 @@ const TeamPage = () => {
       
       <div className="team-page">
         {/* Hero Section */}
-        <div className="team-hero-section">
+        <div 
+          className="team-hero-section"
+          style={{
+            backgroundImage: `url(/team/newsletter_hero.jpeg?v=${Date.now()})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center 30%',
+            backgroundRepeat: 'no-repeat'
+          }}
+        >
           <div className="team-heading-div">
             <h1 className="team-heading">Team Members</h1>
           </div>

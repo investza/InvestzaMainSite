@@ -96,49 +96,49 @@ function Newsletter() {
   const newsletters = [
     {
       id: 1,
-      title: 'Market Insights - January 2024',
-      date: 'January 15, 2024',
-      description: 'Discover the latest market trends and investment opportunities for the new year.',
+      title: 'Market Update - January 2025',
+      date: 'August 28, 2025',
+      description: 'Market Update: Inflation Hits Lowest Level Since 2017',
       image: '/newsletter1.jpg',
       category: 'Market Analysis'
     },
     {
       id: 2,
-      title: 'Investment Strategies for 2024',
-      date: 'January 8, 2024',
-      description: 'Learn about effective investment strategies to maximize your portfolio returns.',
+      title: 'Investza Pune: Evidence-Based Wealth Management',
+      date: 'November 11, 2025',
+      description: 'Investza Pune: Evidence-Based Wealth Management in the City of Clarity. Why Investza Pune Brings Structured Wealth Management to Your Portfolio.',
       image: '/newsletter2.jpg',
       category: 'Investment Tips'
     },
     {
       id: 3,
-      title: 'Understanding Mutual Funds',
-      date: 'December 28, 2023',
-      description: 'A comprehensive guide to mutual funds and how they can benefit your financial goals.',
+      title: 'Why Estate Planning Matters in India?',
+      date: 'October 31, 2025',
+      description: 'Did you know? Over ₹88,000 crore worth of assets in India lie unclaimed, simply because people didn’t plan their succession right.',
       image: '/newsletter3.jpg',
       category: 'Education'
     },
     {
       id: 4,
-      title: 'Tax Planning for Investors',
-      date: 'December 20, 2023',
-      description: 'Essential tax planning tips to optimize your investment returns this fiscal year.',
+      title: 'The RBI’s Rate Cut: What You Need to Know',
+      date: 'July 4, 2025',
+      description: 'I’m sure you’ve heard by now. The Reserve Bank of India (RBI) has slashed the repo rate by 50 basis points (bps) to 5.5%. It has also reduced the Cash',
       image: '/newsletter4.jpg',
       category: 'Tax Planning'
     },
     {
       id: 5,
-      title: 'Retirement Planning Guide',
-      date: 'December 12, 2023',
-      description: 'Plan your retirement with confidence using our expert financial advice.',
+      title: 'Why GRCTCs Matter for India’s Financial Future',
+      date: 'June 20, 2025',
+      description: 'I was recently catching up with an old client over coffee. His job always fascinated me, and I had always wanted to fully understand what he does. As we spoke.',
       image: '/newsletter5.jpg',
       category: 'Retirement'
     },
     {
       id: 6,
-      title: 'Market Volatility Insights',
-      date: 'December 5, 2023',
-      description: 'Navigate market volatility with smart investment decisions and risk management.',
+      title: 'Do You Really Need a Wealth Manager?',
+      date: 'June 6, 2025',
+      description: 'I recently met one of my close friends who had just run into some good fortune. He sold a part of his business and received ₹20 crores in an all-cash.',
       image: '/newsletter6.jpg',
       category: 'Market Analysis'
     }
@@ -169,11 +169,8 @@ function Newsletter() {
           <div className="newsletter-grid">
             {newsletters.map((newsletter) => (
               <div key={newsletter.id} className="newsletter-card">
-                <div className="newsletter-image">
-                  <img src={newsletter.image} alt={newsletter.title} />
-                  <div className="newsletter-category">{newsletter.category}</div>
-                </div>
                 <div className="newsletter-card-content">
+                  <div className="newsletter-category">{newsletter.category}</div>
                   <div className="newsletter-date">{newsletter.date}</div>
                   <h3 className="newsletter-title">{newsletter.title}</h3>
                   <p className="newsletter-description">{newsletter.description}</p>

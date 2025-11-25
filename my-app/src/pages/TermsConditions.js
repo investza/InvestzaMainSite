@@ -24,6 +24,45 @@ function TermsConditions() {
     // Store lenis instance globally for modal access
     window.lenis = lenis;
 
+    const handleScroll = () => {
+      const scrollY = lenis.scroll;
+      const header = document.querySelector('.header');
+      const heroSection = document.querySelector('.terms-hero');
+      const contentSection = document.querySelector('.terms-content');
+      const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
+
+      // Calculate opacity for hero section
+      const scrollProgress = Math.min(scrollY / heroHeight, 1);
+      const heroOpacity = 1 - (scrollProgress * 0.6);
+
+      if (heroSection) {
+        heroSection.style.opacity = heroOpacity;
+      }
+
+      // Lift up effect
+      if (contentSection && scrollY < heroHeight) {
+        const liftProgress = scrollY / heroHeight;
+        const translateY = (1 - liftProgress) * 10;
+        contentSection.style.transform = `translateY(${translateY}vh)`;
+      } else if (contentSection) {
+        contentSection.style.transform = 'translateY(0)';
+      }
+
+      if (scrollY > 50) {
+        header.classList.add('scrolled');
+        if (scrollY >= heroHeight) {
+          header.classList.add('past-video');
+        } else {
+          header.classList.remove('past-video');
+        }
+      } else {
+        header.classList.remove('scrolled');
+        header.classList.remove('past-video');
+      }
+    };
+
+    lenis.on('scroll', handleScroll);
+
     document.documentElement.classList.add('lenis');
 
     function raf(time) {
@@ -43,9 +82,24 @@ function TermsConditions() {
     <div className="terms-page">
       <Header />
       
+      {/* Hero Section */}
+      <section 
+        className="terms-hero"
+        style={{
+          backgroundImage: `url(/team/newsletter_hero.jpeg?v=${Date.now()})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 30%',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <div className="terms-hero-overlay"></div>
+        <div className="terms-hero-content">
+          <h1>Terms and Conditions</h1>
+        </div>
+      </section>
+      
       <div className="terms-content">
         <div className="terms-container">
-          <h1 className="terms-title">Terms & Conditions</h1>
           
           <div className="terms-text">
             <h2>AGREEMENT TO OUR LEGAL TERMS</h2>

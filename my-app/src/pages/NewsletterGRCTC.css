@@ -86,6 +86,26 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.grctc-image-caption {
+  font-size: 14px;
+  color: #666;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.grctc-video-section {
+  margin: 30px 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.grctc-video-section iframe {
+  width: 100%;
+  min-height: 450px;
+  border: none;
+}
+
 .grctc-section-title {
   font-size: 36px;
   font-weight: 700;
@@ -270,5 +290,9 @@
 
   .grctc-video iframe {
     height: 250px;
+  }
+
+  .grctc-video-section iframe {
+    min-height: 250px;
   }
 }

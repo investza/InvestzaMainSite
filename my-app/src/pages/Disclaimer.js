@@ -24,6 +24,45 @@ function Disclaimer() {
     // Store lenis instance globally for modal access
     window.lenis = lenis;
 
+    const handleScroll = () => {
+      const scrollY = lenis.scroll;
+      const header = document.querySelector('.header');
+      const heroSection = document.querySelector('.disclaimer-hero');
+      const contentSection = document.querySelector('.disclaimer-content');
+      const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
+
+      // Calculate opacity for hero section
+      const scrollProgress = Math.min(scrollY / heroHeight, 1);
+      const heroOpacity = 1 - (scrollProgress * 0.6);
+
+      if (heroSection) {
+        heroSection.style.opacity = heroOpacity;
+      }
+
+      // Lift up effect
+      if (contentSection && scrollY < heroHeight) {
+        const liftProgress = scrollY / heroHeight;
+        const translateY = (1 - liftProgress) * 10;
+        contentSection.style.transform = `translateY(${translateY}vh)`;
+      } else if (contentSection) {
+        contentSection.style.transform = 'translateY(0)';
+      }
+
+      if (scrollY > 50) {
+        header.classList.add('scrolled');
+        if (scrollY >= heroHeight) {
+          header.classList.add('past-video');
+        } else {
+          header.classList.remove('past-video');
+        }
+      } else {
+        header.classList.remove('scrolled');
+        header.classList.remove('past-video');
+      }
+    };
+
+    lenis.on('scroll', handleScroll);
+
     document.documentElement.classList.add('lenis');
 
     function raf(time) {
@@ -43,9 +82,24 @@ function Disclaimer() {
     <div className="disclaimer-page">
       <Header />
       
+      {/* Hero Section */}
+      <section 
+        className="disclaimer-hero"
+        style={{
+          backgroundImage: `url(/team/newsletter_hero.jpeg?v=${Date.now()})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 30%',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <div className="disclaimer-hero-overlay"></div>
+        <div className="disclaimer-hero-content">
+          <h1>Disclaimer</h1>
+        </div>
+      </section>
+      
       <div className="disclaimer-content">
         <div className="disclaimer-container">
-          <h1 className="disclaimer-title">Disclaimer</h1>
           
           <div className="disclaimer-text">
             <h2>Interpretation and Definitions</h2>

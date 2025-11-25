@@ -898,8 +898,12 @@ html.lenis {
 }
 
 .faq-item {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 8px 0;
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 12px;
+  backdrop-filter: blur(10px);
 }
 
 .faq-question {
@@ -907,7 +911,7 @@ html.lenis {
   background: transparent;
   border: none;
   color: white;
-  padding: 20px 0;
+  padding: 0;
   font-size: 17px;
   font-weight: 500;
   text-align: left;
@@ -925,7 +929,7 @@ html.lenis {
 
 .faq-icon {
   font-size: 28px;
-  color: #4a9eff;
+  color: white;
   transition: transform 0.3s ease;
   font-weight: 300;
   margin-left: 20px;
@@ -944,17 +948,17 @@ html.lenis {
 
 .faq-item.active .faq-answer {
   max-height: 200px;
-  padding: 12px 0 20px 0;
+  padding: 16px 0 0 0;
 }
 
 .faq-answer p {
   font-family: 'Manrope', sans-serif;
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.85);
   line-height: 1.7;
   margin: 0;
   text-align: left;
-  padding-left: 20px;
+  padding-left: 0;
 }
 
 .faq-right {

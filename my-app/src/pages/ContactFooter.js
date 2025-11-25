@@ -26,9 +26,14 @@ const ContactFooter = () => {
           {/* Left - App Download */}
           <div className="contact-footer-end-left">
             <div className="contact-app-download-section">
-              <div className="contact-qr-code-box">
+              <a 
+                href="https://investza.in/wealth-tracker/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="contact-qr-code-box"
+              >
                 <img src="/qr-code.svg" alt="QR Code" />
-              </div>
+              </a>
               <div className="contact-app-download-text">
                 <h4>Track All Your Investments In One Place</h4>
                 <p>Download Wealth Tracker App</p>
@@ -79,7 +84,7 @@ const ContactFooter = () => {
                 </a>
               </div>
               <div className="contact-footer-copyright">
-                <p>Copyright © Investza | All Rights Reserved | <a href="/privacy">Privacy Policy</a></p>
+                <p>Copyright © Investza | All Rights Reserved | <a href="/privacy" className="privacy-link">Privacy Policy</a></p>
               </div>
             </div>
 

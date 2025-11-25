@@ -146,6 +146,74 @@ const EventsPage = () => {
           <div className="events-grid events-grid-two">
             <div className="event-card">
               <div className="event-image">
+                <img src="/event1.jpeg" alt="Event" />
+              </div>
+              <div className="event-details">
+                <span className="event-date">October 15, 2024</span>
+                <h3 className="event-title">Management Masterclass</h3>
+                <p className="event-description">
+                  Learn advanced strategies for portfolio diversification and risk management
+                </p>
+                <div className="event-buttons">
+                  <button className="event-register-btn" onClick={() => {
+                    window.dispatchEvent(new CustomEvent('openRegisterModal'));
+                  }}>Register</button>
+                  <button className="event-details-btn" onClick={() => openEventDetails({
+                    title: 'Management Masterclass',
+                    date: 'October 15, 2024',
+                    images: [
+                      '/event1.jpeg',
+                      '/event2.png',
+                      '/event3.jpeg',
+                      '/event4.jpeg'
+                    ],
+                    details: [
+                      'Learn advanced strategies for portfolio diversification and risk management from industry experts.'
+                    ],
+                    centerAlign: true
+                  })}>View Details</button>
+                </div>
+              </div>
+            </div>
+
+            <div className="event-card">
+              <div className="event-image">
+                <img src="/event4.jpeg" alt="Event" />
+              </div>
+              <div className="event-details">
+                <span className="event-date">September 22, 2024</span>
+                <h3 className="event-title">Tax Planning Workshop</h3>
+                <p className="event-description">
+                  Discover effective tax-saving strategies and optimize your investment returns
+                </p>
+                <div className="event-buttons">
+                  <button className="event-register-btn" onClick={() => {
+                    window.dispatchEvent(new CustomEvent('openRegisterModal'));
+                  }}>Register</button>
+                  <button className="event-details-btn" onClick={() => openEventDetails({
+                    title: 'Tax Planning Workshop',
+                    date: 'September 22, 2024',
+                    images: [
+                      '/event1.jpeg',
+                      '/event2.png',
+                      '/event3.jpeg',
+                      '/event4.jpeg'
+                    ],
+                    details: [
+                      'Discover effective tax-saving strategies and optimize your investment returns with expert guidance.'
+                    ],
+                    centerAlign: true
+                  })}>View Details</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h2 className="section-title" style={{ marginTop: '80px' }}>Past Events</h2>
+          
+          <div className="events-grid">
+            <div className="event-card">
+              <div className="event-image">
                 <img src="/event2.png" alt="Event" />
               </div>
               <div className="event-details">
@@ -154,11 +222,7 @@ const EventsPage = () => {
                 <p className="event-description">
                   Held a retirement planning session for 30+ senior leaders at Markolines
                 </p>
-                <div className="event-buttons">
-                  <button className="event-register-btn" onClick={() => {
-                    window.dispatchEvent(new CustomEvent('openRegisterModal'));
-                  }}>Register</button>
-                  <button className="event-details-btn" onClick={() => openEventDetails({
+                <button className="event-register-btn" onClick={() => openEventDetails({
                     title: 'Investment Strategy Summit',
                     date: 'December 15, 2024',
                     images: [
@@ -173,7 +237,6 @@ const EventsPage = () => {
                       'Exchanged insights on global economic cues impacting multi-asset strategies and long-term wealth goals.'
                     ]
                   })}>View Details</button>
-                </div>
               </div>
             </div>
 
@@ -187,11 +250,7 @@ const EventsPage = () => {
                 <p className="event-description">
                   Investza Held an amazing IAP at Markolines Pavement Technologies
                 </p>
-                <div className="event-buttons">
-                  <button className="event-register-btn" onClick={() => {
-                    window.dispatchEvent(new CustomEvent('openRegisterModal'));
-                  }}>Register</button>
-                  <button className="event-details-btn" onClick={() => openEventDetails({
+                <button className="event-register-btn" onClick={() => openEventDetails({
                     title: 'Investor awareness program',
                     date: 'January 20, 2025',
                     images: [
@@ -205,27 +264,22 @@ const EventsPage = () => {
                     ],
                     centerAlign: true
                   })}>View Details</button>
-                </div>
               </div>
             </div>
-          </div>
 
-          <h2 className="section-title" style={{ marginTop: '80px' }}>Past Events</h2>
-          
-          <div className="events-grid events-grid-two">
             <div className="event-card">
               <div className="event-image">
                 <img src="/event1.jpeg" alt="Event" />
               </div>
               <div className="event-details">
-                <span className="event-date">October 15, 2024</span>
-                <h3 className="event-title">Management Masterclass</h3>
+                <span className="event-date">August 10, 2024</span>
+                <h3 className="event-title">Wealth Building Seminar</h3>
                 <p className="event-description">
-                  Learn advanced strategies for portfolio diversification and risk management
+                  Comprehensive session on building long-term wealth through strategic investments
                 </p>
                 <button className="event-register-btn" onClick={() => openEventDetails({
-                    title: 'Management Masterclass',
-                    date: 'October 15, 2024',
+                    title: 'Master retirement and tax planning',
+                    date: 'November 15, 2025',
                     images: [
                       '/event1.jpeg',
                       '/event2.png',
@@ -233,34 +287,7 @@ const EventsPage = () => {
                       '/event4.jpeg'
                     ],
                     details: [
-                      'Learn advanced strategies for portfolio diversification and risk management from industry experts.'
-                    ],
-                    centerAlign: true
-                  })}>View Details</button>
-              </div>
-            </div>
-
-            <div className="event-card">
-              <div className="event-image">
-                <img src="/event4.jpeg" alt="Event" />
-              </div>
-              <div className="event-details">
-                <span className="event-date">September 22, 2024</span>
-                <h3 className="event-title">Tax Planning Workshop</h3>
-                <p className="event-description">
-                  Discover effective tax-saving strategies and optimize your investment returns
-                </p>
-                <button className="event-register-btn" onClick={() => openEventDetails({
-                    title: 'Tax Planning Workshop',
-                    date: 'September 22, 2024',
-                    images: [
-                      '/event1.jpeg',
-                      '/event2.png',
-                      '/event3.jpeg',
-                      '/event4.jpeg'
-                    ],
-                    details: [
-                      'Discover effective tax-saving strategies and optimize your investment returns with expert guidance.'
+                      'Master retirement and tax planning with us.CA Abhishek Mehta, CFA from Investza reveals strategies to retire early, save tax, and secure your future.'
                     ],
                     centerAlign: true
                   })}>View Details</button>

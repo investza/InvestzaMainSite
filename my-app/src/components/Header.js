@@ -400,28 +400,16 @@ const Header = () => {
                 }}
                 onMouseLeave={() => closeResourcesDropdown()}
               >
-                <Link to="/mutual-funds" className="resources-menu-item" onClick={() => { closeResourcesDropdown(); closeMobileMenu(); }}>
-                  <span>Mutual Funds</span>
-                </Link>
-                <Link to="/mutual-funds-2" className="resources-menu-item" onClick={() => { closeResourcesDropdown(); closeMobileMenu(); }}>
-                  <span>Mutual Funds 2</span>
-                </Link>
-                <Link to="/mutual-funds-3" className="resources-menu-item" onClick={() => { closeResourcesDropdown(); closeMobileMenu(); }}>
-                  <span>Mutual Funds 3</span>
-                </Link>
+                <div className="resources-menu-item coming-soon-item">
+                  <span>Coming Soon</span>
+                </div>
               </div>
             )}
             {isMobileResourcesOpen && (
               <div className="mobile-resources-submenu">
-                <Link to="/mutual-funds" className="mobile-resources-link" onClick={closeMobileMenu}>
-                  Mutual Funds
-                </Link>
-                <Link to="/mutual-funds-2" className="mobile-resources-link" onClick={closeMobileMenu}>
-                  Mutual Funds 2
-                </Link>
-                <Link to="/mutual-funds-3" className="mobile-resources-link" onClick={closeMobileMenu}>
-                  Mutual Funds 3
-                </Link>
+                <div className="mobile-resources-link coming-soon-item">
+                  Coming Soon
+                </div>
               </div>
             )}
           </li>
@@ -481,40 +469,14 @@ const Header = () => {
           <div className="login-dropdown desktop-only">
             <button className="login-button">Login</button>
             <div className="login-menu">
-              <button onClick={(e) => {
-                e.preventDefault();
-                closeMobileMenu();
-                const lenis = window.lenis;
-                if (lenis) lenis.stop();
-                const scrollY = window.scrollY;
-                const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-                const header = document.querySelector('.header');
-                document.body.dataset.scrollY = scrollY;
-                document.body.style.overflow = 'hidden';
-                document.body.style.paddingRight = `${scrollbarWidth}px`;
-                if (header) header.style.paddingRight = `${scrollbarWidth}px`;
-                setModalType('clientLogin');
-                setIsModalOpen(true);
-              }} className="login-menu-item">
-                <span>Client Login</span>
-              </button>
-              <button onClick={(e) => {
-                e.preventDefault();
-                closeMobileMenu();
-                const lenis = window.lenis;
-                if (lenis) lenis.stop();
-                const scrollY = window.scrollY;
-                const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-                const header = document.querySelector('.header');
-                document.body.dataset.scrollY = scrollY;
-                document.body.style.overflow = 'hidden';
-                document.body.style.paddingRight = `${scrollbarWidth}px`;
-                if (header) header.style.paddingRight = `${scrollbarWidth}px`;
-                setModalType('partnerLogin');
-                setIsModalOpen(true);
-              }} className="login-menu-item">
-                <span>Partner Login</span>
-              </button>
+              <div className="login-menu-item login-coming-soon">
+                <span className="login-original-text">Client Login</span>
+                <span className="login-coming-soon-text">Coming Soon</span>
+              </div>
+              <div className="login-menu-item login-coming-soon">
+                <span className="login-original-text">Partner Login</span>
+                <span className="login-coming-soon-text">Coming Soon</span>
+              </div>
             </div>
           </div>
         </div>
