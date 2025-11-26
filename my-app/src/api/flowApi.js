@@ -1,33 +1,37 @@
 import axios from "axios";
 
-const API = "http://localhost:8080/api/flow";
+const API = "http://localhost:8080/api";
 
-export const startFlow = (fullName) => axios.post(`${API}/start`, { fullName });
+export const startFlow = (fullName) => axios.post(`${API}/flow/start`, { fullName });
 
 export const sendOtp = (userId, mobile) => {
   console.log("BODY SENDING:", { userId, mobile });
 
-  return axios.post(`${API}/send-otp`, { userId, mobile });
+  return axios.post(`${API}/flow/send-otp`, { userId, mobile });
 };
 
 export const verifyOtp = (userId, otp) =>
-  axios.post(`${API}/verify-otp`, { userId, otp });
+  axios.post(`${API}/flow/verify-otp`, { userId: String(userId), otp });
 
 export const selectInvestment = (userId, investmentRange) =>
-  axios.post(`${API}/investment`, { userId, investmentRange });
+  axios.post(`${API}/flow/investment`, { userId, investmentRange });
 
 export const checkSlot = (date, time) =>
-  axios.get(`${API}/check-slot`, { params: { date, time } });
+  axios.get(`${API}/flow/check-slot`, { params: { date, time } });
 
 export const createBooking = (payload) =>
-  axios.post(`${API}/create-booking`, payload);
+  axios.post(`${API}/flow/create-booking`, payload);
 
 export const getBookings = () =>
-  axios.get(`${API}/bookings`);
+  axios.get(`${API}/flow/bookings`);
 
+export const sendContactMessage = (payload) => {
+  return axios.post(`${API}/contact/receive`, payload);
+};
 
-const API2 = "http://localhost:8080/api";
-
-export const ReviewPortfolioSubmit = (fullName, contactNumber, investmentValue, email, agreeToPolicy) => axios.post(`${API2}/review_portfolio/submit`, { fullName, contactNumber, investmentValue, email, agreeToPolicy });
+export const ReviewPortfolioSubmit = (fullName, contactNumber, investmentValue, 
+  email, agreeToPolicy) => 
+    axios.post(`${API}/review_portfolio/submit`, 
+      { fullName, contactNumber, investmentValue, email, agreeToPolicy });
 
 
