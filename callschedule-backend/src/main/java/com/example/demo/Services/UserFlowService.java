@@ -59,6 +59,10 @@ public class UserFlowService {
     @Value("${spring.mail.username}")
     private String fromEmail;
 
+    @Value("${investza.admin.email}")
+    private String getNotificationMail;
+    
+
     // STEP 1
     public UserTemp start(StartRequest req) {
         UserTemp u = UserTemp.builder()
@@ -254,7 +258,7 @@ public class UserFlowService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
         helper.setFrom(fromEmail);
-        helper.setTo(fromEmail); // or your admin email
+        helper.setTo(getNotificationMail); 
         helper.setSubject("New Call Scheduled - Investza");
         helper.setText(html, true);
 

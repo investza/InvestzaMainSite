@@ -33,6 +33,9 @@ public class ReviewPortfolioService {
     @Value("${spring.mail.username}")
     private String fromEmail;
 
+    @Value("${investza.admin.email}")
+    private String getNotificationMail;
+
     public void saveForm(ReviewPortfolioRequest request) {
         // Save to database first
         ReviewPortfolio form = new ReviewPortfolio(
@@ -113,7 +116,7 @@ public class ReviewPortfolioService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
         helper.setFrom(fromEmail);
-        helper.setTo(fromEmail);
+        helper.setTo(getNotificationMail);
         helper.setSubject("New Portfolio Review Request - Investza");
         helper.setText(html, true);
 
