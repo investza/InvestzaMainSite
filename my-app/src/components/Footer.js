@@ -44,7 +44,7 @@ const Footer = () => {
 
       const res = await sendContactMessage(payload);
 
-      if (res.data.success) {
+      if (res.data.status) {
         alert("Message sent successfully!");
       } else {
         alert("Failed: " + res.data.message);

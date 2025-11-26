@@ -30,6 +30,6 @@ export const sendContactMessage = (payload) => {
 };
 
 export const ReviewPortfolioSubmit = (fullName, contactNumber, investmentValue, 
-  email, agreeToPolicy) => 
+  email, agreeToPolicy, recaptchaToken) => 
     axios.post(`${API}/review_portfolio/submit`, 
-      { fullName, contactNumber, investmentValue, email, agreeToPolicy });
+      { fullName, contactNumber, investmentValue, email, agreeToPolicy, recaptchaToken });

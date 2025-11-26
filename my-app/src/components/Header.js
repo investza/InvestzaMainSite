@@ -215,9 +215,10 @@ const Header = () => {
         formData.contactNumber, 
         formData.investmentValue, 
         formData.email, 
-        formData.agreeToPolicy
+        formData.agreeToPolicy,
+        recaptchaToken
       );
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error('Failed to submit form');
       }
 
