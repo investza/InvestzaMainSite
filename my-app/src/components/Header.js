@@ -577,6 +577,7 @@ const Header = () => {
                     <label className="signup-label">Phone Number*</label>
                     <input
                       type="tel"
+                      minLength={10}
                       name="phoneNumber"
                       placeholder="Phone Number"
                       value={signupData.phoneNumber}
@@ -702,6 +703,7 @@ const Header = () => {
                   <label className="form-label">What is your Contact Number?</label>
                   <input
                     type="tel"
+                    maxLength={10}
                     name="contactNumber"
                     placeholder="Contact Number*"
                     value={formData.contactNumber}
