@@ -23,7 +23,7 @@ export const createBooking = (payload) =>
   axios.post(`${API}/flow/create-booking`, payload);
 
 export const getBookings = () =>
-  axios.get(`${API}/bookings`);
+  axios.get(`${API}/flow/bookings`);
 
 export const sendContactMessage = (payload) => {
   return axios.post(`${API}/contact/receive`, payload);
