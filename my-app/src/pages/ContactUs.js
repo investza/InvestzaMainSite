@@ -247,7 +247,7 @@ const ContactUs = () => {
               <div className="contact-glass-recaptcha">
                 <ReCAPTCHA
                   ref={recaptchaRef}
-                  sitekey="6LcPvRgsAAAAAJ041NhwKJXdG01Hyw2OHZx3CrDJ"
+                  sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
                   onChange={onRecaptchaChange}
                   theme="dark"
                 />
