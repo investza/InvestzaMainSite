@@ -1,5 +1,7 @@
 package com.example.demo.Services;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -7,6 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +28,9 @@ import com.example.demo.dto.SendOtpRequest;
 import com.example.demo.dto.StartRequest;
 import com.example.demo.dto.VerifyOtpRequest;
 import com.example.demo.util.OtpUtil;
+
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 
 @Service
 public class UserFlowService {
@@ -39,6 +49,15 @@ public class UserFlowService {
         this.bookingRepository = bookingRepository;
         this.smsService = smsService;
     }
+
+    @Autowired
+    private JavaMailSender mailSender;
+
+    @Autowired
+    private ResourceLoader resourceLoader;
+
+    @Value("${spring.mail.username}")
+    private String fromEmail;
 
     // STEP 1
     public UserTemp start(StartRequest req) {
@@ -94,16 +113,20 @@ public class UserFlowService {
         if (req.getUserId() == null || req.getUserId().isBlank()) {
             return false;
         }
-        
+
         Optional<UserTemp> optional = userTempRepository.findById(req.getUserId());
-        if (optional.isEmpty()) return false;
+        if (optional.isEmpty()) {
+            return false;
+        }
 
         UserTemp u = optional.get();
 
-        if (u.getOtp() == null) return false;
+        if (u.getOtp() == null) {
+            return false;
+        }
 
-        if (u.getOtpGeneratedAt() != null &&
-                u.getOtpGeneratedAt().plusMinutes(3).isBefore(LocalDateTime.now())) {
+        if (u.getOtpGeneratedAt() != null
+                && u.getOtpGeneratedAt().plusMinutes(3).isBefore(LocalDateTime.now())) {
             return false; // OTP Expired
         }
 
@@ -167,7 +190,18 @@ public class UserFlowService {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        return bookingRepository.save(b);
+        
+        Booking newBooking = bookingRepository.save(b);
+        try {
+            sendCallScheduleConfirmation(newBooking);
+            notifyAdminCallSchedule(newBooking);
+        } catch (MessagingException | IOException e) {
+            // Log the error but don't fail the booking
+            System.err.println("Failed to send email notifications: " + e.getMessage());
+            e.printStackTrace();
+            // Booking is still created successfully even if emails fail
+        }
+        return newBooking;
     }
 
     // Fix: Add safety check to prevent IllegalArgumentException when ID is null
@@ -180,5 +214,61 @@ public class UserFlowService {
 
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
+    }
+
+    // send call scheduled confirmation mail
+    private void sendCallScheduleConfirmation(Booking booking) throws MessagingException, IOException {
+        Resource template = resourceLoader.getResource("classpath:templates/call-schedule-user-email.html");
+
+        String html = new String(template.getInputStream().readAllBytes(), StandardCharsets.UTF_8)
+                .replace("{{name}}", escapeHtml(booking.getFullName()))
+                .replace("{{date}}", booking.getDate().toString())
+                .replace("{{time}}", booking.getTime().toString())
+                .replace("{{mobile}}", escapeHtml(booking.getMobile()));
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+        helper.setFrom(fromEmail);
+        helper.setTo(booking.getEmail());
+        helper.setSubject("Call Scheduled - Investza Portfolio Review");
+        helper.setText(html, true);
+
+        mailSender.send(message);
+    }
+
+    // Send notification to admin/sender
+    private void notifyAdminCallSchedule(Booking booking) throws MessagingException, IOException {
+        Resource template = resourceLoader.getResource("classpath:templates/call-schedule-admin-notification.html");
+
+        String html = new String(template.getInputStream().readAllBytes(), StandardCharsets.UTF_8)
+                .replace("{{name}}", escapeHtml(booking.getFullName()))
+                .replace("{{mobile}}", escapeHtml(booking.getMobile()))
+                .replace("{{email}}", escapeHtml(booking.getEmail()))
+                .replace("{{investmentRange}}", escapeHtml(booking.getInvestmentRange()))
+                .replace("{{date}}", booking.getDate().toString())
+                .replace("{{time}}", booking.getTime().toString())
+                .replace("{{createdAt}}", booking.getCreatedAt().toString());
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+        helper.setFrom(fromEmail);
+        helper.setTo(fromEmail); // or your admin email
+        helper.setSubject("New Call Scheduled - Investza");
+        helper.setText(html, true);
+
+        mailSender.send(message);
+    }
+
+    private String escapeHtml(String s) {
+        if (s == null) {
+            return "";
+        }
+        return s.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&#x27;");
     }
 }
