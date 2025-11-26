@@ -23,7 +23,7 @@ export const createBooking = (payload) =>
   axios.post(`${API}/flow/create-booking`, payload);
 
 export const getBookings = () =>
-  axios.get(`${API}/flow/bookings`);
+  axios.get(`${API}/bookings`);
 
 export const sendContactMessage = (payload) => {
   return axios.post(`${API}/contact/receive`, payload);
@@ -33,5 +33,3 @@ export const ReviewPortfolioSubmit = (fullName, contactNumber, investmentValue,
   email, agreeToPolicy) => 
     axios.post(`${API}/review_portfolio/submit`, 
       { fullName, contactNumber, investmentValue, email, agreeToPolicy });
-
-
