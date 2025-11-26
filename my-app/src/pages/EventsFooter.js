@@ -201,7 +201,7 @@ const EventsFooter = () => {
               <div className="events-recaptcha-container">
                 <ReCAPTCHA
                   ref={recaptchaRef}
-                  sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                  sitekey="6LcPvRgsAAAAAJ041NhwKJXdG01Hyw2OHZx3CrDJ"
                   onChange={onRecaptchaChange}
                   theme="dark"
                 />
