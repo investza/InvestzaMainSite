@@ -123,7 +123,14 @@ const Section3 = () => {
           </li>
         </ul>
 
-        <button className={styles.downloadButton}>Download App</button>
+        <button
+          className={styles.downloadButton}
+          onClick={() => {
+            window.open("https://app.investza.in");
+          }}
+        >
+          Download App
+        </button>
       </div>
     </section>
   );

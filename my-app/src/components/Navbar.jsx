@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { showFormContext } from "./contexts/showFormContext";
@@ -7,14 +7,6 @@ import styles from "./Navbar.module.css";
 function Navbar() {
   const { setShowForm } = useContext(showFormContext);
   const navigate = useNavigate();
-
-  const openGooglePlay = () => {
-    window.open(
-      "https://play.google.com/store/apps/details?id=com.nvcproject.InvestzaApp&pcampaignid=web_share",
-      "_blank",
-      "noopener,noreferrer"
-    );
-  };
 
   const openPortfolioForm = () => {
     setShowForm(true);
@@ -37,7 +29,9 @@ function Navbar() {
         <div className={styles.buttonsWrapper}>
           {/* Download App Button */}
           <button
-            onClick={openGooglePlay}
+            onClick={() => {
+              window.open("https://app.investza.in");
+            }}
             className={styles.downloadBtn}
             aria-label="Download Investza App on Google Play"
           >
