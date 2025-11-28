@@ -58,7 +58,7 @@
 }
 
 .subheadline {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Manrope', sans-serif;
   font-size: 1.5rem;
   opacity: 0.9;
   max-width: 48rem;
@@ -111,12 +111,14 @@
 .newText {
   opacity: 0;
   text-align: center;
+   font-style: 'manrope', sans-serif;
   max-width: 48rem;
 }
 
 .newTextParagraph {
   font-size: 1.25rem;
   line-height: 1.8;
+  font-style: 'manrope', sans-serif;
   color: rgba(255, 255, 255, 0.8);
   margin-bottom: 2rem;
 }

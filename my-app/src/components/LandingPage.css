@@ -440,6 +440,7 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, 0.15),
     0 0 0 1px rgba(255, 255, 255, 0.03);
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .cta-button.single:hover {
@@ -2377,6 +2378,12 @@ body {
 
   .cta-button {
     width: 200px;
+  }
+
+  .cta-button.single {
+    font-size: 0.9rem;
+    padding: 14px 28px;
+    letter-spacing: 0.3px;
   }
 
   .services-grid {

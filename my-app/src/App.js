@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
 import EventsPage from './pages/EventsPage';
 import AboutUs from './pages/AboutUs';
@@ -41,6 +41,17 @@ import AnkitMehta from './assets/Ankit-Mehta.webp';
 
 import './App.css';
 
+// ScrollToTop component to reset scroll position on route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   const [data, setData] = useState({
     date: '',
@@ -78,6 +89,7 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <div className="App">
         <userDetails.Provider value={{ userData, setUserData }}>
           <OtpVerification.Provider value={{ isOTPVerified, setIsOTPVerified }}>

@@ -20,6 +20,32 @@
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Text color transitions when scrolled on light background */
+.team-page-wrapper .header.scrolled .nav-menu li a {
+  color: #000;
+  transition: color 0.3s ease;
+}
+
+.team-page-wrapper .header.scrolled .nav-menu li a:hover {
+  color: #4a9eff;
+}
+
+.team-page-wrapper .header.scrolled .nav-button {
+  color: #000;
+  border-color: #000;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.team-page-wrapper .header.scrolled .nav-button:hover {
+  background: #000;
+  color: white;
+}
+
+.team-page-wrapper .header.scrolled .resources-button {
+  color: #000;
+  transition: color 0.3s ease;
+}
+
 /* Keep login button consistent - no black to white transformation */
 .team-page-wrapper .header .login-button {
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.3) 100%);

@@ -1235,7 +1235,7 @@ const LandingPage = () => {
 
       {/* Apple Glass Style Download Widget */}
       {/* <a href="https://investza.in/wealth-tracker/" target="_blank" rel="noopener noreferrer" className="download-widget-link"> */}
-      <Link to="/wealth-tracker" className="download-widget-link">Go to Wealth Tracker
+      <Link to="/wealth-tracker" className="download-widget-link">
         <div className="download-widget">
           <div className="download-content">
             <div className="qr-container">
@@ -1265,7 +1265,25 @@ const LandingPage = () => {
         <div className="badge-content">
           <p className="badge-title">Download Wealth Tracker App</p>
         </div>
-        <button className="badge-button" onClick={() => window.open('https://play.google.com/store', '_blank')}>
+        <button className="badge-button" onClick={() => {
+          const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+          let storeUrl;
+          
+          // Detect iOS
+          if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+            storeUrl = 'https://apps.apple.com/in/app/wealth-tracker-mf-analysis/id6751183825';
+          } 
+          // Detect Android
+          else if (/android/i.test(userAgent)) {
+            storeUrl = 'https://play.google.com/store/apps/details?id=com.nvcproject.InvestzaApp&hl=en_IN';
+          }
+          // Default to Play Store for other devices
+          else {
+            storeUrl = 'https://play.google.com/store/apps/details?id=com.nvcproject.InvestzaApp&hl=en_IN';
+          }
+          
+          window.open(storeUrl, '_blank', 'noopener,noreferrer');
+        }}>
           Get App
         </button>
         <div className="badge-close" onClick={() => document.getElementById('downloadBadge').classList.add('hidden')}>

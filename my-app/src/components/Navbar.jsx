@@ -1,10 +1,12 @@
 import React from "react";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { showFormContext } from "./contexts/showFormContext";
 import styles from "./Navbar.module.css";
 
 function Navbar() {
   const { setShowForm } = useContext(showFormContext);
+  const navigate = useNavigate();
 
   const openGooglePlay = () => {
     window.open(
@@ -18,12 +20,17 @@ function Navbar() {
     setShowForm(true);
   };
 
+  const goToHome = () => {
+    navigate("/");
+    window.scrollTo(0, 0);
+  };
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.container}>
         {/* Logo */}
-        <div className={styles.logoWrapper}>
-          <h1 className={styles.logo}>Investza</h1>
+        <div className={styles.logoWrapper} onClick={goToHome}>
+          <img src="/logo.svg" alt="Investza" className={styles.logo} />
         </div>
 
         {/* Buttons */}

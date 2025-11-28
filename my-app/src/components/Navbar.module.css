@@ -10,12 +10,12 @@
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 1rem 1.5rem;
+  padding: 0.3rem 1.5rem;
   transition: all 0.4s ease;
 }
 
 .navbar.scrolled {
-  padding: 0.75rem 1.5rem;
+  padding: 0.2rem 1.5rem;
   background: rgba(0, 0, 0, 0.98);
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
@@ -28,18 +28,26 @@
   align-items: center;
 }
 
-.logoWrapper { display: flex; align-items: center; }
+.logoWrapper { 
+  display: flex; 
+  align-items: center; 
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.logoWrapper:hover {
+  opacity: 0.8;
+}
 
 .logo {
-  color: white;
-  font-size: 1.875rem;
-  font-weight: 400;
-  letter-spacing: -0.8px;
+  height: 140px;
+  width: auto;
+  object-fit: contain;
+  display: block;
   margin: 0;
-  background: #ffffff;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  padding: 0;
 }
 
 /* Review Button – unchanged (kept perfect) */
@@ -130,24 +138,24 @@
 /* ——————————————————————— RESPONSIVE ——————————————————————— */
 
 @media (max-width: 375.98px) {
-  .navbar { padding: 0.6rem 0.6rem; }
-  .logo { font-size: 1.3rem; margin-right: 5px; }
+  .navbar { padding: 0.2rem 0.6rem; }
+  .logo { height: 65px; }
   .downloadBtn { width: 35px; height: 35px; }
   .reviewBtn { padding: 8px 15px; font-size: 0.85rem; }
   .buttonsWrapper { gap: 0.3rem; }
 }
 
 @media (min-width: 376px) and (max-width: 768px) {
-  .navbar { padding: 0.8rem 1.4rem; }
-  .logo { font-size: 1.7rem; }
-.downloadBtn { width: 35px; height: 35px; }
+  .navbar { padding: 0.25rem 1.4rem; }
+  .logo { height: 75px; }
+  .downloadBtn { width: 35px; height: 35px; }
   .reviewBtn { padding: 8px 15px; font-size: 0.85rem; }
   .buttonsWrapper { gap: 0.3rem; }
 }
 
 @media (min-width: 769px) and (max-width: 1023px) {
-  .navbar { padding: 1rem 2rem; }
-  .logo { font-size: 2rem; }
+  .navbar { padding: 0.3rem 2rem; }
+  .logo { height: 90px; }
   .downloadBtn { width: 56px; height: 56px; }
   .reviewBtn { padding: 13px 34px; font-size: 1rem; }
   .buttonsWrapper { gap: 1.4rem; }
@@ -155,8 +163,8 @@
 
 /* Laptop & up – already handled above with min-width:1025px */
 @media (min-width: 1024px) {
-  .navbar { padding: 1.2rem 2.8rem; }
-  .logo { font-size: 2.2rem; }
+  .navbar { padding: 0.3rem 2.8rem; }
+  .logo { height: 140px; }
   .downloadBtn { padding: 0.9rem 2rem; }
   .reviewBtn { padding: 15px 40px; font-size: 1.08rem; }
     .downloadBtn {
