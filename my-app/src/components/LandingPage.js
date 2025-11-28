@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Header from './Header';
 import Footer from './Footer';
 import './LandingPage.css';
+import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -1233,7 +1234,8 @@ const LandingPage = () => {
       <Footer />
 
       {/* Apple Glass Style Download Widget */}
-      <a href="https://investza.in/wealth-tracker/" target="_blank" rel="noopener noreferrer" className="download-widget-link">
+      {/* <a href="https://investza.in/wealth-tracker/" target="_blank" rel="noopener noreferrer" className="download-widget-link"> */}
+      <Link to="/wealth-tracker" className="download-widget-link">Go to Wealth Tracker
         <div className="download-widget">
           <div className="download-content">
             <div className="qr-container">
@@ -1252,7 +1254,7 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-      </a>
+      </Link>
 
       {/* Floating Download Badge - Mobile Only */}
       <div className="floating-download-badge" id="downloadBadge">

@@ -14,6 +14,9 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import Disclaimer from './pages/Disclaimer';
 import TermsConditions from './pages/TermsConditions';
 
+//wealth tracker page import
+import WealthTracker from './components/WealthTracker';
+
 // CallSchedule flow components
 import Information from './components/Information';
 import NameDetails from './components/NameDetails';
@@ -93,6 +96,7 @@ function App() {
                 <Route path="/privacy" element={<PrivacyPolicy />} />
                 <Route path="/disclaimer" element={<Disclaimer />} />
                 <Route path="/terms" element={<TermsConditions />} />
+                <Route path="/wealth-tracker" element={<WealthTracker />}  />
                 
                 {/* CallSchedule flow routes */}
                 <Route
