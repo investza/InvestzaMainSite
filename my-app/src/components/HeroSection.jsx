@@ -6,11 +6,29 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import mobileimg from "../assets/mockupFront.png";
 import { showFormContext } from "./contexts/showFormContext";
 import styles from "./HeroSection.module.css";
+import Lenis from "@studio-freight/lenis";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const HeroSection = () => {
   const { setShowForm } = useContext(showFormContext);
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      smooth: true,
+      duration: 1,
+      easing: (t) => t,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      ScrollTrigger.update();
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    return () => lenis.destroy();
+  }, []);
 
   const refs = useRef({
     hero: null,
