@@ -22,7 +22,7 @@ const Section2 = () => {
 
     const navbar = document.querySelector("nav");
     const navbarHeight = navbar ? navbar.offsetHeight : 0;
-
+    console.log(navbarHeight); //debug
     const totalSlides = slides.length;
 
     gsap.to(slides, {
@@ -30,7 +30,8 @@ const Section2 = () => {
       ease: "none",
       scrollTrigger: {
         trigger: container,
-        start: `top ${navbarHeight}px`,
+        // start: `top ${navbarHeight}px`,
+        start: `top top`,
         end: `+=${totalSlides * 1000}`,
         scrub: 1,
         pin: true,

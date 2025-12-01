@@ -94,9 +94,9 @@ const Section3 = () => {
           </h4>
         </div>
 
-        <p className={styles.minInvestment}>
+        {/* <p className={styles.minInvestment}>
           Min. Investment: <span className={styles.amount}>50 Lakhs</span>
-        </p>
+        </p> */}
 
         <p className={styles.cardText}>
           What you can expect working with Investza:

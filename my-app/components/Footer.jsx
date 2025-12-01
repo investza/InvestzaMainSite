@@ -32,7 +32,12 @@ const Footer = () => {
       return;
     }
 
-    const response = await sendMessage(formData.name, formData.email, formData.subject, formData.message);
+    const response = await sendMessage(
+      formData.name,
+      formData.email,
+      formData.subject,
+      formData.message
+    );
 
     // Handle form submission
     // console.log("Form submitted:", formData);
@@ -84,8 +89,13 @@ const Footer = () => {
                   </svg>
                 </div>
                 <div className="contact-text">
-                  <p>704A, 81 Crest Flora, Santacruz(W),</p>
-                  <p>Mumbai, Maharashtra, India 400 057</p>
+                  <a
+                    href="https://www.google.com/maps?q=704A+81+Crest+Flora+Santacruz+West+Mumbai+400057"
+                    target="_blank"
+                  >
+                    <p>704A, 81 Crest Flora, Santacruz(W),</p>
+                    <p>Mumbai, Maharashtra, India 400 057</p>
+                  </a>
                 </div>
               </div>
 
@@ -103,7 +113,9 @@ const Footer = () => {
                   </svg>
                 </div>
                 <div className="contact-text">
-                  <p>+91 8655447057</p>
+                  <a href="tel:+918655447057">
+                    <p>+91 8655447057</p>
+                  </a>
                 </div>
               </div>
 
@@ -122,7 +134,9 @@ const Footer = () => {
                   </svg>
                 </div>
                 <div className="contact-text">
-                  <p>hello@investza.in</p>
+                  <a href="mailto:hello@investza.in">
+                    <p>hello@investza.in</p>
+                  </a>
                 </div>
               </div>
             </div>

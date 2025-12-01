@@ -334,7 +334,7 @@ body {
 
 .hero-text-above {
   font-family: 'Playfair Display', serif;
-  font-size: 3.5rem;
+  font-size: 3.3rem;
   margin-bottom: 0.3rem;
   font-weight: 700;
   letter-spacing: 1px;
@@ -344,7 +344,7 @@ body {
 
 .hero-main-word {
   font-family: 'Playfair Display', serif;
-  font-size: 3.5rem;
+  font-size: 3.3rem;
   margin: 0.3rem 0;
   font-weight: 700;
   letter-spacing: 1px;
@@ -355,7 +355,7 @@ body {
 
 .hero-text-below {
   font-family: 'Playfair Display', serif;
-  font-size: 3.5rem;
+  font-size: 3.3rem;
   margin-top: 0.3rem;
   margin-bottom: 2rem;
   font-weight: 400;
@@ -676,7 +676,7 @@ body {
 
 .stat-card p {
   font-family: 'Manrope', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: #e0e0e0;
   line-height: 1.4;
   margin: 0;
@@ -941,6 +941,15 @@ body {
   line-height: 1;
   margin-bottom: 0.5rem;
   letter-spacing: -0.02em;
+}
+
+.backdrop-stat-number span {
+  font-family: 'Manrope', sans-serif;
+  font-size: 4.2rem;
+  font-weight: 400;
+  color: white;
+  line-height: 1;
+  margin-bottom: 0.5rem;
 }
 
 .backdrop-stat-label {
@@ -1546,7 +1555,7 @@ body {
   }
 
   .stat-card p {
-    font-size: 0.85rem;
+    font-size: 0.95rem;
   }
 
   .stats-footer {
@@ -1682,6 +1691,11 @@ body {
     font-size: 3rem;
     text-align: center;
   }
+  
+  .backdrop-stat-number span {
+ font-size: 2.7rem;
+    text-align: center;
+}
 
   .backdrop-stat-label {
     font-size: 1rem;
@@ -2351,16 +2365,16 @@ body {
   }
 
   .hero-text-above {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 
   .hero-main-word {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     letter-spacing: 1px;
   }
 
   .hero-text-below {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 
   .hero-subtitle {
@@ -2460,6 +2474,9 @@ body {
   .backdrop-stat-number {
     font-size: 3rem;
   }
+   .backdrop-stat-number span {
+ font-size: 2.7rem;
+}
 
   .backdrop-stat-label {
     font-size: 1rem;

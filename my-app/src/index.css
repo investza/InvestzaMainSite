@@ -67,10 +67,10 @@ button, input, textarea {
   outline: none;
 }
 
-/* Scrollbar - Premium Look */
+/* Scrollbar - Premium Look
 ::-webkit-scrollbar {
   width: 8px;
-}
+} */
 
 ::-webkit-scrollbar-track {
   background: #000;

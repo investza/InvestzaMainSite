@@ -54,7 +54,7 @@
   overflow: hidden;
   border-radius: 24px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
   gap: 30px;
   align-items: center;
   
@@ -119,6 +119,7 @@
   font-family: "Playfair Display", serif;
   font-size: 2rem;
   font-weight: 600;
+  text-align: left;
   margin-bottom: 1.5rem;
   color: #fff;
   line-height: 1.3;
@@ -126,6 +127,7 @@
 }
 
 .card-description {
+  text-align: left;
   font-size: 1rem;
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.85);
@@ -139,7 +141,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 130px;
+  /* padding: 0 130px; */
 }
 
 .card-media-placeholder {
@@ -188,7 +190,7 @@
   }
 
   .card-content-right {
-    padding: 0 110px;
+    /* padding: 0 110px; */
   }
 
   .card-media-placeholder {

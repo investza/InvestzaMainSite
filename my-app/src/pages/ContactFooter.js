@@ -6,7 +6,7 @@ const ContactFooter = () => {
     <footer 
       className="contact-footer-section"
       style={{
-        backgroundImage: 'url(/footer_bg.jpeg)',
+        // backgroundImage: 'url(/footer_bg.jpeg)',
         backgroundSize: '100% auto',
         backgroundPosition: 'center top',
         backgroundRepeat: 'no-repeat'

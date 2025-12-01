@@ -859,15 +859,15 @@ const LandingPage = () => {
           <div className="backdrop-content">
             <div className="backdrop-stats">
               <div className="backdrop-stat-item">
-                <div className="backdrop-stat-number">500 +</div>
+                <div className="backdrop-stat-number">500<span>+</span></div>
                 <div className="backdrop-stat-label">Clients</div>
               </div>
               <div className="backdrop-stat-item">
-                <div className="backdrop-stat-number">200CR +</div>
+                <div className="backdrop-stat-number">200CR<span>+</span></div>
                 <div className="backdrop-stat-label">Assets Managed</div>
               </div>
               <div className="backdrop-stat-item">
-                <div className="backdrop-stat-number">2CR +</div>
+                <div className="backdrop-stat-number">2CR<span>+</span></div>
                 <div className="backdrop-stat-label">Live SIP</div>
               </div>
             </div>

@@ -109,7 +109,7 @@ const Section4 = () => {
 
             <div ref={stat2Ref} className={styles.stat}>
               <div className={styles.statNumber}>
-                8<span className={styles.unit}>Years</span>
+                10+<span className={styles.unit}>Years</span>
               </div>
               <p className={styles.statLabel}>Of Expertise</p>
             </div>
