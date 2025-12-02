@@ -30,13 +30,14 @@ const Section2 = () => {
       ease: "none",
       scrollTrigger: {
         trigger: container,
-        // start: `top ${navbarHeight}px`,
-        start: `top top`,
+        start: `top ${navbarHeight}px`,
+        // start: `top top`,
         end: `+=${totalSlides * 1000}`,
         scrub: 1,
         pin: true,
         snap: 1 / (totalSlides - 1),
         invalidateOnRefresh: true,
+        // markers: true,
       },
     });
 

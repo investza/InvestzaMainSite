@@ -2,6 +2,7 @@
 
 .hero {
   position: relative;
+  padding-top: var(--nav-height);
   height: 300vh;
   background: #000;
   color: white;
@@ -29,7 +30,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 3rem 1rem;
+  /* padding: 3rem 1rem; */
   z-index: 10;
 }
 

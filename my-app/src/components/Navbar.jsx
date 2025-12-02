@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { showFormContext } from "./contexts/showFormContext";
 import styles from "./Navbar.module.css";
@@ -6,6 +6,15 @@ import styles from "./Navbar.module.css";
 function Navbar() {
   const { setShowForm } = useContext(showFormContext);
   const navigate = useNavigate();
+  const navRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const navHeight = navRef.current?.offsetHeight || 0;
+    document.documentElement.style.setProperty(
+      "--nav-height",
+      `${navHeight}px`
+    );
+  }, []);
 
   const openPortfolioForm = () => {
     setShowForm(true);
@@ -17,7 +26,7 @@ function Navbar() {
   };
 
   return (
-    <nav className={styles.navbar}>
+    <nav className={styles.navbar} ref={navRef}>
       <div className={styles.container}>
         {/* Logo */}
         <div className={styles.logoWrapper} onClick={goToHome}>

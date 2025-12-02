@@ -29,7 +29,7 @@
 /* Default: ROW layout on ALL devices (mobile too) */
 .slide {
   width: 100vw;
-  height: 100%;
+  height: 90vh;
   display: flex;
   flex-direction: row;           /* ← ALWAYS ROW */
   align-items: center;
@@ -174,7 +174,7 @@
 
 /* Mobile XS – ≤320px */
 @media (max-width: 321px) {
-  .slide { padding: 2rem 1.5rem; gap: 2rem; }
+  .slide { padding: 0 1.5rem; gap: 2rem; }
   .content{text-align: left;}
   .title { font-size: 1rem; }
   .text { font-size: 0.65rem; }
@@ -184,7 +184,7 @@
 
 /* Mobile S/M – 321px → 375px (iPhone 12/13/14 – 100% safe) */
 @media (min-width: 321px) and (max-width: 376px) {
-  .slide { padding: 2rem 1.5rem; gap: 2rem; }
+  .slide { padding: 0 1.5rem; gap: 2rem; }
   .content{text-align: left;}
   .title { font-size: 1rem; }
   .text { font-size: 0.65rem; }
@@ -194,7 +194,7 @@
 
 /* Mobile L – 376px → 480px */
 @media (min-width: 377px) and (max-width: 480px) {
-.slide { padding: 2rem 1.5rem; gap: 2rem; }
+.slide { padding: 0 1.5rem; gap: 2rem; }
   .content{text-align: left;}
   .title { font-size: 1rem; }
   .text { font-size: 0.65rem; }
@@ -202,12 +202,13 @@
   .imageWrapper { min-width: 80px; }
 }
 
-/* Tablet Portrait – 481px → 767px */
-@media (min-width: 481px) and (max-width: 768px) {
-  .slide { padding: 3.5rem 4rem; gap: 5rem; }
+
+@media (min-width: 481px) and (max-width: 1024px) {
+  .slide { padding:0 4rem; gap: 5rem; }
   .content{text-align: left;}
   .title { font-size: 2.0rem; }
   .text { font-size: 1.0rem; }
   .ctaButton { padding: 1.1rem 2.6rem; font-size: 1.1rem; min-width: 240px; }
-  .imageWrapper { max-width: 360px; }
+  .imageWrapper { max-width: 300px; }
 }
+
