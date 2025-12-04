@@ -21,7 +21,6 @@ import com.example.demo.Services.EventService;
 import com.example.demo.dto.ApiResponse;
 import com.example.demo.dto.CreateEventRequest;
 
-
 @Service
 public class EventServiceImpl implements EventService {
 
@@ -38,36 +37,36 @@ public class EventServiceImpl implements EventService {
     public ApiResponse createEvent(CreateEventRequest req) {
         try {
             LocalDate eventDate;
+
             try {
-                eventDate = LocalDate.parse(req.getDate()); 
+                eventDate = LocalDate.parse(req.getDate());
             } catch (DateTimeParseException e) {
                 return new ApiResponse(false, "Invalid date format. Please use yyyy-MM-dd");
             }
 
-            // Determine category based on event date
             String category = eventDate.isBefore(LocalDate.now()) ? "past" : "upcoming";
 
             Event event = Event.builder()
                     .images(req.getImages())
-                    .date(req.getDate())   
+                    .date(req.getDate())
                     .title(req.getTitle())
                     .description(req.getDescription())
-                    .category(category)   
+                    .category(category)
+                    .details(req.getDetails())
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
                     .build();
 
             eventRepository.save(event);
-
             return new ApiResponse(true, "Event created successfully");
+
         } catch (Exception e) {
             return new ApiResponse(false, e.getMessage());
         }
     }
 
-
     // ---------------------------
-    // get all events
+    // Get all events
     // ---------------------------
     @Override
     public ResponseEntity<?> getAllEvents() {
@@ -98,14 +97,19 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-
+    // ---------------------------
+    // Upload images to Cloudinary
+    // ---------------------------
+    @Override
     public List<String> upload(MultipartFile[] files) {
         List<String> urls = new ArrayList<>();
 
         for (MultipartFile file : files) {
             try {
-                Map uploadResult = cloudinary.uploader().upload(file.getBytes(),
-                        ObjectUtils.emptyMap());
+                Map uploadResult = cloudinary.uploader().upload(
+                        file.getBytes(),
+                        ObjectUtils.emptyMap()
+                );
 
                 urls.add(uploadResult.get("secure_url").toString());
 
@@ -117,4 +121,60 @@ public class EventServiceImpl implements EventService {
         return urls;
     }
 
+    // ---------------------------
+    // Delete event
+    // ---------------------------
+    @Override
+    public ApiResponse deleteEvent(String id) {
+        Optional<Event> optionalEvent = eventRepository.findById(id);
+        if (!optionalEvent.isPresent()) {
+            return new ApiResponse(false, "Event not found");
+        }
+
+        try {
+            eventRepository.deleteById(id);
+            return new ApiResponse(true, "Event deleted successfully");
+        } catch (Exception e) {
+            return new ApiResponse(false, e.getMessage());
+        }
+    }
+
+    // ---------------------------
+    // Update event
+    // ---------------------------
+    @Override
+    public ApiResponse updateEvent(String id, CreateEventRequest req) {
+
+        Optional<Event> optionalEvent = eventRepository.findById(id);
+
+        if (!optionalEvent.isPresent()) {
+            return new ApiResponse(false, "Event not found");
+        }
+
+        Event event = optionalEvent.get();
+
+        try {
+            LocalDate eventDate = LocalDate.parse(req.getDate());
+
+            event.setTitle(req.getTitle());
+            event.setDescription(req.getDescription());
+            event.setDate(eventDate.toString());
+            event.setImages(req.getImages());
+            event.setDetails(req.getDetails());
+
+            event.setUpdatedAt(LocalDateTime.now());
+
+            if (eventDate.isBefore(LocalDate.now())) {
+                event.setCategory("past");
+            } else {
+                event.setCategory("upcoming");
+            }
+
+            eventRepository.save(event);
+            return new ApiResponse(true, "Event updated successfully");
+
+        } catch (Exception e) {
+            return new ApiResponse(false, e.getMessage());
+        }
+    }
 }

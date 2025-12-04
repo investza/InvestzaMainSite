@@ -14,4 +14,6 @@ public interface EventService {
     public ResponseEntity<?> getAllEvents();
     public ResponseEntity<?> getEventById(String id);
     public List<String> upload(MultipartFile[] files);
+    public ApiResponse deleteEvent(String id);
+    public ApiResponse updateEvent(String id, CreateEventRequest req);
 }

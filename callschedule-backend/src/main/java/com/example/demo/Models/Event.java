@@ -27,6 +27,7 @@ public class Event {
     private String description;
     private String date;
     private String category;
+    private List<String> details;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
