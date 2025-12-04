@@ -33,4 +33,16 @@ public class ReviewPortfolioController {
                     .body(Map.of("message", e.getMessage()));  // ADD .body() here
         }
     }
+    // @PostMapping("/save")
+    // public ResponseEntity<?> saveForm(@Valid @RequestBody ReviewPortfolioForm req){
+    //     try{
+    //         service.saveRequestPortfolio(req);
+    //         return ResponseEntity.ok(Map.of("message", "Form submitted successfully"));
+    //     } catch (Exception e) {
+    //         return ResponseEntity.internalServerError()
+    //                 .body(Map.of("message", e.getMessage()));  // ADD .body() here
+    //     }
+    // }
+    
+    
 }
