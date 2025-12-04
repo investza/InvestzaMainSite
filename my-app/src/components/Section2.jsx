@@ -22,7 +22,7 @@ const Section2 = () => {
 
     const navbar = document.querySelector("nav");
     const navbarHeight = navbar ? navbar.offsetHeight : 0;
-    console.log(navbarHeight); //debug
+    // console.log(navbarHeight); //debug
     const totalSlides = slides.length;
 
     gsap.to(slides, {

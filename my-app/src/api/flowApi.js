@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "/api";
+const API = "http://localhost:8080/api";
 
 export const startFlow = (fullName) => axios.post(`${API}/flow/start`, { fullName });
 
@@ -33,3 +33,8 @@ export const ReviewPortfolioSubmit = (fullName, contactNumber, investmentValue,
   email, agreeToPolicy, recaptchaToken) => 
     axios.post(`${API}/review_portfolio/submit`, 
       { fullName, contactNumber, investmentValue, email, agreeToPolicy, recaptchaToken });
+
+
+export const getEvents = (payload) => {
+  return axios.get(`${API}/events/list`, payload);
+}

@@ -3,12 +3,65 @@ import Lenis from 'lenis';
 import Header from '../components/Header';
 import EventsFooter from './EventsFooter';
 import './EventsPage.css';
+import {getEvents} from "../api/flowApi";
+
 
 const EventsPage = () => {
   const lenisRef = useRef(null);
   const [activeFaq, setActiveFaq] = useState(null);
   const [eventDetailsModal, setEventDetailsModal] = useState(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
+
+  const [fetchedData,setfetchedData] = useState([]);
+  const [upcomingEventsData,setUpcomingEventsData] = useState([]);
+  const [pastEventsData,setPastEventsData] = useState([]);
+
+const categorizeEvents = (events) => {
+  const today = new Date().toISOString().split("T")[0];
+  const upcoming = [];
+  const past = [];
+
+  events.forEach(event => {
+    if (event.date > today) upcoming.push(event);
+    else if (event.date < today) past.push(event);
+  });
+
+  return { upcoming, past };
+};
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const res = await getEvents();
+      setfetchedData(res.data);
+      console.log(res.data);
+
+      const { upcoming, past } = categorizeEvents(res.data);
+      setUpcomingEventsData(upcoming);
+      setPastEventsData(past);
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  fetchData();
+}, []);
+
+function formatDate(dateStr) {
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  const [year, month, day] = dateStr.split("-");
+
+  const monthName = months[parseInt(month) - 1];
+  const formattedDay = parseInt(day); // remove leading zero
+
+  return `${monthName} ${formattedDay}, ${year}`;
+}
+
 
   const toggleFaq = (index) => {
     setActiveFaq(activeFaq === index ? null : index);
@@ -139,160 +192,65 @@ const EventsPage = () => {
         </div>
       </section>
 
+      {/* events conmtent*/}
       <section className="events-content">
         <div className="container">
           <h2 className="section-title">Upcoming Events</h2>
-          
-          <div className="events-grid events-grid-two">
+           <div className="events-grid events-grid-two">
+            {upcomingEventsData.map((ele) => {return(
             <div className="event-card">
               <div className="event-image">
-                <img src="/event1.jpeg" alt="Event" />
+                <img src={ele.images[0]} alt="Event" />
               </div>
               <div className="event-details">
-                <span className="event-date">October 15, 2024</span>
-                <h3 className="event-title">Management Masterclass</h3>
+                <span className="event-date">{formatDate(ele.date)}</span>
+                <h3 className="event-title">{ele.title}</h3>
                 <p className="event-description">
-                  Learn advanced strategies for portfolio diversification and risk management
+                  {ele.description}
                 </p>
                 <div className="event-buttons">
                   <button className="event-register-btn" onClick={() => {
                     window.dispatchEvent(new CustomEvent('openRegisterModal'));
                   }}>Register</button>
                   <button className="event-details-btn" onClick={() => openEventDetails({
-                    title: 'Management Masterclass',
-                    date: 'October 15, 2024',
-                    images: [
-                      '/event1.jpeg',
-                      '/event2.png',
-                      '/event3.jpeg',
-                      '/event4.jpeg'
-                    ],
+                    title: ele.title,
+                    date: formatDate(ele.date),
+                    images : ele.images,
                     details: [
-                      'Learn advanced strategies for portfolio diversification and risk management from industry experts.'
+                      ele.description
                     ],
                     centerAlign: true
                   })}>View Details</button>
                 </div>
               </div>
-            </div>
-
-            <div className="event-card">
-              <div className="event-image">
-                <img src="/event4.jpeg" alt="Event" />
-              </div>
-              <div className="event-details">
-                <span className="event-date">September 22, 2024</span>
-                <h3 className="event-title">Tax Planning Workshop</h3>
-                <p className="event-description">
-                  Discover effective tax-saving strategies and optimize your investment returns
-                </p>
-                <div className="event-buttons">
-                  <button className="event-register-btn" onClick={() => {
-                    window.dispatchEvent(new CustomEvent('openRegisterModal'));
-                  }}>Register</button>
-                  <button className="event-details-btn" onClick={() => openEventDetails({
-                    title: 'Tax Planning Workshop',
-                    date: 'September 22, 2024',
-                    images: [
-                      '/event1.jpeg',
-                      '/event2.png',
-                      '/event3.jpeg',
-                      '/event4.jpeg'
-                    ],
-                    details: [
-                      'Discover effective tax-saving strategies and optimize your investment returns with expert guidance.'
-                    ],
-                    centerAlign: true
-                  })}>View Details</button>
-                </div>
-              </div>
-            </div>
+            </div>   
+          )})}
           </div>
 
           <h2 className="section-title" style={{ marginTop: '80px' }}>Past Events</h2>
-          
           <div className="events-grid">
-            <div className="event-card">
+            {pastEventsData.map((ele) => {return(
+              <div className="event-card">
               <div className="event-image">
-                <img src="/event2.png" alt="Event" />
+                <img src={ele.images[0]} alt="Event" />
               </div>
               <div className="event-details">
-                <span className="event-date">December 15, 2024</span>
-                <h3 className="event-title">retirement planning session</h3>
+                <span className="event-date">{formatDate(ele.date)}</span>
+                <h3 className="event-title">{ele.title}</h3>
                 <p className="event-description">
-                  Held a retirement planning session for 30+ senior leaders at Markolines
+                  {ele.description}
                 </p>
                 <button className="event-register-btn" onClick={() => openEventDetails({
-                    title: 'Investment Strategy Summit',
-                    date: 'December 15, 2024',
-                    images: [
-                      '/event1.jpeg',
-                      '/event2.png',
-                      '/event3.jpeg',
-                      '/event4.jpeg'
-                    ],
+                    title: ele.title,
+                    date: formatDate(ele.date),
+                    images: ele.images,
                     details: [
-                      'Engaged with industry leaders on emerging wealth trends and global investor behaviour.',
-                      'Shared perspectives on tax efficiency, succession planning, and international asset exposure.',
-                      'Exchanged insights on global economic cues impacting multi-asset strategies and long-term wealth goals.'
+                      ele.description
                     ]
                   })}>View Details</button>
               </div>
             </div>
-
-            <div className="event-card">
-              <div className="event-image">
-                <img src="/event3.jpeg" alt="Event" />
-              </div>
-              <div className="event-details">
-                <span className="event-date">January 20, 2025</span>
-                <h3 className="event-title">Investor awareness program</h3>
-                <p className="event-description">
-                  Investza Held an amazing IAP at Markolines Pavement Technologies
-                </p>
-                <button className="event-register-btn" onClick={() => openEventDetails({
-                    title: 'Investor awareness program',
-                    date: 'January 20, 2025',
-                    images: [
-                      '/event1.jpeg',
-                      '/event2.png',
-                      '/event3.jpeg',
-                      '/event4.jpeg'
-                    ],
-                    details: [
-                      'Use SIP for consistent investing over time. Use Lump Sum when valuations are attractive and you have liquidity. At Investza, we help investors combine both strategies smartly to align with their financial goals. Talk to us to find your ideal strategy!!'
-                    ],
-                    centerAlign: true
-                  })}>View Details</button>
-              </div>
-            </div>
-
-            <div className="event-card">
-              <div className="event-image">
-                <img src="/event1.jpeg" alt="Event" />
-              </div>
-              <div className="event-details">
-                <span className="event-date">August 10, 2024</span>
-                <h3 className="event-title">Wealth Building Seminar</h3>
-                <p className="event-description">
-                  Comprehensive session on building long-term wealth through strategic investments
-                </p>
-                <button className="event-register-btn" onClick={() => openEventDetails({
-                    title: 'Master retirement and tax planning',
-                    date: 'November 15, 2025',
-                    images: [
-                      '/event1.jpeg',
-                      '/event2.png',
-                      '/event3.jpeg',
-                      '/event4.jpeg'
-                    ],
-                    details: [
-                      'Master retirement and tax planning with us.CA Abhishek Mehta, CFA from Investza reveals strategies to retire early, save tax, and secure your future.'
-                    ],
-                    centerAlign: true
-                  })}>View Details</button>
-              </div>
-            </div>
+            )})}
           </div>
 
           {/* Meet Your Mentor Section - INSIDE events-content */}

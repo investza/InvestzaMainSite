@@ -40,6 +40,7 @@ import AdnanKhan from './assets/Adnan-Khan.webp';
 import AnkitMehta from './assets/Ankit-Mehta.webp';
 
 import './App.css';
+import ShowQR from './components/ShowQR';
 
 // ScrollToTop component to reset scroll position on route change
 function ScrollToTop() {
@@ -158,11 +159,14 @@ function App() {
                 />
                 <Route path="/confirmation" element={<ConfirmationPageWrapper />} />
                 <Route path="/bookings" element={<BookingList />} />
+
+                 <Route path='/showQR' element = {<ShowQR />} />
               </Routes>
             </DetailsContext.Provider>
           </OtpVerification.Provider>
         </userDetails.Provider>
       </div>
+     
     </Router>
   );
 }
