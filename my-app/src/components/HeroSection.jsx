@@ -52,7 +52,7 @@ const HeroSection = () => {
       rotateX: -y,
       transformPerspective: 1200,
       ease: "power2.out",
-      duration: 0.6,
+      duration: 0.5,
       overwrite: "auto",
     });
   }, []);
@@ -73,6 +73,7 @@ const HeroSection = () => {
         end: "bottom top",
         scrub: 1.5,
         pin: textContainer,
+        pinSpacing: true,
         anticipatePin: 1,
       },
     });
@@ -82,10 +83,10 @@ const HeroSection = () => {
     tl.fromTo(
       newText,
       { opacity: 0, y: 100 },
-      { opacity: 1, y: -60, ease: "none" },
+      { opacity: 1, y: -50, ease: "none" },
       0.15
     );
-    tl.to([image, newText], { opacity: 0, yPercent: -60 }, 0.85);
+    tl.to([image, newText, textContainer], { opacity: 0, yPercent: -60 }, 0.85);
 
     gsap.to(backgroundGradient, {
       scale: 1.2,
