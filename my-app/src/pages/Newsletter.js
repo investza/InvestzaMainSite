@@ -37,9 +37,13 @@ function Newsletter() {
 
     const handleScroll = () => {
       const scrollY = lenis.scroll;
-      const header = document.querySelector('.header');
+      const header = document.querySelector('.header-container');
       const heroSection = document.querySelector('.newsletter-hero');
       const newsletterContent = document.querySelector('.newsletter-content');
+      
+      // Early return if header doesn't exist yet
+      if (!header) return;
+      
       const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
 
       // Calculate opacity for hero section - gradually fade as user scrolls

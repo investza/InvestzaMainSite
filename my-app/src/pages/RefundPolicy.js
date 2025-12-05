@@ -26,7 +26,8 @@ function RefundPolicy() {
 
     const handleScroll = () => {
       const scrollY = lenis.scroll;
-      const header = document.querySelector('.header');
+      const header = document.querySelector('.header-container');
+      if (!header) return;
       const heroSection = document.querySelector('.refund-hero');
       const contentSection = document.querySelector('.refund-policy-content');
       const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
