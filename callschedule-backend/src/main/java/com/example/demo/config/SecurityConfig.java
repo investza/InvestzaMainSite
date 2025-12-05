@@ -12,9 +12,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-            .csrf(csrf -> csrf.disable())     
+            .csrf(csrf -> csrf.disable())          // disable CSRF
             .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll()     
+                .anyRequest().permitAll()          // allow all API calls
             )
             .httpBasic(httpBasic -> httpBasic.disable()) 
             .formLogin(form -> form.disable());       
