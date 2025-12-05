@@ -1,5 +1,7 @@
 package com.example.demo.Models;
 
+import java.time.LocalDateTime;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -23,6 +25,14 @@ public class ReviewPortfolio {
     private String investmentValue;
     private String email;
     private boolean agreeToPolicy;
+    
+    @Builder.Default
+    private String status = "PENDING"; // PENDING or DONE
+    
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
+    
+    private LocalDateTime updatedAt;
 
     // Custom constructor without id (for creating new instances)
     public ReviewPortfolio(String fullName, String contactNumber, String investmentValue, 
@@ -32,5 +42,7 @@ public class ReviewPortfolio {
         this.investmentValue = investmentValue;
         this.email = email;
         this.agreeToPolicy = agreeToPolicy;
+        this.status = "PENDING";
+        this.createdAt = LocalDateTime.now();
     }
 }

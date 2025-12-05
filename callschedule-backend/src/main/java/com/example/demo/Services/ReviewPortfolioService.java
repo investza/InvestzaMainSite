@@ -2,11 +2,17 @@ package com.example.demo.Services;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -36,14 +42,14 @@ public class ReviewPortfolioService {
     @Value("${investza.admin.email}")
     private String getNotificationMail;
 
+    // Public method - Save form submission
     public void saveForm(ReviewPortfolioRequest request) {
-        // Save to database first
         ReviewPortfolio form = new ReviewPortfolio(
                 request.getFullName(),
                 request.getContactNumber(),
                 request.getInvestmentValue(),
                 request.getEmail(),
-                request.getAgreeToPolicy()
+                request.isAgreeToPolicy()
         );
         repository.save(form);
 
@@ -56,22 +62,70 @@ public class ReviewPortfolioService {
         }
     }
 
-    // Send thank you email to user
+    
+    // Get all requests with optional status filter
+    public List<ReviewPortfolio> getAll() {
+        return repository.findAll();
+    }
+
+    
+    // Get request by ID
+    public ReviewPortfolio getRequestById(String id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Review portfolio request not found with id: " + id));
+    }
+    
+    // Update request
+    public ReviewPortfolio updateRequest(String id, ReviewPortfolioRequest request) {
+        ReviewPortfolio existing = getRequestById(id);
+        
+        existing.setFullName(request.getFullName());
+        existing.setContactNumber(request.getContactNumber());
+        existing.setInvestmentValue(request.getInvestmentValue());
+        existing.setEmail(request.getEmail());
+        existing.setStatus(request.getStatus());
+        existing.setUpdatedAt(LocalDateTime.now());
+        
+        return repository.save(existing);
+    }
+    
+    // Update only status
+    public ReviewPortfolio updateStatus(String id, String status) {
+        ReviewPortfolio existing = getRequestById(id);
+        existing.setStatus(status);
+        existing.setUpdatedAt(LocalDateTime.now());
+        return repository.save(existing);
+    }
+    
+    // Delete request
+    public void deleteRequest(String id) {
+        ReviewPortfolio existing = getRequestById(id);
+        repository.delete(existing);
+    }
+    
+    // Get statistics
+    public Map<String, Object> getStats() {
+        Map<String, Object> stats = new HashMap<>();
+        stats.put("total", repository.count());
+        stats.put("pending", repository.countByStatus("PENDING"));
+        stats.put("done", repository.countByStatus("DONE"));
+        return stats;
+    }
+
+    // Email methods (unchanged)
+    
     private void sendMail(ReviewPortfolioRequest request) throws MessagingException, IOException {
-        // Load email template
         Resource template = resourceLoader.getResource("classpath:templates/review-portfolio-thankyou.html");
         if (!template.exists()) {
             throw new RuntimeException("Email template not found: templates/review-portfolio-thankyou.html");
         }
 
-        // Read and populate template
         String html = new String(template.getInputStream().readAllBytes(), StandardCharsets.UTF_8)
                 .replace("{{name}}", escapeHtml(request.getFullName()))
                 .replace("{{email}}", escapeHtml(request.getEmail()))
                 .replace("{{contactNumber}}", escapeHtml(request.getContactNumber()))
                 .replace("{{investmentValue}}", escapeHtml(request.getInvestmentValue()));
 
-        // Create and send email
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
@@ -96,22 +150,18 @@ public class ReviewPortfolioService {
                 .replace("'", "&#x27;");
     }
 
-    // Send notification email to admin/sender
     private void notifySender(ReviewPortfolioRequest request) throws MessagingException, IOException {
-        // Load notification template
         Resource template = resourceLoader.getResource("classpath:templates/review-portfolio-notification.html");
         if (!template.exists()) {
             throw new RuntimeException("Email template not found: templates/review-portfolio-notification.html");
         }
 
-        // Read and populate template
         String html = new String(template.getInputStream().readAllBytes(), StandardCharsets.UTF_8)
                 .replace("{{name}}", escapeHtml(request.getFullName()))
                 .replace("{{email}}", escapeHtml(request.getEmail()))
                 .replace("{{contactNumber}}", escapeHtml(request.getContactNumber()))
                 .replace("{{investmentValue}}", escapeHtml(request.getInvestmentValue()));
 
-        // Create and send email
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 

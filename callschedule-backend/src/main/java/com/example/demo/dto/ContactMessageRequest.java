@@ -19,4 +19,7 @@ public class ContactMessageRequest {
 
     @NotBlank(message = "Message is required")
     private String message;
+
+    
+    private String status;
 }

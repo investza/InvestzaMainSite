@@ -22,8 +22,6 @@ import com.example.demo.dto.ApiResponse;
 import com.example.demo.dto.CreateEventRequest;
 
 
-
-
 @RestController
 @RequestMapping("/api/events")
 @CrossOrigin("*")
@@ -31,9 +29,9 @@ public class EventController {
 
     @Autowired
     private EventService service;
-    
+
     @PostMapping("/create")
-    public ApiResponse createEvent(@RequestBody CreateEventRequest req) {
+    public ResponseEntity<ApiResponse> createEvent(@RequestBody CreateEventRequest req) {
         return service.createEvent(req);
     }
 
@@ -43,9 +41,8 @@ public class EventController {
         return ResponseEntity.ok(Map.of("urls", urls));
     }
 
-    
     @GetMapping("/list")
-    public ResponseEntity<?> getAllEvents(){
+    public ResponseEntity<?> getAllEvents() {
         return service.getAllEvents();
     }
 
@@ -53,14 +50,14 @@ public class EventController {
     public ResponseEntity<?> getEvent(@PathVariable String id) {
         return service.getEventById(id);
     }
-    
+
     @DeleteMapping("/delete/{id}")
-    public ApiResponse deleteEvent(@PathVariable String id){
+    public ResponseEntity<ApiResponse> deleteEvent(@PathVariable String id) {
         return service.deleteEvent(id);
     }
 
     @PutMapping("/update/{id}")
-    public ApiResponse updateEvent(
+    public ResponseEntity<ApiResponse> updateEvent(
             @PathVariable String id,
             @RequestBody CreateEventRequest req) {
 
