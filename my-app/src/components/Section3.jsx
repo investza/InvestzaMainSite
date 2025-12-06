@@ -1,5 +1,6 @@
 // src/components/Section3.jsx
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./Section3.module.css";
@@ -11,6 +12,8 @@ const Section3 = () => {
   const headingRef = useRef(null);
   const subtitleRef = useRef(null);
   const cardRef = useRef(null);
+  const [os, setOS] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -71,13 +74,31 @@ const Section3 = () => {
     return () => ctx.revert();
   }, []);
 
+  useEffect(() => {
+    setOS(getOS());
+  }, [os]);
+
+  function getOS() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const platform = navigator.platform.toLowerCase();
+
+    if (platform.includes("win")) return "Windows";
+    if (platform.includes("mac")) return "macOS";
+    if (platform.includes("linux")) return "Linux";
+    if (/iphone|ipad|ipod/.test(userAgent)) return "iOS";
+    if (/android/.test(userAgent)) return "Android";
+
+    return "Unknown";
+  }
+
   return (
     <section ref={sectionRef} className={styles.section}>
       {/* Animated Background Glow */}
       <div className={styles.bgGlow} />
 
       <h2 ref={headingRef} className={styles.heading}>
-        Discover the new way of personalized investing with Investza
+        Discover the new way of <span>personalized</span> investing with
+        Investza
       </h2>
 
       <p ref={subtitleRef} className={styles.subtitle}>
@@ -94,12 +115,8 @@ const Section3 = () => {
           </h4>
         </div>
 
-        {/* <p className={styles.minInvestment}>
-          Min. Investment: <span className={styles.amount}>50 Lakhs</span>
-        </p> */}
-
         <p className={styles.cardText}>
-          What you can expect working with Investza:
+          What you can expect working with Investza
         </p>
 
         <div className={styles.divider} />
@@ -126,7 +143,11 @@ const Section3 = () => {
         <button
           className={styles.downloadButton}
           onClick={() => {
-            window.open("https://app.investza.in");
+            if (os === "Windows" || os === "Linux" || os === "macOS") {
+              navigate("/showQR");
+            } else {
+              window.open("https://app.investza.in");
+            }
           }}
         >
           Download App

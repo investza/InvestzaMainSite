@@ -161,7 +161,8 @@ function Newsletter() {
         <div className="newsletter-hero-content">
           <h1>Newsletter</h1>
           <p>Stay informed with the latest insights, market trends, and investment strategies</p>
-        </div>
+          <button className="nav-button">Suscribe</button>
+        </div>   
       </div>
 
       <div className="newsletter-content">
@@ -174,6 +175,7 @@ function Newsletter() {
                   <div className="newsletter-date">{newsletter.date}</div>
                   <h3 className="newsletter-title">{newsletter.title}</h3>
                   <p className="newsletter-description">{newsletter.description}</p>
+                 
                   <button 
                     className="newsletter-read-btn"
                     onClick={() => navigate(`/newsletter/${newsletter.id}`)}

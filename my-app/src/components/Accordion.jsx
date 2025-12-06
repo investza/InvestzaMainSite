@@ -245,7 +245,7 @@ function Accordion() {
       {/* Main Heading */}
       <div className={styles.headingWrapper}>
         <h2 className={styles.heading}>Got Questions? We got your covered</h2>
-        <p className={styles.subheading}>We're here to help.</p>
+        {/* <p className={styles.subheading}>We're here to help.</p> */}
       </div>
 
       {/* Accordion List */}

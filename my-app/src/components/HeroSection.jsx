@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useCallback, useContext } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import mobileimg from "../assets/mockupFront.png";
+import mobileimg from "../assets/MainScreen.png";
 import { showFormContext } from "./contexts/showFormContext";
 import styles from "./HeroSection.module.css";
 import Lenis from "@studio-freight/lenis";
@@ -16,8 +16,11 @@ const HeroSection = () => {
   useEffect(() => {
     const lenis = new Lenis({
       smooth: true,
-      duration: 1,
-      easing: (t) => t,
+      duration: 1.6, //smooth weight
+      easing: (t) => 1 - Math.pow(1 - t, 3), //scroll easing
+      // duration: 1.2,
+      // easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      // easing: (t) => t,
     });
 
     function raf(time) {
@@ -139,9 +142,9 @@ const HeroSection = () => {
           <p className={styles.newTextParagraph}>
             Your wealth deserves more than vague updates. Investza’s Wealth
             Tracker consolidates and analyses every rupee across all your
-            investments in real time{" "}
-            <span className={styles.highlight}>India's leading experts.</span>
+            investments in real time <br />
           </p>
+          <p className={styles.highlight}>India's leading experts.</p>
           <button
             onClick={() => setShowForm(true)}
             className={styles.ctaButton}
