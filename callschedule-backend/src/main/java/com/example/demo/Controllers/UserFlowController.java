@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Models.UserTemp;
+import com.example.demo.Services.SlotAvailabilityService;
 import com.example.demo.Services.UserFlowService;
 import com.example.demo.dto.CreateBookingRequest;
 import com.example.demo.dto.InvestmentRequest;
 import com.example.demo.dto.SendOtpRequest;
 import com.example.demo.dto.StartRequest;
 import com.example.demo.dto.VerifyOtpRequest;
+import com.example.demo.dto.UnavailabilityTimeSlotsRequest;
 
 @RestController
 @RequestMapping("/api/flow")
@@ -29,6 +31,9 @@ import com.example.demo.dto.VerifyOtpRequest;
 public class UserFlowController {
 
     private final UserFlowService userFlowService;
+
+    @Autowired
+    private SlotAvailabilityService slotAvailabilityService;
 
     @Autowired
     public UserFlowController(UserFlowService userFlowService) {
@@ -78,13 +83,13 @@ public class UserFlowController {
         return ResponseEntity.ok(Map.of("eligible", eligible));
     }
 
-    // STEP 4
-    @GetMapping("/check-slot")
-    public ResponseEntity<?> checkSlot(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time) {
-        return ResponseEntity.ok(userFlowService.checkSlot(date, time));
-    }
+    // // STEP 4
+    // @GetMapping("/check-slot")
+    // public ResponseEntity<?> checkSlot(
+    //         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+    //         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time) {
+    //     return ResponseEntity.ok(userFlowService.checkSlot(date, time));
+    // }
 
     // STEP 5
     @PostMapping("/create-booking")
@@ -95,5 +100,18 @@ public class UserFlowController {
     @GetMapping("/bookings")
     public ResponseEntity<?> getAllBookings() {
         return ResponseEntity.ok(userFlowService.getAllBookings());
+    }
+
+    // Checking available slots 
+    @GetMapping("/check-slot")
+    public ResponseEntity<?> getSlots(@RequestParam String date) {
+        LocalDate parsedDate = LocalDate.parse(date);
+        return slotAvailabilityService.getAvailableSlots(parsedDate);
+    }
+
+    // Storing admin slots unavailability
+    @PostMapping("/save-unavailability")
+    public ResponseEntity<?> storeUnavailableSlots(@RequestBody UnavailabilityTimeSlotsRequest req){
+        return slotAvailabilityService.storeUnavailableSlots(req);
     }
 }

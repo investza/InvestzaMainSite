@@ -3,8 +3,8 @@ package com.example.demo.dto;
 import lombok.Data;
 
 @Data
-public class AddUserRequest {
-    private String username;
+public class AddAdminRequest {
+    private String adminName;
     private String email;
     private String password;
 }
