@@ -8,41 +8,44 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Models.User;
-import com.example.demo.Repositories.UserRepository;
+import com.example.demo.Models.Admin;
+import com.example.demo.Repositories.AdminRepository;
 import com.example.demo.Services.LoginService;
-import com.example.demo.dto.AddUserRequest;
+import com.example.demo.dto.AddAdminRequest;
 import com.example.demo.dto.ApiResponse;
+import com.example.demo.dto.ChangeRoleRequest;
 import com.example.demo.dto.LoginRequest;
 
 @Service
 public class LoginServiceImpl implements LoginService {
 
     @Autowired
-    private UserRepository userRepo;
+    private AdminRepository AdminRepo;
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
-    public ResponseEntity<ApiResponse> addUser(AddUserRequest req) {
+    public ResponseEntity<ApiResponse> addAdmin(AddAdminRequest req) {
 
-        // Check if user already exists by username or email
-        Optional<User> existing = userRepo.findByUsernameOrEmail(req.getUsername(), req.getEmail());
+        // Check if Admin already exists by Adminname or email
+        Optional<Admin> existing = AdminRepo.findByAdminNameOrEmail(req.getAdminName(), req.getEmail());
         if (existing.isPresent()) {
             return ResponseEntity
                     .badRequest()
-                    .body(new ApiResponse(false, "User already exists with this username/email"));
+                    .body(new ApiResponse(false, "Admin already exists with this Adminname/email"));
         }
 
-        // Create new user
-        User user = new User();
-        user.setUsername(req.getUsername());
-        user.setEmail(req.getEmail());
-        user.setPassword(passwordEncoder.encode(req.getPassword())); // Encrypt password
+        // Create new Admin
+        Admin Admin = new Admin();
+        Admin.setAdminName(req.getAdminName());
+        Admin.setEmail(req.getEmail());
+        Admin.setPassword(passwordEncoder.encode(req.getPassword())); // Encrypt password
+        Admin.setRole("Admin");
+
 
         try{
-            userRepo.save(user);
-            return ResponseEntity.ok(new ApiResponse(true, "User created successfully"));
+            AdminRepo.save(Admin);
+            return ResponseEntity.ok(new ApiResponse(true, "Admin created successfully"));
         }catch(Exception e){
             return ResponseEntity.status(500).body(new ApiResponse(false, e.getMessage()));
         }
@@ -51,22 +54,22 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public ResponseEntity<ApiResponse> login(LoginRequest req) {
 
-        // Find user by username OR email
-        Optional<User> optionalUser = userRepo.findByUsernameOrEmail(req.getUsername(), req.getUsername());
+        // Find Admin by Adminname OR email
+        Optional<Admin> optionalAdmin = AdminRepo.findByAdminNameOrEmail(req.getAdminName(), req.getAdminName());
 
-        if (!optionalUser.isPresent()) {
+        if (!optionalAdmin.isPresent()) {
             return ResponseEntity
                     .badRequest()
-                    .body(new ApiResponse(false, "Invalid username/email or password"));
+                    .body(new ApiResponse(false, "Invalid Adminname/email or password"));
         }
 
-        User user = optionalUser.get();
+        Admin Admin = optionalAdmin.get();
 
         // Check password
-        if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(req.getPassword(), Admin.getPassword())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new ApiResponse(false, "Invalid username/email or password"));
+                    .body(new ApiResponse(false, "Invalid Adminname/email or password"));
         }
 
         // Login success
@@ -74,20 +77,38 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public ResponseEntity<ApiResponse> deleteUser(String id) {
+    public ResponseEntity<ApiResponse> deleteAdmin(String id) {
 
-        Optional<User> existing = userRepo.findById(id);
+        Optional<Admin> existing = AdminRepo.findById(id);
         if (!existing.isPresent()) {
-            return ResponseEntity.badRequest().body(new ApiResponse(false, "User not found"));
+            return ResponseEntity.badRequest().body(new ApiResponse(false, "Admin not found"));
         }
 
-        userRepo.deleteById(id);
-        return ResponseEntity.ok(new ApiResponse(true, "User deleted successfully"));
+        AdminRepo.deleteById(id);
+        return ResponseEntity.ok(new ApiResponse(true, "Admin deleted successfully"));
     }
 
     @Override
-    public ResponseEntity<?> getAllUsers() {
-        List<User> users = userRepo.findAll();
-        return ResponseEntity.ok(users);
+    public ResponseEntity<?> getAllAdmins() {
+        List<Admin> Admins = AdminRepo.findAll();
+        return ResponseEntity.ok(Admins);
+    }
+
+    @Override
+    public ResponseEntity<ApiResponse> changeAdminRole(ChangeRoleRequest req){
+        Optional<Admin> optionalAdmin = AdminRepo.findById(req.getAdminId());
+
+        if (!optionalAdmin.isPresent()) {
+            return ResponseEntity.status(404)
+                    .body(new ApiResponse(false, "Admin not found"));
+        }
+
+        Admin Admin = optionalAdmin.get();
+        Admin.setRole(req.getRole());
+        AdminRepo.save(Admin);
+
+        return ResponseEntity.ok(
+                new ApiResponse(true, "Admin role updated successfully")
+        );
     }
 }
