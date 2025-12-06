@@ -2,7 +2,8 @@ import React from "react";
 import styles from "./Information.module.css";
 import Abhishek from "../assets/abhishek.webp";
 import groupPhoto from "../assets/pm2.png";
-const Information = () => {
+
+const InformationPortfolio = () => {
   return (
     <div className={styles["information-section"]}>
       <div className={styles["profile-badge"]}>
@@ -10,7 +11,7 @@ const Information = () => {
         <div className={styles["verified-badge"]}>✓</div>
       </div>
       <h1 className={styles.title}>
-        Schedule a One on One with your Wealth Expert
+        Review My Portfolio with Expert Guidance
       </h1>
       <p className={styles.subtitle}>
         No charges, No Commitments • Just valuable insights.
@@ -22,15 +23,10 @@ const Information = () => {
       </p>
       <div className={styles["video-card"]}>
         <div className={styles["video-thumbnail"]}>
-          {/* <video
-            src="https://d21ldyuk035o7q.cloudfront.net/websiteVideos/calendly_booking_video.mp4"
-            className={styles["thumbnail-video"]}
-            controls
-          ></video> */}
           <img
             src={groupPhoto}
             className={styles["thumbnail-video"]}
-            controls
+            alt="Team"
           ></img>
         </div>
       </div>
@@ -38,4 +34,4 @@ const Information = () => {
   );
 };
 
-export default Information;
+export default InformationPortfolio;
