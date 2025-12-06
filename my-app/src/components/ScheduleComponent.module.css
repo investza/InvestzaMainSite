@@ -145,7 +145,7 @@
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
   z-index: 1000;
   animation: slideDown 0.18s ease-out;
-  max-height: 330px;          /* keeps dropdown contained */
+  /* max-height: 330px;          keeps dropdown contained */
   overflow-y: auto;           /* internal scroll */
   overscroll-behavior: contain;
   min-width: 320px;
@@ -449,7 +449,7 @@
   .day,
   .day-name {
     padding: 0.4rem;
-    font-size: 0.78rem;
+    font-size: 0.66rem;
   }
 
   .days-grid {
@@ -460,6 +460,10 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 0.5rem;
     justify-items: center;
+  }
+
+  .day-names-grid {
+    gap: 0rem;
   }
 
   .time-btn {
@@ -496,11 +500,15 @@
 
   .day,
   .day-name {
-    font-size: 0.72rem;
+    font-size: 0.66rem;
   }
 
   .days-grid {
     gap: 0.35rem;
+  }
+
+  .day-names-grid {
+    gap: 0rem;
   }
 
   .time-grid {
@@ -544,6 +552,9 @@
 
   .days-grid {
     gap: 0.28rem;
+  }
+  .day-names-grid {
+    gap: 0rem;
   }
 
   .time-grid {
