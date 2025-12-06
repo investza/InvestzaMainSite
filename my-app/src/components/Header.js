@@ -6,8 +6,10 @@ import './Header.css';
 const Header = ({ onReviewPortfolio }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showResourcesDropdown, setShowResourcesDropdown] = useState(false);
+  const [showMobileResourcesDropdown, setShowMobileResourcesDropdown] = useState(false);
   const [showLoginDropdown, setShowLoginDropdown] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileLoginText, setMobileLoginText] = useState('Login');
   const location = useLocation();
   const closeTimeoutRef = React.useRef(null);
   const loginCloseTimeoutRef = React.useRef(null);
@@ -54,8 +56,8 @@ const Header = ({ onReviewPortfolio }) => {
   }, []);
 
   const handleReviewPortfolio = () => {
-    // Navigate to schedule-call flow (same flow, different text)
-    window.location.href = '/schedule-call';
+    // Navigate to portfolio review flow
+    window.location.href = '/review-portfolio';
   };
 
   return (
@@ -298,31 +300,64 @@ const Header = ({ onReviewPortfolio }) => {
         </div>
       )}
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Full Screen Blur */}
       {isMenuOpen && (
-        <div className="header-mobile-menu">
-          <GlassSurface
-            width="100%"
-            height="auto"
-            borderRadius={20}
-            brightness={30}
-            opacity={0.5}
-            blur={15}
-            backgroundOpacity={0}
-            redOffset={2}
-            greenOffset={4}
-            blueOffset={6}
-            distortionScale={-200}
-            className="mobile-menu-glass"
-          >
+        <div className="header-mobile-menu-fullscreen">
+          <div className="mobile-menu-container">
+            {/* Close Button */}
+            <button 
+              className="mobile-menu-close"
+              onClick={() => setIsMenuOpen(false)}
+              aria-label="Close menu"
+            >
+              ✕
+            </button>
+
+            {/* Menu Links */}
             <div className="mobile-menu-links">
-              <Link to="/about" className="mobile-menu-link" onClick={() => setIsMenuOpen(false)}>About</Link>
-              <Link to="/team" className="mobile-menu-link" onClick={() => setIsMenuOpen(false)}>Team</Link>
-              <Link to="/contact" className="mobile-menu-link" onClick={() => setIsMenuOpen(false)}>Contact</Link>
-              <Link to="/newsletter" className="mobile-menu-link" onClick={() => setIsMenuOpen(false)}>Newsletter</Link>
-              <Link to="/faq" className="mobile-menu-link" onClick={() => setIsMenuOpen(false)}>FAQ</Link>
-              <Link to="/learn-why" className="mobile-menu-link" onClick={() => setIsMenuOpen(false)}>Learn Why</Link>
+              <Link to="/about" className="mobile-menu-link" onClick={() => setIsMenuOpen(false)}>About Us</Link>
               <Link to="/events" className="mobile-menu-link" onClick={() => setIsMenuOpen(false)}>Events</Link>
+              <Link to="/wealth-tracker" className="mobile-menu-link" onClick={() => setIsMenuOpen(false)}>Wealth Tracker</Link>
+              
+              {/* Resources Dropdown */}
+              <div className="mobile-resources-dropdown">
+                <button 
+                  className="mobile-menu-link mobile-resources-trigger"
+                  onClick={() => setShowMobileResourcesDropdown(!showMobileResourcesDropdown)}
+                >
+                  Resources
+                  <svg 
+                    width="12" 
+                    height="12" 
+                    viewBox="0 0 12 12" 
+                    fill="none" 
+                    style={{ 
+                      marginLeft: '8px',
+                      transition: 'transform 0.3s ease',
+                      transform: showMobileResourcesDropdown ? 'rotate(180deg)' : 'rotate(0deg)'
+                    }}
+                  >
+                    <path 
+                      d="M3 4.5L6 7.5L9 4.5" 
+                      stroke="currentColor" 
+                      strokeWidth="1.5" 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                {showMobileResourcesDropdown && (
+                  <div className="mobile-resources-submenu">
+                    <Link to="/newsletter" className="mobile-submenu-link" onClick={() => setIsMenuOpen(false)}>Newsletter</Link>
+                    <Link to="/contact" className="mobile-submenu-link" onClick={() => setIsMenuOpen(false)}>Contact Us</Link>
+                    <Link to="/team" className="mobile-submenu-link" onClick={() => setIsMenuOpen(false)}>Meet the Team</Link>
+                  </div>
+                )}
+              </div>
+
+              <Link to="/faq" className="mobile-menu-link" onClick={() => setIsMenuOpen(false)}>FAQ</Link>
+              
+              {/* Review My Portfolio Button */}
               <button 
                 className="mobile-menu-cta"
                 onClick={() => {
@@ -332,8 +367,19 @@ const Header = ({ onReviewPortfolio }) => {
               >
                 Review My Portfolio
               </button>
+
+              {/* Login Button */}
+              <button 
+                className="mobile-menu-login"
+                onClick={() => {
+                  setMobileLoginText('Coming Soon');
+                  setTimeout(() => setMobileLoginText('Login'), 2000);
+                }}
+              >
+                {mobileLoginText}
+              </button>
             </div>
-          </GlassSurface>
+          </div>
         </div>
       )}
     </>

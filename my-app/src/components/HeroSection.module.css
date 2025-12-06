@@ -63,7 +63,7 @@
   font-size: 1.5rem;
   opacity: 0.9;
   max-width: 48rem;
-  margin: 0 auto 4rem;
+  margin: 0 auto 2rem;
 }
 
 .seeHow {
@@ -74,7 +74,7 @@
   font-weight: 500;
   color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .seeHow span {
@@ -113,16 +113,18 @@
   opacity: 0;
   text-align: center;
    font-style: 'manrope', sans-serif;
-  max-width: 48rem;
+  max-width: 50rem;
 }
 
 .newTextParagraph {
+  padding: 0px 5px;
   font-size: 1.25rem;
   line-height: 1.8;
   font-style: 'manrope', sans-serif;
   color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 2rem;
+  margin-bottom: 1.7rem;
 }
+
 
 .highlight {
   background: linear-gradient(90deg, #60a5fa, #c084fc, #67e8f9);
@@ -130,6 +132,8 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 600;
+  font-size: 1.35rem;
+  margin-bottom: 1rem;
 }
 
 /* ———————————————————————
@@ -231,33 +235,39 @@
   .newTextParagraph { font-size: 1rem; padding: 0 1.2rem; }
   .ctaButton { padding: 9px 18px; font-size: 0.78rem; min-width: 140px; }
   .phoneImage {width: 220px; }
+  .highlight {font-size: 0.8rem;}
 }
 
 /* Mobile M – 322px–375px */
-@media (min-width: 321px) and (max-width: 376px) {
+@media (min-width: 321px) and (max-width: 375.98px) {
   .headline { font-size: 2.4rem; }
   .subheadline { font-size: 1.15rem; }
   .seeHow { font-size: 1.2rem; }
   .ctaButton { padding: 10px 22px; font-size: 0.82rem; }
   .phoneImage { width: 240px; }
+  .newTextParagraph{font-size: 1rem;}
+  .highlight {font-size: 0.9rem;}
 }
 
 /* Mobile L – 376px–480px */
-@media (min-width: 376px) and (max-width: 480px) {
+@media (min-width: 376px) and (max-width: 480.98px) {
   .headline { font-size: 2.7rem; margin-bottom: 0.5rem; }
   .subheadline { font-size: 1.1rem; }
   .seeHow { font-size: 1.3rem; }
   .ctaButton { padding: 11px 26px; font-size: 0.88rem; }
   .phoneImage { width: 270px; }
+  .highlight {font-size: 1rem;}
 }
 
 /* Tablet – 481px–768px */
-@media (min-width: 481px) and (max-width: 768px) {
+@media (min-width: 481px) and (max-width: 768.98px) {
   .headline { font-size: 3.6rem; }
   .subheadline { font-size: 1.4rem; }
   .seeHow { font-size: 1.4rem; }
   .ctaButton { padding: 13px 34px; font-size: 1rem; }
   .phoneImage { width: 300px; }
+  .newTextParagraph {font-size: 1rem;}
+  .highlight {font-size: 1.1rem;}
 }
 
 /* Laptop – 769px–1024px */
@@ -266,6 +276,8 @@
   .subheadline { font-size: 1.5rem; }
   .ctaButton { padding: 14px 38px; font-size: 1.05rem; }
   .phoneImage { width: 320px; }
+  .highlight {font-size: 1.25rem;}
+  
 }
 
 /* Laptop L – 1025px–1440px */

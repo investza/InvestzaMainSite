@@ -34,7 +34,7 @@ useEffect(() => {
     try {
       const res = await getEvents();
       setfetchedData(res.data);
-      console.log(res.data);
+      // console.log(res.data);
 
       const { upcoming, past } = categorizeEvents(res.data);
       setUpcomingEventsData(upcoming);
@@ -198,8 +198,8 @@ function formatDate(dateStr) {
         <div className="container">
           <h2 className="section-title">Upcoming Events</h2>
            <div className="events-grid events-grid-two">
-            {upcomingEventsData.map((ele) => {return(
-            <div className="event-card">
+            {upcomingEventsData.map((ele,key) => {return(
+            <div className="event-card" key={key}>
               <div className="event-image">
                 <img src={ele.images[0]} alt="Event" />
               </div>
@@ -218,7 +218,7 @@ function formatDate(dateStr) {
                     date: formatDate(ele.date),
                     images : ele.images,
                     details: [
-                      ele.description
+                      ele.details
                     ],
                     centerAlign: true
                   })}>View Details</button>
@@ -230,8 +230,8 @@ function formatDate(dateStr) {
 
           <h2 className="section-title" style={{ marginTop: '80px' }}>Past Events</h2>
           <div className="events-grid">
-            {pastEventsData.map((ele) => {return(
-              <div className="event-card">
+            {pastEventsData.map((ele,key) => {return(
+              <div className="event-card" key={key}>
               <div className="event-image">
                 <img src={ele.images[0]} alt="Event" />
               </div>
@@ -246,7 +246,7 @@ function formatDate(dateStr) {
                     date: formatDate(ele.date),
                     images: ele.images,
                     details: [
-                      ele.description
+                      ele.details
                     ]
                   })}>View Details</button>
               </div>

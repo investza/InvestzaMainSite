@@ -42,7 +42,20 @@ function PrivacyPolicy() {
   return (
     <div className="privacy-policy-page">
       <Header />
-      
+     <div 
+        className="privacy-policy-hero"
+        style={{
+          backgroundImage: `url(/team/newsletter_hero.jpeg?v=${Date.now()})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 30%',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <div className="privacy-policy-hero-overlay"></div>
+        <div className="privacy-policy-hero-content">
+          <h1>Privacy Policy</h1>
+        </div>   
+      </div>
       <div className="privacy-policy-content">
         <div className="privacy-policy-container">
           <h1 className="privacy-policy-title">Privacy Policy</h1>

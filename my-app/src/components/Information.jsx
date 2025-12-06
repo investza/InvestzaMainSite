@@ -10,7 +10,7 @@ const Information = () => {
         <div className={styles["verified-badge"]}>✓</div>
       </div>
       <h1 className={styles.title}>
-        Review My Portfolio with Expert Guidance
+        Schedule a One on One with your Wealth Expert
       </h1>
       <p className={styles.subtitle}>
         No charges, No Commitments • Just valuable insights.

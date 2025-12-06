@@ -101,28 +101,6 @@ const ScheduleComponent = () => {
     }
   };
 
-  // const handleConfirm = () => {
-  //   if (!selectedDate) {
-  //     alert("Please select a date");
-  //     return;
-  //   }
-
-  //   const formattedDate = selectedDate.toLocaleDateString("en-US", {
-  //     weekday: "short",
-  //     month: "short",
-  //     day: "numeric",
-  //     year: "numeric",
-  //   });
-
-  //   setData((prev) => ({
-  //     ...prev,
-  //     time: selectedTime,
-  //     date: formattedDate,
-  //   }));
-
-  //   navigate("/emailDetails");
-  // };
-
   const isSunday = (date) => date.getDay() === 0;
 
   const isToday = (date) => {

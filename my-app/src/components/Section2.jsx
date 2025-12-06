@@ -2,9 +2,10 @@
 import React, { useEffect, useRef, useContext } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import slider1 from "../assets/Frame 2147223881.png";
-import slider2 from "../assets/Frame 2147223884.png";
-import slider3 from "../assets/sliderFrame3.png";
+import slider1 from "../assets/holdingsScreen.png";
+import slider2 from "../assets/ExitSuggestionsScreen.png";
+import slider3 from "../assets/AssetAllocationScreen.png";
+import slider4 from "../assets/MutualFundsScreen.png";
 import { showFormContext } from "./contexts/showFormContext";
 import styles from "./Section2.module.css";
 
@@ -33,6 +34,9 @@ const Section2 = () => {
         start: `top ${navbarHeight}px`,
         // start: `top top`,
         end: `+=${totalSlides * 1000}`,
+        // end: () => "+=" + (container.scrollWidth - window.innerWidth),
+        // end: () => "+=" + (container.scrollWidth - container.clientWidth),
+        // end: `+=${totalSlides * 1200}`,
         scrub: 1,
         pin: true,
         snap: 1 / (totalSlides - 1),
@@ -58,9 +62,15 @@ const Section2 = () => {
       img: slider2,
     },
     {
+      title: "Understand your investment portfolio’s asset allocation",
+      text: "See how your portfolio is allocated across different asset classes. Make confident, measurable decisions; aligning with your expectations and goals",
+
+      img: slider3,
+    },
+    {
       title: "Get in touch with an Investza Expert via the App",
       text: "Make strategic moves to diversify and regulate your portfolio for maximum and optimal growth",
-      img: slider3,
+      img: slider4,
     },
   ];
 

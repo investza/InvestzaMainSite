@@ -30,6 +30,16 @@ import EmailDetails from './components/EmailDetails';
 import BookingList from './components/BookingList';
 import Page from './components/Page';
 
+// Portfolio Review flow components
+import InformationPortfolio from './components/InformationPortfolio';
+import NameDetailsPortfolio from './components/NameDetailsPortfolio';
+import VerifyOtpPortfolio from './components/VerifyOtpPortfolio';
+import ContactDetailsPortfolio from './components/ContactDetailsPortfolio';
+import InvestmentDetailsPortfolio from './components/InvestmentDetailsPortfolio';
+import { ConfirmationPageWrapperPortfolio } from './components/ConfirmationPageWrapperPortfolio';
+import ScheduleComponentPortfolio from './components/ScheduleComponentPortfolio';
+import EmailDetailsPortfolio from './components/EmailDetailsPortfolio';
+
 // Contexts
 import { DetailsContext } from './components/contexts/Details';
 import { OtpVerification } from './components/contexts/OtpVerification';
@@ -159,6 +169,54 @@ function App() {
                 />
                 <Route path="/confirmation" element={<ConfirmationPageWrapper />} />
                 <Route path="/bookings" element={<BookingList />} />
+
+                {/* Portfolio Review flow routes */}
+                <Route
+                  path="/review-portfolio"
+                  element={<Page Left={<InformationPortfolio />} Right={<NameDetailsPortfolio />} />}
+                />
+                <Route
+                  path="/portfolio-contact"
+                  element={
+                    <Page
+                      Left={
+                        <Vision
+                          authorName={'Mr. Adnan Khan'}
+                          authorTestimony={`What I appreciate most about Investza is the transparency. I know where my money is, why it's there and what to expect next.`}
+                          authorTitle={'Actor'}
+                          authorImage={AdnanKhan}
+                        />
+                      }
+                      Right={<ContactDetailsPortfolio />}
+                    />
+                  }
+                />
+                <Route path="/portfolio-verification" element={<VerifyOtpPortfolio />} />
+                <Route
+                  path="/portfolio-investment"
+                  element={
+                    <Page
+                      Left={
+                        <Vision
+                          authorName={`Mr. Ankit Mehta`}
+                          authorTestimony={`With Investza, I feel like I have real partner – not just an advisor. They've helped me build wealth with clarity and confidence.`}
+                          authorTitle={'MD at Chemkart LTD'}
+                          authorImage={AnkitMehta}
+                        />
+                      }
+                      Right={<InvestmentDetailsPortfolio />}
+                    />
+                  }
+                />
+                <Route
+                  path="/portfolio-schedule"
+                  element={<Page Left={<InformationPortfolio />} Right={<ScheduleComponentPortfolio />} />}
+                />
+                <Route
+                  path="/portfolio-email"
+                  element={<Page Left={<InformationPortfolio />} Right={<EmailDetailsPortfolio />} />}
+                />
+                <Route path="/portfolio-confirmation" element={<ConfirmationPageWrapperPortfolio />} />
 
                  <Route path='/showQR' element = {<ShowQR />} />
               </Routes>

@@ -612,7 +612,7 @@ body {
 
 .stats-header {
   text-align: left;
-  margin-bottom: 3rem;
+  margin-bottom: 3.5rem;
   max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
@@ -642,32 +642,32 @@ body {
 .stat-card {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 14px;
-  padding: 1.5rem;
+  border-radius: 18px;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 1.3rem;
   transition: all 0.3s ease;
-  height: 150px;
-  width: 80%;
+  height: 190px;
+  width: 90%;
   box-sizing: border-box;
 }
 
 .stat-card:nth-child(1) {
-  transform: translateX(calc(-2% + 30px));
+  transform: translateX(calc(-4% + 20px - 30px));
 }
 
 .stat-card:nth-child(2) {
-  transform: translateX(calc(-15% - 10px));
+  transform: translateX(calc(-14% + 20px - 30px));
 }
 
 .stat-card:nth-child(3) {
-  transform: translateX(calc(8% + 30px));
+  transform: translateX(calc(-4% + 20px + 30px));
 }
 
 .stat-card:nth-child(4) {
-  transform: translateX(calc(5% - 50px));
+  transform: translateX(calc(-14% + 20px + 30px));
 }
 
 .stat-card:hover {
@@ -676,21 +676,26 @@ body {
 }
 
 .stat-icon {
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
 }
 
+.stat-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
 .stat-card p {
   font-family: 'Manrope', sans-serif;
-  font-size: 1rem;
+  font-size: 1.15rem;
   color: #e0e0e0;
-  line-height: 1.4;
+  line-height: 1.5;
   margin: 0;
   text-align: left;
 }
@@ -698,7 +703,22 @@ body {
 /* Tablet responsive - reduce font size to prevent overflow */
 @media (max-width: 1024px) and (min-width: 769px) {
   .stat-card p {
-    font-size: 0.85rem;
+    font-size: 0.95rem;
+  }
+  
+  .stat-card {
+    height: 170px;
+    padding: 1.7rem;
+  }
+  
+  .stat-icon {
+    width: 42px;
+    height: 42px;
+  }
+  
+  .stat-icon svg {
+    width: 28px;
+    height: 28px;
   }
 }
 
