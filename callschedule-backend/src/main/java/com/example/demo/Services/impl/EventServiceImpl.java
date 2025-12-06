@@ -34,14 +34,15 @@ public class EventServiceImpl implements EventService {
     // Create Event
     // ---------------------------
     @Override
-    public ApiResponse createEvent(CreateEventRequest req) {
+    public ResponseEntity<ApiResponse> createEvent(CreateEventRequest req) {
         try {
             LocalDate eventDate;
 
             try {
                 eventDate = LocalDate.parse(req.getDate());
             } catch (DateTimeParseException e) {
-                return new ApiResponse(false, "Invalid date format. Please use yyyy-MM-dd");
+                return ResponseEntity.badRequest()
+                        .body(new ApiResponse(false, "Invalid date format. Use yyyy-MM-dd"));
             }
 
             String category = eventDate.isBefore(LocalDate.now()) ? "past" : "upcoming";
@@ -58,12 +59,16 @@ public class EventServiceImpl implements EventService {
                     .build();
 
             eventRepository.save(event);
-            return new ApiResponse(true, "Event created successfully");
+
+            return ResponseEntity.status(201)
+                    .body(new ApiResponse(true, "Event created successfully"));
 
         } catch (Exception e) {
-            return new ApiResponse(false, e.getMessage());
+            return ResponseEntity.internalServerError()
+                    .body(new ApiResponse(false, e.getMessage()));
         }
     }
+
 
     // ---------------------------
     // Get all events
@@ -125,30 +130,37 @@ public class EventServiceImpl implements EventService {
     // Delete event
     // ---------------------------
     @Override
-    public ApiResponse deleteEvent(String id) {
+    public ResponseEntity<ApiResponse> deleteEvent(String id) {
+
         Optional<Event> optionalEvent = eventRepository.findById(id);
-        if (!optionalEvent.isPresent()) {
-            return new ApiResponse(false, "Event not found");
+
+        if (optionalEvent.isEmpty()) {
+            return ResponseEntity.status(404)
+                    .body(new ApiResponse(false, "Event not found"));
         }
 
         try {
             eventRepository.deleteById(id);
-            return new ApiResponse(true, "Event deleted successfully");
+            return ResponseEntity.ok(new ApiResponse(true, "Event deleted successfully"));
+
         } catch (Exception e) {
-            return new ApiResponse(false, e.getMessage());
+            return ResponseEntity.internalServerError()
+                    .body(new ApiResponse(false, e.getMessage()));
         }
     }
+
 
     // ---------------------------
     // Update event
     // ---------------------------
     @Override
-    public ApiResponse updateEvent(String id, CreateEventRequest req) {
+    public ResponseEntity<ApiResponse> updateEvent(String id, CreateEventRequest req) {
 
         Optional<Event> optionalEvent = eventRepository.findById(id);
 
         if (!optionalEvent.isPresent()) {
-            return new ApiResponse(false, "Event not found");
+            return ResponseEntity.status(404)
+                .body(new ApiResponse(false, "Event not found"));
         }
 
         Event event = optionalEvent.get();
@@ -171,10 +183,10 @@ public class EventServiceImpl implements EventService {
             }
 
             eventRepository.save(event);
-            return new ApiResponse(true, "Event updated successfully");
+            return ResponseEntity.status(200).body(new ApiResponse(true, "Event updated successfully"));
 
         } catch (Exception e) {
-            return new ApiResponse(false, e.getMessage());
+            return ResponseEntity.status(500).body(new ApiResponse(false, e.getMessage()));
         }
     }
 }

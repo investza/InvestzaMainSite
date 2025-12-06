@@ -4,6 +4,8 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Header from './Header';
 import Footer from './Footer';
+import ReviewMyPortfolioForm from './ReviewMyportfolioForm';
+import GlassSurface from './GlassSurface';
 import './LandingPage.css';
 import { Link } from "react-router-dom";
 
@@ -17,6 +19,7 @@ const LandingPage = () => {
   const [currentSlide, setCurrentSlide] = useState(1); // Start at 1 (first real card)
   const carouselRef = useRef(null);
   const lenisRef = useRef(null);
+  const [showPortfolioForm, setShowPortfolioForm] = useState(false);
   // Initialize with proper width based on window size
   const [cardWidth, setCardWidth] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -213,7 +216,6 @@ const LandingPage = () => {
 
     const handleScroll = (time) => {
       const scrollY = lenis.scroll;
-      const header = document.querySelector('.header');
       const videoOverlay = document.querySelector('.video-overlay');
       const heroSection = document.querySelector('.hero');
       const downloadWidget = document.querySelector('.download-widget');
@@ -233,28 +235,12 @@ const LandingPage = () => {
         }
       }
 
-      if (scrollY > 50) {
-        header.classList.add('scrolled');
-
-        // Check if we've scrolled past the video section
+      // Video overlay tint effect
+      if (videoOverlay) {
         if (scrollY >= heroHeight) {
-          // Past video section - add black bar to header
-          header.classList.add('past-video');
-          if (videoOverlay) {
-            videoOverlay.style.setProperty('--scroll-tint-opacity', 0.6); // Keep max tint
-          }
+          videoOverlay.style.setProperty('--scroll-tint-opacity', 0.6);
         } else {
-          // Still in video section - progressive tint on video only
-          header.classList.remove('past-video');
-          if (videoOverlay) {
-            videoOverlay.style.setProperty('--scroll-tint-opacity', tintOpacity);
-          }
-        }
-      } else {
-        header.classList.remove('scrolled');
-        header.classList.remove('past-video');
-        if (videoOverlay) {
-          videoOverlay.style.setProperty('--scroll-tint-opacity', 0);
+          videoOverlay.style.setProperty('--scroll-tint-opacity', tintOpacity);
         }
       }
 
@@ -542,7 +528,7 @@ const LandingPage = () => {
   return (
     <div className="landing-page">
       {/* Header/Navigation */}
-      <Header />
+      <Header onReviewPortfolio={() => setShowPortfolioForm(true)} />
 
       {/* Hero Section */}
       <section id="home" className="hero">
@@ -859,15 +845,15 @@ const LandingPage = () => {
           <div className="backdrop-content">
             <div className="backdrop-stats">
               <div className="backdrop-stat-item">
-                <div className="backdrop-stat-number">500<span>+</span></div>
+                <div className="backdrop-stat-number">500 +</div>
                 <div className="backdrop-stat-label">Clients</div>
               </div>
               <div className="backdrop-stat-item">
-                <div className="backdrop-stat-number">200CR<span>+</span></div>
+                <div className="backdrop-stat-number">200CR +</div>
                 <div className="backdrop-stat-label">Assets Managed</div>
               </div>
               <div className="backdrop-stat-item">
-                <div className="backdrop-stat-number">2CR<span>+</span></div>
+                <div className="backdrop-stat-number">2CR +</div>
                 <div className="backdrop-stat-label">Live SIP</div>
               </div>
             </div>
@@ -1236,7 +1222,22 @@ const LandingPage = () => {
       {/* Apple Glass Style Download Widget */}
       {/* <a href="https://investza.in/wealth-tracker/" target="_blank" rel="noopener noreferrer" className="download-widget-link"> */}
       <Link to="/wealth-tracker" className="download-widget-link">
-        <div className="download-widget">
+        <GlassSurface
+          width={280}
+          height={100}
+          borderRadius={24}
+          brightness={30}
+          opacity={0.5}
+          blur={15}
+          displace={0}
+          backgroundOpacity={0}
+          saturation={1.2}
+          redOffset={2}
+          greenOffset={4}
+          blueOffset={6}
+          distortionScale={-200}
+          className="download-widget"
+        >
           <div className="download-content">
             <div className="qr-container">
               <img src="/qr-code.svg" alt="QR Code" className="qr-code-image" />
@@ -1253,7 +1254,7 @@ const LandingPage = () => {
               </div>
             </div>
           </div>
-        </div>
+        </GlassSurface>
       </Link>
 
       {/* Floating Download Badge - Mobile Only */}
@@ -1290,6 +1291,11 @@ const LandingPage = () => {
           ✕
         </div>
       </div>
+
+      {/* Portfolio Review Form Modal */}
+      {showPortfolioForm && (
+        <ReviewMyPortfolioForm onClose={() => setShowPortfolioForm(false)} />
+      )}
     </div>
   );
 };

@@ -26,7 +26,8 @@ function TermsConditions() {
 
     const handleScroll = () => {
       const scrollY = lenis.scroll;
-      const header = document.querySelector('.header');
+      const header = document.querySelector('.header-container');
+      if (!header) return;
       const heroSection = document.querySelector('.terms-hero');
       const contentSection = document.querySelector('.terms-content');
       const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;

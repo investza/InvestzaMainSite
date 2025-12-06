@@ -26,7 +26,8 @@ function Disclaimer() {
 
     const handleScroll = () => {
       const scrollY = lenis.scroll;
-      const header = document.querySelector('.header');
+      const header = document.querySelector('.header-container');
+      if (!header) return;
       const heroSection = document.querySelector('.disclaimer-hero');
       const contentSection = document.querySelector('.disclaimer-content');
       const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;

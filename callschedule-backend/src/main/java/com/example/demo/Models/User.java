@@ -6,15 +6,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.Data;
 
 @Data
-@Document(collection = "contact_messages")
-public class ContactMessage {
+@Document(collection = "user_table")
+public class User {
 
     @Id
     private String id;
 
-    private String name;
+    private String username;
     private String email;
-    private String subject;
-    private String message;
-    private String status;
+    private String password;
 }

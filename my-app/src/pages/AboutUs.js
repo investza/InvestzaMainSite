@@ -49,7 +49,8 @@ function AboutUs() {
 
     const handleScroll = () => {
       const scrollY = lenis.scroll;
-      const header = document.querySelector('.header');
+      const header = document.querySelector('.header-container');
+      if (!header) return;
       const heroSection = document.querySelector('.aboutUs');
       const contentSection = document.querySelector('.whyus');
       const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;

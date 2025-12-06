@@ -116,7 +116,8 @@ function formatDate(dateStr) {
 
     const handleScroll = () => {
       const scrollY = lenis.scroll;
-      const header = document.querySelector('.header');
+      const header = document.querySelector('.header-container');
+      if (!header) return;
       const heroOverlay = document.querySelector('.hero-overlay');
       const heroSection = document.querySelector('.events-hero');
       const eventsContent = document.querySelector('.events-content');
