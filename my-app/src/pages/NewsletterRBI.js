@@ -4,6 +4,11 @@ import Header from '../components/Header';
 import AboutUsFooter from './AboutUsFooter';
 import './NewsletterRBI.css';
 
+
+import RateCutChart from "../assets/RateCutChart.png";
+import ImpactOnHomeLoans from "../assets/ImpactOnHomeLoans.png";
+import HomeLoanInterestRates from "../assets/HomeLoanInterestRates.png";
+
 function NewsletterRBI() {
   const lenisRef = useRef(null);
 
@@ -68,7 +73,7 @@ function NewsletterRBI() {
           <p>The RBI has now cut rates across three consecutive meetings in 2025, starting with a quarter-point reduction in February, then 50 basis points in April, and the same once again.</p>
 
           <div className="rbi-image-section">
-            <img src="https://investza.in/wp-content/uploads/image-5.png" alt="RBI Rate Cut Chart" className="rbi-main-image" />
+            <img src={RateCutChart} alt="RBI Rate Cut Chart" className="rbi-main-image" />
           </div>
 
           <p>The RBI's decision is closely tied to India's current economic picture.</p>
@@ -162,7 +167,7 @@ function NewsletterRBI() {
           <p>Here's a representation on the impact of the rate cut on home loans –</p>
 
           <div className="rbi-image-section">
-            <img src="https://investza.in/wp-content/uploads/image-7.png" alt="Impact of Rate Cut on Home Loans" className="rbi-main-image" />
+            <img src={ImpactOnHomeLoans} alt="Impact of Rate Cut on Home Loans" className="rbi-main-image" />
           </div>
 
           <p>Early evidence already shows banks and housing finance companies lowered their prime lending rates after June 6, which will translate into a 5 to 10% drop in home loan EMIs for a typical borrower.</p>
@@ -172,7 +177,7 @@ function NewsletterRBI() {
           <p>Here's a list of some major banks' home loan interest rates-</p>
 
           <div className="rbi-image-section">
-            <img src="https://investza.in/wp-content/uploads/image-8.png" alt="Major Banks Home Loan Interest Rates" className="rbi-main-image" />
+            <img src={HomeLoanInterestRates} alt="Major Banks Home Loan Interest Rates" className="rbi-main-image" />
           </div>
 
           <p>Lower EMIs also help avoid loan defaults. Borrowers struggling with high EMIs will find their debt burdens easing. This will reduce delinquencies because EMIs become more manageable. So, not only does demand pick up, but loan quality also improves, meaning banks face less risk.</p>

@@ -10,6 +10,13 @@ import NewsletterGRCTC from './NewsletterGRCTC';
 import NewsletterWealth from './NewsletterWealth';
 import './NewsletterDetail.css';
 
+
+import news1 from "../assets/news1.png";
+import news2 from "../assets/news2.png";
+import trumpImg from "../assets/news3.png";
+import bar01 from "../assets/bar-01.svg";
+import table01 from "../assets/table01.svg";
+
 // Page 1 assets
 const imgImage11 = "https://www.figma.com/api/mcp/asset/3a500cd4-3114-4e26-b454-2e10d98e2aaa";
 const imgLine10 = "https://www.figma.com/api/mcp/asset/ffeda842-f55e-460b-9a76-5cd8b3e95adb";
@@ -130,8 +137,8 @@ function NewsletterDetail() {
           
           {/* Bar chart */}
           <div className="nd-chart">
-            <img src={imgZr30Cls69} alt="" className="nd-chart-img" />
-            <img src={imgZr30Cls70} alt="" className="nd-chart-img" />
+            <img src={bar01} alt="" className="nd-chart-img" />
+            {/* <img src={imgZr30Cls70} alt="" className="nd-chart-img" /> */}
           </div>
           
           {/* Chart caption */}
@@ -139,7 +146,7 @@ function NewsletterDetail() {
           
           {/* Main image */}
           <div className="nd-image">
-            <img src={imgImage11} alt="" />
+            <img src={news1} alt="" />
           </div>
           
           {/* Blue highlight box */}
@@ -227,12 +234,12 @@ function NewsletterDetail() {
           
           {/* Image 12 - market chart */}
           <div className="nd2-image-12">
-            <img src={imgImage12} alt="" />
+            <img src={table01} alt="" />
           </div>
           
           {/* Image 15 - agriculture photo */}
           <div className="nd2-image-15">
-            <img src={imgImage15} alt="" />
+            <img src={news2} alt="" />
           </div>
           
           {/* Text paragraph 6 - right middle */}
@@ -278,7 +285,7 @@ function NewsletterDetail() {
           <div className="nd3-blue-box">
             <p className="nd3-blue-headline">Trump Imposes 50% Tariffs on Indian Goods Starting August 27</p>
             <div className="nd3-trump-image">
-              <img src={imgImage8} alt="" />
+              <img src={trumpImg} alt="" />
             </div>
             <p className="nd3-blue-text-1">Effective August 27th, the Trump administration has introduced a new wave of tariffs, signaling a tougher stance on global trade. These measures are likely to affect key sectors such as manufacturing, technology, and consumer goods, leading to potential cost increases and disruptions </p>
             <p className="nd3-blue-text-2">across supply chains. For investors, this development may trigger short-term volatility in equity markets, particularly in companies with significant international exposure. However, it also presents an opportunity to reassess portfolios, identify resilient sectors, and align investments with shifting trade dynamics. Staying informed and agile will be crucial as markets react to these changes.</p>

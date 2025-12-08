@@ -168,7 +168,7 @@ function App() {
                   element={<Page Left={<Information />} Right={<EmailDetails />} />}
                 />
                 <Route path="/confirmation" element={<ConfirmationPageWrapper />} />
-                <Route path="/bookings" element={<BookingList />} />
+                {/* <Route path="/bookings" element={<BookingList />} /> */}
 
                 {/* Portfolio Review flow routes */}
                 <Route

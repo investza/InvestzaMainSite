@@ -4,6 +4,10 @@ import Header from '../components/Header';
 import AboutUsFooter from './AboutUsFooter';
 import './NewsletterGRCTC.css';
 
+import treasuryCentreOperatingModels from "../assets/treasuryCentreOperatingModels.png";
+import GRCTCWork from "../assets/GRCTCWorking.png";
+
+
 function NewsletterGRCTC() {
   const lenisRef = useRef(null);
 
@@ -74,7 +78,7 @@ function NewsletterGRCTC() {
           <p>A Global or Regional Corporate Treasury Centre (GRCTC) acts as an internal banking and commodity trading hub for multinational companies. Its main goal is to centralise fund management, support commodity trading, manage costs, and improve the use of financial resources across the group.</p>
 
           <div className="grctc-image-section">
-            <img src="https://investza.in/wp-content/uploads/image-4.png" alt="Different Treasury Centre Operating Models" className="grctc-main-image" />
+            <img src={treasuryCentreOperatingModels} alt="Different Treasury Centre Operating Models" className="grctc-main-image" />
           </div>
 
           <p>Each large multinational conglomerate (like Siemens, Tata, General Electric, Samsung, etc.) usually has at least one global treasury centre, and sometimes multiple regional centres in key financial hubs like Singapore, London, New York, and Hong Kong.</p>
@@ -116,7 +120,7 @@ function NewsletterGRCTC() {
           <p>Here's a look at how GRCTCs typically function:</p>
 
           <div className="grctc-image-section">
-            <img src="https://investza.in/wp-content/uploads/image-6.png" alt="How GRCTCs work" className="grctc-main-image" />
+            <img src={GRCTCWork} alt="How GRCTCs work" className="grctc-main-image" />
             <p className="grctc-image-caption">Source: EY's "Global/Regional Corporate Treasury Centres and the India advantage" report</p>
           </div>
 
