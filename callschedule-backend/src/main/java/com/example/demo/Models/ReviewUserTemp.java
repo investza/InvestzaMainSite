@@ -1,36 +1,36 @@
 package com.example.demo.Models;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "portfolio_review")
-public class ReviewPortfolio {
+@Document(collection = "review_user_temp")
+public class ReviewUserTemp {
+
     @Id
     private String id;
 
     private String fullName;
-    private String contactNumber;
-    private String email;
-    private String guestEmail;
-    private String message;
-    private String investmentRange;
 
-    private LocalDate date;
-    private LocalTime time;
-    private String status;
+    @Indexed(unique = false)
+    private String mobile;
+
+    private String otp;
+    private LocalDateTime otpGeneratedAt;
+    private boolean otpVerified;
+
+    private String investmentRange;
 
     private LocalDateTime createdAt;
 }

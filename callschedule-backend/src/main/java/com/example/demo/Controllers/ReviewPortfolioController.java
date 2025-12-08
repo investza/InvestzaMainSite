@@ -1,12 +1,10 @@
 package com.example.demo.Controllers;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.Models.ReviewPortfolio;
 import com.example.demo.Services.ReviewPortfolioService;
 import com.example.demo.dto.ApiResponse;
-import com.example.demo.dto.ReviewPortfolioRequest;
-import com.example.demo.dto.ReviewPortfolioRequest;
+import com.example.demo.dto.review_portfolio.InvestmentRequest;
+import com.example.demo.dto.review_portfolio.ReviewPortfolioRequest;
+import com.example.demo.dto.review_portfolio.SendOtpRequest;
+import com.example.demo.dto.review_portfolio.StartRequest;
+import com.example.demo.dto.review_portfolio.VerifyOtpRequest;
 
 import jakarta.validation.Valid;
 
@@ -26,19 +27,45 @@ public class ReviewPortfolioController {
     
     @Autowired
     private ReviewPortfolioService service;
-    
-    // Public endpoint - Submit review portfolio request
-    @PostMapping("/submit")
-    public ResponseEntity<ApiResponse> submitForm(@Valid @RequestBody ReviewPortfolioRequest request) {
-        try {
-            service.saveForm(request);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(new ApiResponse(true, "Form submitted successfully"));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse(false, "Failed to submit form: " + e.getMessage()));
-        }
+
+    // STEP - 1
+    @PostMapping("/start")
+    public ResponseEntity<?> start(@RequestBody StartRequest req){
+        return service.start(req);
     }
+
+
+    // STEP - 2
+    @PostMapping("/send-otp")
+    public ResponseEntity<?> sendOtp(@RequestBody SendOtpRequest req){
+        return service.sendOtp(req);
+    }
+
+    // STEP - 3
+    @PostMapping("/verify-otp")
+    public ResponseEntity<?> verifyOtp(@RequestBody VerifyOtpRequest req){
+        return service.verifyOtp(req);
+    }
+
+    // STEP - 3
+    @PostMapping("/investment")
+    public ResponseEntity<?> investment(@RequestBody InvestmentRequest req){
+        return service.investment(req);
+    }
+
+    // STEP - 4
+    @GetMapping("/check-slot")
+    public ResponseEntity<?> getSlots(@RequestParam String date) {
+        LocalDate parsedDate = LocalDate.parse(date);
+        return service.getAvailableSlots(parsedDate);
+    }
+
+    // STEP 5
+    @PostMapping("/submit")
+    public ResponseEntity<?> submitRequest(@RequestBody ReviewPortfolioRequest req) {
+        return service.submitRequest(req);
+    }
+
     
     // Get all review portfolio requests
     @GetMapping("/list")
@@ -70,23 +97,6 @@ public class ReviewPortfolioController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse(false, "Failed to fetch request: " + e.getMessage()));
-        }
-    }
-    
-    // Update review portfolio request
-    @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse> updateRequest(
-            @PathVariable String id,
-            @Valid @RequestBody ReviewPortfolioRequest request) {
-        try {
-            service.updateRequest(id, request);
-            return ResponseEntity.ok(new ApiResponse(true, "Request updated successfully"));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse(false, e.getMessage()));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse(false, "Failed to update request: " + e.getMessage()));
         }
     }
     

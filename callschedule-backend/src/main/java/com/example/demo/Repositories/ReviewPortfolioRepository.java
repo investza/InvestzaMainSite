@@ -1,5 +1,8 @@
 package com.example.demo.Repositories;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -12,4 +15,5 @@ public interface ReviewPortfolioRepository extends MongoRepository<ReviewPortfol
     
     // Count by status
     long countByStatus(String status);
+    long countByDateAndTime(LocalDate date, LocalTime time);
 }
