@@ -143,7 +143,7 @@ public class ReviewPortfolioServiceImpl implements ReviewPortfolioService {
             reviewUserTempRepository.save(tempUser);
 
             // Send OTP using SMS service
-            smsService.sendSms(tempUser.getMobile(), otp);
+            smsService.sendReviewPortfolioSms(tempUser.getMobile(), otp);
 
             return ResponseEntity.ok(
                     Map.of(
@@ -332,6 +332,7 @@ public class ReviewPortfolioServiceImpl implements ReviewPortfolioService {
                     .investmentRange(user.getInvestmentRange())
                     .date(req.getDate())
                     .time(req.getTime())
+                    .status("PENDING")
                     .createdAt(LocalDateTime.now())
                     .build();
 

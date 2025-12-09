@@ -4,18 +4,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
 @Service
 public class RealSmsService implements SmsService {
 
     @Value("${sms.enabled:true}")
     private boolean smsEnabled;
 
-    @Value("${authkey.key}")      
+    @Value("${authkey.key}")
     private String authKey;
 
-    @Value("${authkey.sid}")      
-    private String sid;
+    @Value("${authkey.callSchedulingSid}")
+    private String callSchedulingSid;
+
+    @Value("${authkey.reviewPortfolioSid}")
+    private String reviewPortfolioSid;
 
     private final RestTemplate restTemplate;
 
@@ -24,39 +26,39 @@ public class RealSmsService implements SmsService {
     }
 
     @Override
-    public String sendSms(String mobile, String otp) {
+    public String sendCallSchedulingSms(String mobile, String otp) {
+        return sendSmsInternal(mobile, otp, callSchedulingSid);
+    }
 
-        if (!smsEnabled) {
-            System.out.println("[SMS_DISABLED] sms.enabled=false");
-            return "SMS Disabled";
-        }
-        
-        if (authKey == null || authKey.isBlank()) {
-             System.out.println("[SMS_ERROR] Missing AuthKey");
-             return "Missing AuthKey";
-        }
+    @Override
+    public String sendReviewPortfolioSms(String mobile, String otp) {
+        return sendSmsInternal(mobile, otp, reviewPortfolioSid);
+    }
 
-        // Hardcoded placeholder to satisfy the {#date_time#} variable in your template
-        final String DATE_PLACEHOLDER = "your scheduled call"; 
+    private String sendSmsInternal(String mobile, String otp, String sid) {
+
+        if (!smsEnabled) return "SMS Disabled";
+        if (authKey == null || authKey.isBlank()) return "Missing AuthKey";
+
+        final String DATE_PLACEHOLDER = "your scheduled call";
 
         try {
-            // Use UriComponentsBuilder for proper URL encoding and to match template variables
             String url = UriComponentsBuilder.fromHttpUrl("https://api.authkey.io/request")
                     .queryParam("authkey", authKey)
                     .queryParam("mobile", mobile)
                     .queryParam("sid", sid)
                     .queryParam("country_code", "91")
-                    .queryParam("date_time", DATE_PLACEHOLDER) // Satisfies {#date_time#}
+                    .queryParam("date_time", DATE_PLACEHOLDER)
                     .queryParam("otp", otp)
                     .toUriString();
 
-            System.out.println("OTP URL => " + url);
+            System.out.println("SMS URL => " + url);
             String response = restTemplate.getForObject(url, String.class);
-            System.out.println("OTP RESPONSE => " + response);
+            System.out.println("SMS RESPONSE => " + response);
+
             return response;
 
         } catch (Exception e) {
-            System.out.println("OTP FAILED => " + e.getMessage());
             return "FAILED: " + e.getMessage();
         }
     }

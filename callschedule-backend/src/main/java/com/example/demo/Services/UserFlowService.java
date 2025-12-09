@@ -105,7 +105,7 @@ public class UserFlowService {
         userTempRepository.save(u);
 
         // Call the service with only mobile and otp
-        smsService.sendSms(u.getMobile(), otp);
+        smsService.sendCallSchedulingSms(u.getMobile(), otp);
 
         return u;
     }
@@ -177,10 +177,10 @@ public class UserFlowService {
             throw new IllegalStateException("User not eligible");
         }
 
-        long count = bookingRepository.countByDateAndTime(req.getDate(), req.getTime());
-        if (count >= 5) {
-            throw new IllegalStateException("Slot full");
-        }
+        // long count = bookingRepository.countByDateAndTime(req.getDate(), req.getTime());
+        // if (count >= 5) {
+        //     throw new IllegalStateException("Slot full");
+        // }
 
         Booking b = Booking.builder()
                 .fullName(u.getFullName())
