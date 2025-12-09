@@ -926,13 +926,47 @@
 }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
+@media (max-width: 1300px) {
   .header-links {
-    gap: 24px;
+    gap: 20px;
   }
   
   .header-link {
     font-size: 13px;
+  }
+
+  .header-cta-btn {
+    font-size: 13px;
+    padding: 9px 20px;
+  }
+
+  .header-login-btn {
+    font-size: 13px;
+    padding: 9px 16px;
+  }
+
+  .header-actions {
+    gap: 6px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .header-links {
+    gap: 16px;
+  }
+  
+  .header-link {
+    font-size: 12px;
+  }
+
+  .header-cta-btn {
+    font-size: 12px;
+    padding: 8px 18px;
+  }
+
+  .header-login-btn {
+    font-size: 12px;
+    padding: 8px 14px;
   }
 
   .dropdown-cards-container {
@@ -957,7 +991,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 780px) {
   .header-container {
     top: 16px;
     width: calc(100% - 32px);
@@ -995,7 +1029,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 520px) {
   .header-container {
     top: 12px;
     width: calc(100% - 24px);
@@ -1009,5 +1043,20 @@
 
   .header-logo-img {
     height: 80px;
+  }
+
+  /* Ensure glassmorphism works on small mobile viewports */
+  .header-glass.glass-surface--fallback {
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(100px) saturate(1.8) brightness(1.1) !important;
+    -webkit-backdrop-filter: blur(100px) saturate(1.8) brightness(1.1) !important;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .header-glass.glass-surface--fallback {
+      background: rgba(255, 255, 255, 0.08) !important;
+      backdrop-filter: blur(80px) saturate(1.8) brightness(1.2) !important;
+      -webkit-backdrop-filter: blur(80px) saturate(1.8) brightness(1.2) !important;
+    }
   }
 }

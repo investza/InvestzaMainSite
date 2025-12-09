@@ -165,7 +165,7 @@ function Newsletter() {
         <div className="newsletter-hero-content">
           <h1>Newsletter</h1>
           <p>Stay informed with the latest insights, market trends, and investment strategies</p>
-          <button className="nav-button">Suscribe</button>
+          <button className="nav-button">Subscribe</button>
         </div>   
       </div>
 

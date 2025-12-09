@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import Preloader from './components/Preloader';
 import LandingPage from './components/LandingPage';
 import EventsPage from './pages/EventsPage';
 import AboutUs from './pages/AboutUs';
@@ -50,6 +51,7 @@ import AdnanKhan from './assets/Adnan-Khan.webp';
 import AnkitMehta from './assets/Ankit-Mehta.webp';
 
 import './App.css';
+import './components/PreloaderAnimations.css';
 import ShowQR from './components/ShowQR';
 
 // ScrollToTop component to reset scroll position on route change
@@ -64,6 +66,8 @@ function ScrollToTop() {
 }
 
 function App() {
+  const [showPreloader, setShowPreloader] = useState(true);
+
   const [data, setData] = useState({
     date: '',
     time: '',
@@ -88,6 +92,27 @@ function App() {
   const [isOTPVerified, setIsOTPVerified] = useState(false);
 
   useEffect(() => {
+    const hasSeenPreloader = sessionStorage.getItem('preloaderShown');
+    if (hasSeenPreloader) {
+      setShowPreloader(false);
+      document.body.classList.remove('preloader-active');
+      // Don't add preloader-complete if already seen - elements should be visible normally
+    } else {
+      document.body.classList.add('preloader-active');
+    }
+  }, []);
+
+  const handlePreloaderComplete = () => {
+    document.body.classList.remove('preloader-active');
+    document.body.classList.add('preloader-complete');
+    // Keep preloader mounted longer to ensure animations trigger
+    setTimeout(() => {
+      setShowPreloader(false);
+    }, 500);
+    sessionStorage.setItem('preloaderShown', 'true');
+  };
+
+  useEffect(() => {
     const saved = localStorage.getItem('userData');
     if (saved) {
       setData(JSON.parse(saved));
@@ -101,7 +126,8 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="App">
+      {showPreloader && <Preloader onComplete={handlePreloaderComplete} />}
+      <div className={`App ${showPreloader ? 'preloader-active' : ''}`}>
         <userDetails.Provider value={{ userData, setUserData }}>
           <OtpVerification.Provider value={{ isOTPVerified, setIsOTPVerified }}>
             <DetailsContext.Provider value={{ data, setData }}>
