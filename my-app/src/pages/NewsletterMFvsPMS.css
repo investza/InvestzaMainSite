@@ -243,6 +243,20 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.mfpms-graph-image {
+  width: 100%;
+  margin: 40px 0 60px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.mfpms-graph-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 .mfpms-cta-section {
   background: linear-gradient(135deg, #04d9ff 0%, #0099cc 100%);
   border-radius: 12px;

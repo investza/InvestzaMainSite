@@ -42,159 +42,101 @@ function NewsletterMFvsPMS() {
         <div className="mfpms-container">
           <div className="mfpms-spacer"></div>
           
-          <h1 className="mfpms-main-title">Mutual Funds vs PMS: The Structural Return Gap</h1>
-          <h2 className="mfpms-subtitle">The structure you choose, not the market you invest in, is driving the difference in realised returns. A data-driven analysis of why compounding rewards efficiency.</h2>
+          <h1 className="mfpms-main-title">Mutual Funds vs PMS: The Structural Return Gap That Investors Can No Longer Ignore</h1>
+          <h2 className="mfpms-subtitle">Because The structure you choose, not the market you invest in, is driving the difference in realised returns. A data-driven analysis of why compounding rewards efficiency.</h2>
 
           <div className="mfpms-intro-section">
-            <p>Over the past decade, the Indian equity market has delivered strong returns. Yet, when you compare the actual wealth created by mutual fund investors versus PMS clients, a clear divergence emerges — not because of strategy, but because of structure.</p>
+            <p>There is a point in every investor’s journey when the question becomes unavoidable:
+Should serious long-term capital be compounded in Mutual Funds or in PMS?</p>
             
-            <p>This isn't about skill. It's about the invisible costs embedded in how portfolios are managed, taxed, and rebalanced. The difference compounds silently, year after year, until the gap becomes undeniable.</p>
+            <p>For years, PMS has carried the aura of “premium management”:  higher access, deeper research, differentiated stock selection. Mutual Funds, on the other hand, have been positioned as the systematic, regulatory-bound alternative.</p>
+            <p>But when you strip the story from the numbers and examine actual trailing returns across meaningful horizons, a sharp and irrefutable pattern emerges:</p>
+            <p>Compounding rewards efficiency, not exclusivity. And efficiency lives firmly on the Mutual Fund side.</p>
           </div>
 
-          <h2 className="mfpms-section-title">The Data: Trailing Returns Comparison</h2>
+          <h2 className="mfpms-section-title">The Data Behind the Debate</h2>
           
-          <p>Below is a comparison of trailing returns between a representative Mutual Fund portfolio and a PMS portfolio, both investing in similar market segments:</p>
+          <p>To maintain objectivity in this evaluation, we compared two diversified baskets of widely used Indian equity strategies. </p>
+          <p>We selected 5 widely-owned, long-running PMS strategies and 5 market-respected Mutual Funds to ensure a fair, apples-to-apples comparison.</p>
 
+          <h2 className="mfpms-section-title">Mutual Fund Basket</h2>
+          <ul className="mfpms-list">
+          <li>HDFC Mid Cap Fund (G)</li>
+          <li>Parag Parikh Flexi Cap Fund (G)</li>
+          <li>HDFC Flexi Cap Fund (G)</li>
+          <li>Kotak Flexi Cap Fund (G)</li>
+          <li>Nippon India Multi Cap Fund (G)</li>
+          </ul>
+
+          <h2 className="mfpms-section-title">PMS Basket</h2>
+          <ul className="mfpms-list">
+          <li>ASK India Entrepreneur Portfolio</li>
+          <li>White Oak India Pioneers Equity</li>
+          <li>Marcellus Consistent Compounders</li>
+          <li>Motilal Oswal NTDOP</li>
+          <li>ICICI Contra Portfolio</li>
+          </ul>
+
+          <p>These aren’t theoretical models; these are the products that real investors allocate crores to.</p>
+          <p><strong>The Data That Breaks the PMS Myth</strong></p>
+ <p><strong>Trailing Returns (Ended 31/10/25)</strong></p>
           <table className="mfpms-table">
             <thead>
               <tr>
                 <th>Period</th>
-                <th>Mutual Fund Portfolio (%)</th>
-                <th>PMS Portfolio (%)</th>
-                <th>Difference (%)</th>
+                <th>Mutual Funds (Avg))</th>
+                <th>PMS (Avg)</th>
+                <th>MF Advantage</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>6 Months</td>
-                <td>12.5</td>
-                <td>10.8</td>
-                <td>-1.7</td>
+                <td>9.36%</td>
+                <td>7.45%</td>
+                <td>+1.91%</td>
               </tr>
               <tr>
                 <td>1 Year</td>
-                <td>18.3</td>
-                <td>15.2</td>
-                <td>-3.1</td>
+                <td>7.96%</td>
+                <td>1.58%</td>
+                <td>+6.38%</td>
               </tr>
               <tr>
                 <td>2 Years</td>
-                <td>16.7</td>
-                <td>13.9</td>
-                <td>-2.8</td>
+                <td>22.99%</td>
+                <td>15.47%</td>
+                <td>+7.52%</td>
               </tr>
               <tr>
                 <td>3 Years</td>
-                <td>19.2</td>
-                <td>15.8</td>
-                <td>-3.4</td>
+                <td>21.53%</td>
+                <td>12.98%</td>
+                <td>+8.55%</td>
               </tr>
               <tr>
                 <td>5 Years</td>
-                <td>17.8</td>
-                <td>14.1</td>
-                <td>-3.7</td>
+                <td>26.38%</td>
+                <td>17.55%</td>
+                <td>+8.83%</td>
               </tr>
               <tr>
-                <td>Since Inception (10Y)</td>
-                <td>16.4</td>
-                <td>12.9</td>
-                <td>-3.5</td>
+                <td>Since Inception</td>
+                <td>17.92%</td>
+                <td>16.19%</td>
+                <td>+1.73%</td>
               </tr>
             </tbody>
           </table>
+          <p>The insight is straightforward:</p>
+          <p>Across all horizons, PMS never overtakes Mutual Funds, and the return gap actually accelerates over time. Not at 1 year. Not at 5 years. Not since inception.</p>
+<p>The gap widens the longer capital compounds, escalating from a modest lead at 6 months to an overwhelming one by 3–5 years, precisely when meaningful wealth creation occurs.</p>
 
-          <p className="mfpms-note"><em>Note: Data represents average trailing returns across comparable large-cap equity strategies. Individual results may vary.</em></p>
+      <p><strong>How the Performance Divergence Looks Visually</strong></p>
 
-          <div className="mfpms-chart-placeholder">
-            <p className="mfpms-chart-text">[Chart: Performance Divergence Over Time]</p>
-            <p className="mfpms-chart-subtext">Visual representation showing how the return gap widens over longer time horizons</p>
+          <div className="mfpms-graph-image">
+            <img src="/newsletter7_graph.png" alt="Performance Comparison: Mutual Funds vs PMS" />
           </div>
-
-          <h2 className="mfpms-section-title">Why PMS Underperforms: The Structural Factors</h2>
-          
-          <p>The gap isn't random. It's the result of five structural inefficiencies that compound over time:</p>
-
-          <div className="mfpms-reason-block">
-            <h3 className="mfpms-reason-title">1. Higher Fee Structures</h3>
-            <p>PMS typically charges 2-3% annual management fees, often with additional performance fees. Mutual funds, by contrast, charge 0.5-1.5% for direct plans. Over a decade, this difference alone can erode 15-20% of your total returns.</p>
-          </div>
-
-          <div className="mfpms-reason-block">
-            <h3 className="mfpms-reason-title">2. Tax Drag from Frequent Rebalancing</h3>
-            <p>PMS portfolios are individually managed, which means every rebalancing event triggers a taxable event for you. Mutual funds pool assets, allowing internal rebalancing without immediate tax consequences to individual investors. This tax drag compounds silently, reducing net returns by 1-2% annually.</p>
-          </div>
-
-          <div className="mfpms-reason-block">
-            <h3 className="mfpms-reason-title">3. Portfolio Variance and Tracking Error</h3>
-            <p>While PMS offers customization, it also introduces variance. Not all PMS clients hold the same stocks at the same time, leading to inconsistent outcomes. Mutual funds, with their pooled structure, deliver more predictable tracking to their stated benchmark.</p>
-          </div>
-
-          <div className="mfpms-reason-block">
-            <h3 className="mfpms-reason-title">4. Lack of Uniformity in Execution</h3>
-            <p>PMS managers may execute trades at different times for different clients, leading to price slippage and execution inefficiency. Mutual funds execute at a single NAV, ensuring uniform pricing for all investors.</p>
-          </div>
-
-          <div className="mfpms-reason-block">
-            <h3 className="mfpms-reason-title">5. Exit Barriers and Liquidity Constraints</h3>
-            <p>PMS portfolios often have lock-in periods and exit loads that can delay or penalize withdrawals. Mutual funds offer daily liquidity with no exit barriers (except for ELSS), allowing investors to respond quickly to changing circumstances.</p>
-          </div>
-
-          <h2 className="mfpms-section-title">The Long-Term Wealth Impact</h2>
-          
-          <p>Let's put this in perspective. Assume you invest ₹1 crore today:</p>
-
-          <table className="mfpms-wealth-table">
-            <thead>
-              <tr>
-                <th>Time Period</th>
-                <th>Mutual Fund (16.4% CAGR)</th>
-                <th>PMS (12.9% CAGR)</th>
-                <th>Wealth Gap</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>10 Years</td>
-                <td>₹4.56 Cr</td>
-                <td>₹3.39 Cr</td>
-                <td>₹1.17 Cr</td>
-              </tr>
-              <tr>
-                <td>15 Years</td>
-                <td>₹9.27 Cr</td>
-                <td>₹6.12 Cr</td>
-                <td>₹3.15 Cr</td>
-              </tr>
-              <tr>
-                <td>20 Years</td>
-                <td>₹18.84 Cr</td>
-                <td>₹11.05 Cr</td>
-                <td>₹7.79 Cr</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <p>Over 20 years, the structural inefficiencies of PMS cost you nearly ₹8 crores on a ₹1 crore investment. That's not a rounding error — that's a retirement plan.</p>
-
-          <h2 className="mfpms-section-title">The Final Assessment</h2>
-          
-          <p>PMS isn't inherently bad. For ultra-high-net-worth individuals seeking bespoke tax strategies, estate planning integration, or highly customized portfolios, it can make sense. But for most investors, the structural costs outweigh the perceived benefits.</p>
-          
-          <p>Mutual funds, especially direct plans, offer:</p>
-          <ul className="mfpms-list">
-            <li>Lower fees</li>
-            <li>Tax efficiency through pooled rebalancing</li>
-            <li>Uniform execution and pricing</li>
-            <li>Daily liquidity with no exit barriers</li>
-            <li>Regulatory oversight and transparency</li>
-          </ul>
-
-          <p>The market doesn't care about your portfolio structure. But your returns do.</p>
-          
-          <p className="mfpms-quote"><strong>"In investing, what you keep matters more than what you make. Structure determines what you keep."</strong></p>
-          
-          <p><strong>Investza Capital</strong><br />Evidence-Based Wealth Management</p>
 
           <div className="mfpms-cta-section">
             <h3>Want to review your portfolio structure?</h3>
