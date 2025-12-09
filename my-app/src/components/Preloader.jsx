@@ -107,7 +107,7 @@ const Preloader = ({ onComplete }) => {
           transform: scale(1);
         }
         100% {
-          transform: scale(50);
+          transform: scale(120);
         }
       }
 
@@ -128,7 +128,7 @@ const Preloader = ({ onComplete }) => {
             transform: scale(1);
           }
           100% {
-            transform: scale(100);
+            transform: scale(120);
           }
         }
       }

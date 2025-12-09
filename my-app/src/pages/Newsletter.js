@@ -145,6 +145,14 @@ function Newsletter() {
       description: 'I recently met one of my close friends who had just run into some good fortune. He sold a part of his business and received ₹20 crores in an all-cash.',
       image: '/newsletter6.jpg',
       category: 'Market Analysis'
+    },
+    {
+      id: 7,
+      title: 'Mutual Funds vs PMS: The Structural Return Gap',
+      date: 'December 2024',
+      description: 'The structure you choose, not the market you invest in, is driving the difference in realised returns. A data-driven analysis of why compounding rewards efficiency.',
+      image: '/newsletter7.jpg',
+      category: 'Investment Tips'
     }
   ];
 

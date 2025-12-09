@@ -8,6 +8,7 @@ import NewsletterEstate from './NewsletterEstate';
 import NewsletterRBI from './NewsletterRBI';
 import NewsletterGRCTC from './NewsletterGRCTC';
 import NewsletterWealth from './NewsletterWealth';
+import NewsletterMFvsPMS from './NewsletterMFvsPMS';
 import './NewsletterDetail.css';
 
 
@@ -83,6 +84,10 @@ function NewsletterDetail() {
   
   if (id === '6') {
     return <NewsletterWealth />;
+  }
+  
+  if (id === '7') {
+    return <NewsletterMFvsPMS />;
   }
   
   // For other IDs, show the default newsletter layout
