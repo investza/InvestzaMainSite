@@ -1,0 +1,388 @@
+.newsletter-mfpms-page {
+  min-height: 100vh;
+  background: #E6E6E6;
+  color: #000;
+}
+
+/* Force black header background for this page */
+.newsletter-mfpms-page .header {
+  background: #000 !important;
+}
+
+.newsletter-mfpms-page .header.scrolled {
+  background: #000 !important;
+}
+
+.newsletter-mfpms-page .header.past-video {
+  background: #000 !important;
+}
+
+.mfpms-content {
+  padding: 120px 0 80px;
+  background: #E6E6E6;
+}
+
+.mfpms-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.mfpms-spacer {
+  height: 40px;
+}
+
+.mfpms-main-title {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 24px;
+  color: #000;
+  text-align: left;
+}
+
+.mfpms-subtitle {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 60px;
+  color: #04d9ff;
+  text-align: left;
+}
+
+.mfpms-intro-section p {
+  font-size: 18px;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: left;
+}
+
+.mfpms-section-title {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 60px 0 30px;
+  color: #000;
+  text-align: left;
+}
+
+.mfpms-content p {
+  font-size: 18px;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: left;
+}
+
+.mfpms-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 40px 0;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mfpms-table thead {
+  background: #04d9ff;
+}
+
+.mfpms-table th {
+  padding: 20px;
+  text-align: left;
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+}
+
+.mfpms-table td {
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+  color: #333;
+  text-align: left;
+}
+
+.mfpms-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.mfpms-table tbody tr:hover {
+  background: #f5f5f5;
+}
+
+.mfpms-note {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+  margin-top: -20px;
+  margin-bottom: 40px;
+}
+
+.mfpms-chart-placeholder {
+  background: #fff;
+  border: 2px dashed #04d9ff;
+  border-radius: 8px;
+  padding: 80px 40px;
+  margin: 40px 0;
+  text-align: center;
+}
+
+.mfpms-chart-text {
+  font-size: 24px;
+  font-weight: 600;
+  color: #04d9ff;
+  margin-bottom: 12px;
+}
+
+.mfpms-chart-subtext {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+}
+
+.mfpms-reason-block {
+  background: #fff;
+  border-left: 4px solid #04d9ff;
+  padding: 30px;
+  margin: 30px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.mfpms-reason-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.mfpms-reason-block p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #333;
+}
+
+.mfpms-wealth-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 40px 0;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mfpms-wealth-table thead {
+  background: #000;
+}
+
+.mfpms-wealth-table th {
+  padding: 20px;
+  text-align: left;
+  font-size: 18px;
+  font-weight: 700;
+  color: #04d9ff;
+}
+
+.mfpms-wealth-table td {
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+  color: #333;
+  text-align: left;
+}
+
+.mfpms-wealth-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.mfpms-wealth-table tbody tr:hover {
+  background: #f5f5f5;
+}
+
+.mfpms-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 30px 0;
+}
+
+.mfpms-list li {
+  font-size: 18px;
+  line-height: 1.8;
+  margin-bottom: 16px;
+  padding-left: 30px;
+  position: relative;
+  color: #333;
+  text-align: left;
+}
+
+.mfpms-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #04d9ff;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.mfpms-quote {
+  font-size: 24px;
+  font-weight: 600;
+  font-style: italic;
+  color: #04d9ff;
+  text-align: left;
+  margin: 60px 0;
+  padding: 40px;
+  background: #fff;
+  border-radius: 8px;
+  border-left: 4px solid #04d9ff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mfpms-graph-image {
+  max-width: 700px;
+  margin: 40px auto 60px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.mfpms-graph-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.mfpms-cta-section {
+  background: linear-gradient(135deg, #04d9ff 0%, #0099cc 100%);
+  border-radius: 12px;
+  padding: 60px 40px;
+  text-align: center;
+  margin: 80px 0 40px;
+  box-shadow: 0 4px 16px rgba(4, 217, 255, 0.2);
+}
+
+.mfpms-cta-section h3 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 16px;
+}
+
+.mfpms-cta-section p {
+  font-size: 18px;
+  color: #000;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.mfpms-cta-button {
+  background: #000;
+  color: #04d9ff;
+  border: none;
+  padding: 16px 48px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.mfpms-cta-button:hover {
+  background: #1a1a1a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .mfpms-container {
+    padding: 0 30px;
+  }
+
+  .mfpms-main-title {
+    font-size: 36px;
+  }
+
+  .mfpms-subtitle {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mfpms-content {
+    padding: 100px 0 60px;
+  }
+
+  .mfpms-container {
+    padding: 0 20px;
+  }
+
+  .mfpms-main-title {
+    font-size: 28px;
+  }
+
+  .mfpms-subtitle {
+    font-size: 20px;
+  }
+
+  .mfpms-section-title {
+    font-size: 28px;
+  }
+
+  .mfpms-content p,
+  .mfpms-list li {
+    font-size: 16px;
+  }
+
+  .mfpms-reason-title {
+    font-size: 20px;
+  }
+
+  .mfpms-quote {
+    font-size: 20px;
+    padding: 30px 20px;
+  }
+
+  .mfpms-table,
+  .mfpms-wealth-table {
+    font-size: 14px;
+  }
+
+  .mfpms-table th,
+  .mfpms-table td,
+  .mfpms-wealth-table th,
+  .mfpms-wealth-table td {
+    padding: 12px;
+  }
+
+  .mfpms-chart-placeholder {
+    padding: 60px 20px;
+  }
+
+  .mfpms-chart-text {
+    font-size: 20px;
+  }
+
+  .mfpms-cta-section {
+    padding: 40px 20px;
+  }
+
+  .mfpms-cta-section h3 {
+    font-size: 24px;
+  }
+
+  .mfpms-cta-section p {
+    font-size: 16px;
+  }
+
+  .mfpms-cta-button {
+    padding: 14px 32px;
+    font-size: 16px;
+  }
+}
