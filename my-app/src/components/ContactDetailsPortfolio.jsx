@@ -3,7 +3,7 @@ import styles from "./ContactDetails.module.css";
 import { useNavigate } from "react-router-dom";
 import { userDetails } from "./contexts/userDetails";
 
-import { sendOtp } from "../api/flowApi";
+import { sendOtp_reviewPortfolio } from "../api/flowApi";
 
 const ContactDetailsPortfolio = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -14,12 +14,12 @@ const ContactDetailsPortfolio = () => {
     navigate("/");
   };
 
-  const handleSendOTP = async () => {
+  const handlesendOtp_reviewPortfolio = async () => {
     if (phoneNumber.trim()) {
       try {
         console.log(userData.userId);
         // 1️⃣ Call backend API
-        const res = await sendOtp(userData.userId, phoneNumber);
+        const res = await sendOtp_reviewPortfolio(userData.userId, phoneNumber);
 
         // 2️⃣ Save phone number to global context
         setUserData((prev) => ({
@@ -36,7 +36,6 @@ const ContactDetailsPortfolio = () => {
       } catch (error) {
         console.error("Error sending OTP:", error);
         alert("Failed to send OTP. Try again.");
-        
       }
     }
   };
@@ -95,7 +94,7 @@ const ContactDetailsPortfolio = () => {
               placeholder="Enter phone number"
               onKeyDown={(e) => {
                 if (e.key === "Enter" && phoneNumber.length === 10)
-                  handleSendOTP();
+                  handlesendOtp_reviewPortfolio();
               }}
             />
           </div>
@@ -105,7 +104,7 @@ const ContactDetailsPortfolio = () => {
           className={`${styles["otp-button"]} ${
             phoneNumber.length === 10 ? styles.active : ""
           }`}
-          onClick={handleSendOTP}
+          onClick={handlesendOtp_reviewPortfolio}
           disabled={phoneNumber.length !== 10}
         >
           Send OTP

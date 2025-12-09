@@ -6,7 +6,7 @@ import styles from "./NameDetails.module.css";
 import { OtpVerification } from "./contexts/OtpVerification";
 import { useContext } from "react";
 
-import { startFlow } from "../api/flowApi";
+import { startReviewPortfolio } from "../api/flowApi";
 import { userDetails } from "./contexts/userDetails";
 
 const NameDetailsPortfolio = () => {
@@ -21,9 +21,8 @@ const NameDetailsPortfolio = () => {
       console.log("Name submitted:", name);
       try {
         // 1️⃣ Start flow API call
-        const res = await startFlow(name);
+        const res = await startReviewPortfolio(name);
         const userId = res.data.userId;
-
 
         // 2️⃣ Save userId + name in global context
         setUserData((prev) => ({

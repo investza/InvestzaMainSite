@@ -1,7 +1,7 @@
 import styles from "./InvestmentDetails.module.css";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { selectInvestment } from "../api/flowApi";
+import { setInvestment } from "../api/flowApi";
 import { userDetails } from "./contexts/userDetails";
 import { ChevronRight } from "lucide-react";
 
@@ -38,7 +38,7 @@ const InvestmentDetailsPortfolio = () => {
   };
 
   const handleContinue = async () => {
-    const res = await selectInvestment(userData.userId, selectedRange);
+    const res = await setInvestment(userData.userId, selectedRange);
     navigate("/portfolio-schedule");
   };
 

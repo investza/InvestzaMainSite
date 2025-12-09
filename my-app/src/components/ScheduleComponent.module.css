@@ -1,6 +1,13 @@
 /* ScheduleComponent.module.css
    Complete CSS for ScheduleComponent with responsive media queries
 */
+.time-btn.disabled {
+  background-color: #333 !important;
+  color: #777 !important;
+  cursor: not-allowed !important;
+  opacity: 0.5;
+  border: 1px solid #444;
+}
 
 /* Wrapper */
 .schedule-wrapper {

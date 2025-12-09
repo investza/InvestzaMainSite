@@ -4,20 +4,33 @@ import styles from "./ScheduleComponent.module.css";
 import { useNavigate } from "react-router-dom";
 import { DetailsContext } from "./contexts/Details";
 import { userDetails } from "./contexts/userDetails";
-
-import { checkSlot } from "../api/flowApi";
+import { checkSlot_reviewPortfolio } from "../api/flowApi";
 
 const ScheduleComponentPortfolio = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState("10:00 AM");
   const [showCalendar, setShowCalendar] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [slotAvailability, setSlotAvailability] = useState({});
+
   const calendarRef = useRef(null);
   const navigate = useNavigate();
 
   const { data, setData } = useContext(DetailsContext);
   const { userData, setUserData } = useContext(userDetails);
 
+  // ---------------- LOCAL DATE FIX ----------------
+  const formatLocalDate = (date) => {
+    return (
+      date.getFullYear() +
+      "-" +
+      String(date.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(date.getDate()).padStart(2, "0")
+    );
+  };
+
+  // ---------------- CLOSE CALENDAR ----------------
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (calendarRef.current && !calendarRef.current.contains(event.target)) {
@@ -34,95 +47,89 @@ const ScheduleComponentPortfolio = () => {
     };
   }, [showCalendar]);
 
+  // ---------------- 24-HOUR CONVERT ----------------
+  const convertTo24Hour = (time12h) => {
+    let [time, modifier] = time12h.split(" ");
+    let [hours, minutes] = time.split(":");
+
+    if (modifier === "PM" && hours !== "12") hours = String(Number(hours) + 12);
+    if (modifier === "AM" && hours === "12") hours = "00";
+
+    return `${hours}:${minutes}:00`;
+  };
+
+  // ---------------- FETCH SLOTS WHEN DATE SELECTED ----------------
+  useEffect(() => {
+    if (!selectedDate) return;
+
+    const backendDate = formatLocalDate(selectedDate);
+
+    const fetchSlots = async () => {
+      try {
+        const res = await checkSlot_reviewPortfolio(backendDate);
+
+        const mapped = {};
+        res.data.slots.forEach((slot) => {
+          const [h, m] = slot.time.split(":");
+          let hour = Number(h);
+          const ampm = hour >= 12 ? "PM" : "AM";
+          if (hour === 0) hour = 12;
+          else if (hour > 12) hour -= 12;
+
+          const formattedTime = `${hour}:${m} ${ampm}`;
+          mapped[formattedTime] = slot.available;
+        });
+
+        setSlotAvailability(mapped);
+      } catch (err) {
+        console.error("Slot fetch error:", err);
+      }
+    };
+
+    fetchSlots();
+  }, [selectedDate]);
+
+  // ---------------- CONFIRM ----------------
   const handleConfirm = async () => {
     if (!selectedDate || !selectedTime) {
       alert("Please select a date and time");
       return;
     }
 
-    // Convert date → YYYY-MM-DD for backend
-    const backendDate = selectedDate.toISOString().split("T")[0];
-
-    // Convert 12-hour time to 24-hour time
-    const convertTo24Hour = (time12h) => {
-      let [time, modifier] = time12h.split(" "); // "10:00", "AM"
-
-      let [hours, minutes] = time.split(":");
-
-      if (modifier === "PM" && hours !== "12") {
-        hours = String(Number(hours) + 12); // 1 PM → 13
-      }
-
-      if (modifier === "AM" && hours === "12") {
-        hours = "00"; // 12 AM → 00
-      }
-
-      return `${hours}:${minutes}:00`; // add seconds
-    };
-
+    const backendDate = formatLocalDate(selectedDate);
     const backendTime = convertTo24Hour(selectedTime);
-    console.log("Sending to API:", backendDate, backendTime);
 
-    try {
-      const res = await checkSlot(backendDate, backendTime);
-
-      if (res.data.available) {
-        // Store formatted values in context
-        const formattedDate = selectedDate.toLocaleDateString("en-US", {
-          weekday: "short",
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-        });
-
-        setData((prev) => ({
-          ...prev,
-          time: selectedTime, // human-readable
-          // backendTime: backendTime, // API time
-          date: formattedDate,
-          // backendDate: backendDate, // API date
-        }));
-
-        setUserData((prev) => ({
-          ...prev,
-          time: backendTime, // human-readable
-          // backendTime: backendTime, // API time
-          date: backendDate,
-          // backendDate: backendDate, // API date
-        }));
-
-        navigate("/portfolio-email");
-      } else {
-        alert("Slot full! Choose another time");
-      }
-    } catch (err) {
-      alert("Unable to check slot. Check backend connection.");
-      console.error(err);
+    // ---- Final safety check ONLY for selected slot ----
+    if (slotAvailability[selectedTime] === 0) {
+      alert("This slot is no longer available. Please choose another.");
+      return;
     }
+
+    const formattedDate = selectedDate.toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+
+    // Save for UI screen
+    setData((prev) => ({
+      ...prev,
+      time: selectedTime,
+      date: formattedDate,
+    }));
+
+    // Save for backend
+    setUserData((prev) => ({
+      ...prev,
+      time: backendTime,
+      date: backendDate,
+    }));
+
+    navigate("/portfolio-email");
   };
 
-  // const handleConfirm = () => {
-  //   if (!selectedDate) {
-  //     alert("Please select a date");
-  //     return;
-  //   }
-
-  //   const formattedDate = selectedDate.toLocaleDateString("en-US", {
-  //     weekday: "short",
-  //     month: "short",
-  //     day: "numeric",
-  //     year: "numeric",
-  //   });
-
-  //   setData((prev) => ({
-  //     ...prev,
-  //     time: selectedTime,
-  //     date: formattedDate,
-  //   }));
-
-  //   navigate("/emailDetails");
-  // };
-
+  // ---------------- HELPERS ----------------
   const isSunday = (date) => date.getDay() === 0;
 
   const isToday = (date) => {
@@ -149,49 +156,24 @@ const ScheduleComponentPortfolio = () => {
     "4:00 PM",
   ];
 
-  const getDaysInMonth = (date) => {
-    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-  };
+  const getDaysInMonth = (date) =>
+    new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 
-  const getFirstDayOfMonth = (date) => {
-    return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
-  };
+  const getFirstDayOfMonth = (date) =>
+    new Date(date.getFullYear(), date.getMonth(), 1).getDay();
 
   const generateCalendarDays = () => {
     const daysInMonth = getDaysInMonth(currentMonth);
     const firstDay = getFirstDayOfMonth(currentMonth);
     const days = [];
 
-    for (let i = 0; i < firstDay; i++) {
-      days.push(null);
-    }
-
+    for (let i = 0; i < firstDay; i++) days.push(null);
     for (let i = 1; i <= daysInMonth; i++) {
       days.push(
         new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i)
       );
     }
-
     return days;
-  };
-
-  const handleDateClick = (date) => {
-    if (date && !isSunday(date) && !isPast(date)) {
-      setSelectedDate(date);
-      setShowCalendar(false);
-    }
-  };
-
-  const handlePrevMonth = () => {
-    setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
-    );
-  };
-
-  const handleNextMonth = () => {
-    setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
-    );
   };
 
   const calendarDays = generateCalendarDays();
@@ -201,17 +183,6 @@ const ScheduleComponentPortfolio = () => {
     year: "numeric",
   });
 
-  const formatDate = (date) => {
-    if (!date) return null;
-    const options = {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    };
-    return date.toLocaleDateString("en-US", options);
-  };
-
   return (
     <div style={{ width: "100%", backgroundColor: "#1a1a1a" }}>
       <div className={styles["schedule-wrapper"]}>
@@ -219,6 +190,7 @@ const ScheduleComponentPortfolio = () => {
           <h2>Select date and time</h2>
         </div>
 
+        {/* -------------------------------- DATE PICKER -------------------------------- */}
         <div className={styles["date-picker-container"]} ref={calendarRef}>
           <label className={styles["date-label"]}>Select a date:</label>
 
@@ -235,7 +207,14 @@ const ScheduleComponentPortfolio = () => {
                   !selectedDate ? styles.placeholder : ""
                 }`}
               >
-                {selectedDate ? formatDate(selectedDate) : "Choose your date"}
+                {selectedDate
+                  ? selectedDate.toLocaleDateString("en-US", {
+                      weekday: "short",
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })
+                  : "Choose your date"}
               </span>
             </div>
             <ChevronRight size={20} className={styles["date-input-arrow"]} />
@@ -244,11 +223,31 @@ const ScheduleComponentPortfolio = () => {
           {showCalendar && (
             <div className={styles["calendar-dropdown"]}>
               <div className={styles["calendar-header"]}>
-                <button className={styles["nav-btn"]} onClick={handlePrevMonth}>
+                <button
+                  className={styles["nav-btn"]}
+                  onClick={() =>
+                    setCurrentMonth(
+                      new Date(
+                        currentMonth.getFullYear(),
+                        currentMonth.getMonth() - 1
+                      )
+                    )
+                  }
+                >
                   <ChevronLeft size={18} />
                 </button>
                 <span className={styles["month-year"]}>{monthName}</span>
-                <button className={styles["nav-btn"]} onClick={handleNextMonth}>
+                <button
+                  className={styles["nav-btn"]}
+                  onClick={() =>
+                    setCurrentMonth(
+                      new Date(
+                        currentMonth.getFullYear(),
+                        currentMonth.getMonth() + 1
+                      )
+                    )
+                  }
+                >
                   <ChevronRight size={18} />
                 </button>
               </div>
@@ -276,7 +275,12 @@ const ScheduleComponentPortfolio = () => {
                       className={`${styles.day} ${
                         isTodayDate && !isDisabled ? styles.today : ""
                       } ${isSelected ? styles.selected : ""}`}
-                      onClick={() => handleDateClick(date)}
+                      onClick={() => {
+                        if (!isDisabled) {
+                          setSelectedDate(date);
+                          setShowCalendar(false); // close calendar on select
+                        }
+                      }}
                       disabled={isDisabled}
                     >
                       {date ? date.getDate() : ""}
@@ -288,6 +292,7 @@ const ScheduleComponentPortfolio = () => {
           )}
         </div>
 
+        {/* ----------------------------- TIME SLOTS ----------------------------- */}
         <div className={styles["duration-info"]}>
           <div className={styles.dot}></div>
           <span className={styles["duration-text"]}>
@@ -301,9 +306,10 @@ const ScheduleComponentPortfolio = () => {
               <button
                 key={time}
                 onClick={() => setSelectedTime(time)}
-                className={`${styles["time-btn"]} ${
-                  selectedTime === time ? styles.active : ""
-                }`}
+                disabled={slotAvailability[time] === 0}
+                className={`${styles["time-btn"]} 
+                  ${selectedTime === time ? styles.active : ""} 
+                  ${slotAvailability[time] === 0 ? styles.disabled : ""}`}
               >
                 {time}
               </button>
@@ -311,6 +317,7 @@ const ScheduleComponentPortfolio = () => {
           </div>
         </div>
 
+        {/* ---------------------------- INFO + CONFIRM ---------------------------- */}
         <div className={styles["info-box"]}>
           <div className={styles.icon}>💡</div>
           <span className={styles["info-text"]}>

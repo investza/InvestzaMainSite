@@ -57,5 +57,5 @@ export const setInvestment = (userId, investmentRange) => axios.post(`${API}/rev
 
 export const checkSlot_reviewPortfolio = (date) => axios.get(`${API}/review_portfolio/check-slot`, { params: { date } });
 
-export const submit_reviewPortfolio = (payload) => axios.post(`${API}/review_portfolio/submit`, { payload }); // payload - userId, email, guestEmail, message, date, time
+export const submit_reviewPortfolio = (payload) => axios.post(`${API}/review_portfolio/submit`,  payload ); // payload - userId, email, guestEmail, message, date, time
 

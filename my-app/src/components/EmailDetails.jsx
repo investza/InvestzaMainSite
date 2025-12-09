@@ -61,15 +61,15 @@ const EmailDetails = ({ onBack }) => {
 
         const response = await createBooking({
           userId: userData.userId,
-          email: formData.email, // <-- Always latest
+          email: formData.email,
           guestEmail: formData.guestEmail,
           message: formData.message,
           date: userData.date,
           time: userData.time,
         });
 
-        // // 3️⃣ Handle success
-        // alert("Booking Successful!");
+        // 3️⃣ Handle success
+        alert("Booking Successful!");
 
         // 4️⃣ Navigate to confirmation page
         navigate("/confirmation");

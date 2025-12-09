@@ -6,9 +6,9 @@ import { DetailsContext } from "./contexts/Details";
 import { userDetails } from "./contexts/userDetails";
 import { ChevronRight } from "lucide-react";
 
-import { createBooking } from "../api/flowApi";
+import { submit_reviewPortfolio } from "../api/flowApi";
 
-const EmailDetailsPortfolio = ({ onBack }) => {
+const EmailDetails = ({ onBack }) => {
   const { data, setData } = useContext(DetailsContext);
   const { userData, setUserData } = useContext(userDetails);
 
@@ -59,17 +59,17 @@ const EmailDetailsPortfolio = ({ onBack }) => {
 
         // 2️⃣ Call API to create booking
 
-        const response = await createBooking({
+        const response = await submit_reviewPortfolio({
           userId: userData.userId,
-          email: formData.email, // <-- Always latest
+          email: formData.email,
           guestEmail: formData.guestEmail,
           message: formData.message,
           date: userData.date,
           time: userData.time,
         });
 
-        // // 3️⃣ Handle success
-        // alert("Booking Successful!");
+        // 3️⃣ Handle success
+        alert("Booking Successful!");
 
         // 4️⃣ Navigate to confirmation page
         navigate("/portfolio-confirmation");
@@ -93,7 +93,7 @@ const EmailDetailsPortfolio = ({ onBack }) => {
       <div className={styles["email-header"]}>
         <button
           className={styles["back-btn"]}
-          onClick={() => navigate("/portfolio-schedule")}
+          onClick={() => navigate("/scheduleCall")}
         >
           <ChevronLeft size={24} />
         </button>
@@ -164,4 +164,4 @@ const EmailDetailsPortfolio = ({ onBack }) => {
   );
 };
 
-export default EmailDetailsPortfolio;
+export default EmailDetails;

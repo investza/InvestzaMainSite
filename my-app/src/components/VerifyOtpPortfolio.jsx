@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { OtpVerification } from "./contexts/OtpVerification";
 import { userDetails } from "./contexts/userDetails";
 
-import { verifyOtp } from "../api/flowApi";
+import { verifyOtp_reviewPortfolio } from "../api/flowApi";
 
 const VerifyOtpPortfolio = ({ phoneNumber, onVerify }) => {
   const [otp, setOtp] = useState("");
@@ -43,10 +43,10 @@ const VerifyOtpPortfolio = ({ phoneNumber, onVerify }) => {
 
     if (otp.length === 4) {
       try {
-        const res = await verifyOtp(userData.userId, otp);
+        const res = await verifyOtp_reviewPortfolio(userData.userId, otp);
+        console.log(res);
 
-
-        if (res.data.verified) {
+        if (res.status === 200) {
           setIsLoading(true);
 
           setTimeout(() => {
