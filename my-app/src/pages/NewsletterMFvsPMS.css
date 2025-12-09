@@ -244,8 +244,8 @@
 }
 
 .mfpms-graph-image {
-  width: 100%;
-  margin: 40px 0 60px;
+  max-width: 700px;
+  margin: 40px auto 60px;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
