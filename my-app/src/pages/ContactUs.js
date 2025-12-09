@@ -97,8 +97,8 @@ const ContactUs = () => {
       return;
     }
     
-    console.log('Form submitted:', formData);
-    console.log('reCAPTCHA token:', recaptchaToken);
+    // console.log('Form submitted:', formData);
+    // console.log('reCAPTCHA token:', recaptchaToken);
     
     setFormData({
       name: '',

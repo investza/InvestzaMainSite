@@ -19,7 +19,7 @@ body {
 .information-section {
   background-color: #000;
   color: #fff;
-  padding: 60px 40px 60px 40px;
+  padding: 60px 40px 60px 60px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -94,18 +94,26 @@ body {
   
 }
 
+/* .centred-picdiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+} */
 
 .video-card {
   /* background-color: #14406B; */
   background-color: #133D66;
   border-radius: 16px;
   overflow: hidden;
-  max-width: 480px;
-  /* margin-left: 80px; */
+  max-width: 450px;
+  /* margin-left: 50px; */
   opacity: 0;
   transform: translateY(10px);
   animation: fadeIn 0.8s ease-out 0.7s forwards;
 }
+
+
 
 .video-header {
   padding: 24px;

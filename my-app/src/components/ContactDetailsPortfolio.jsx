@@ -17,7 +17,7 @@ const ContactDetailsPortfolio = () => {
   const handlesendOtp_reviewPortfolio = async () => {
     if (phoneNumber.trim()) {
       try {
-        console.log(userData.userId);
+        // console.log(userData.userId);
         // 1️⃣ Call backend API
         const res = await sendOtp_reviewPortfolio(userData.userId, phoneNumber);
 
@@ -29,7 +29,7 @@ const ContactDetailsPortfolio = () => {
         }));
 
         // 3️⃣ Confirmation to user
-        alert("OTP sent: " + res.data.otp);
+        // alert("OTP sent: " + res.data.otp);
 
         // 4️⃣ Navigate to OTP page - Portfolio route
         navigate("/portfolio-verification", { replace: true });

@@ -18,7 +18,7 @@ const NameDetailsPortfolio = () => {
 
   const handleNext = async () => {
     if (name.trim()) {
-      console.log("Name submitted:", name);
+      // console.log("Name submitted:", name);
       try {
         // 1️⃣ Start flow API call
         const res = await startReviewPortfolio(name);
@@ -31,7 +31,7 @@ const NameDetailsPortfolio = () => {
           userName: name,
         }));
 
-        console.log("Flow started. User ID:", userId);
+        // console.log("Flow started. User ID:", userId);
 
         // 3️⃣ Navigate to next page based on OTP status - Portfolio routes
         if (!isOTPVerified) {

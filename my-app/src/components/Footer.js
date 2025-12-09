@@ -40,7 +40,7 @@ const Footer = () => {
     };
 
     try {
-      console.log("Sending payload:", payload);
+      // console.log("Sending payload:", payload);
 
       const res = await sendContactMessage(payload);
 

@@ -32,8 +32,8 @@ const TeamFooter = () => {
     }
     
     // Handle form submission
-    console.log('Form submitted:', formData);
-    console.log('reCAPTCHA token:', recaptchaToken);
+    // console.log('Form submitted:', formData);
+    // console.log('reCAPTCHA token:', recaptchaToken);
     
     // Reset form
     setFormData({

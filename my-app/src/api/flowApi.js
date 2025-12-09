@@ -6,7 +6,7 @@ const API = "http://localhost:8080/api";
 export const startFlow = (fullName) => axios.post(`${API}/flow/start`, { fullName });
 
 export const sendOtp = (userId, mobile) => {
-  console.log("BODY SENDING:", { userId, mobile });
+  // console.log("BODY SENDING:", { userId, mobile });
 
   return axios.post(`${API}/flow/send-otp`, { userId, mobile });
 };

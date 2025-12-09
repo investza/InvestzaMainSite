@@ -69,7 +69,7 @@ const EmailDetails = ({ onBack }) => {
         });
 
         // 3️⃣ Handle success
-        alert("Booking Successful!");
+        // alert("Booking Successful!");
 
         // 4️⃣ Navigate to confirmation page
         navigate("/confirmation");

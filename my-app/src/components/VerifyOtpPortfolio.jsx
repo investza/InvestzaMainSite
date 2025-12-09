@@ -44,13 +44,13 @@ const VerifyOtpPortfolio = ({ phoneNumber, onVerify }) => {
     if (otp.length === 4) {
       try {
         const res = await verifyOtp_reviewPortfolio(userData.userId, otp);
-        console.log(res);
+        // console.log(res);
 
         if (res.status === 200) {
           setIsLoading(true);
 
           setTimeout(() => {
-            console.log("OTP Verified:", otp);
+            // console.log("OTP Verified:", otp);
             setIsOTPVerified(true);
 
             navigate("/portfolio-investment", { replace: true });

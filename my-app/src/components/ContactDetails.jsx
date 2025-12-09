@@ -17,7 +17,7 @@ const ContactDetails = () => {
   const handleSendOTP = async () => {
     if (phoneNumber.trim()) {
       try {
-        console.log(userData.userId);
+        // console.log(userData.userId);
         // 1️⃣ Call backend API
         const res = await sendOtp(userData.userId, phoneNumber);
 
@@ -29,14 +29,13 @@ const ContactDetails = () => {
         }));
 
         // 3️⃣ Confirmation to user
-        alert("OTP sent: " + res.data.otp);
+        // alert("OTP sent: " + res.data.otp);
 
         // 4️⃣ Navigate to OTP page
         navigate("/verification", { replace: true });
       } catch (error) {
         console.error("Error sending OTP:", error);
         alert("Failed to send OTP. Try again.");
-        
       }
     }
   };

@@ -45,12 +45,11 @@ const VerifyOtp = ({ phoneNumber, onVerify }) => {
       try {
         const res = await verifyOtp(userData.userId, otp);
 
-
         if (res.data.verified) {
           setIsLoading(true);
 
           setTimeout(() => {
-            console.log("OTP Verified:", otp);
+            // console.log("OTP Verified:", otp);
             setIsOTPVerified(true);
 
             navigate("/investmentDetails", { replace: true });
@@ -72,7 +71,7 @@ const VerifyOtp = ({ phoneNumber, onVerify }) => {
     setOtp("");
     setTimer(26);
     setCanResend(false);
-    console.log("OTP Resent to", phoneNumber);
+    // console.log("OTP Resent to", phoneNumber);
   };
 
   return (

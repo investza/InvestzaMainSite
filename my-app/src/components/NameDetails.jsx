@@ -18,12 +18,11 @@ const NameDetails = () => {
 
   const handleNext = async () => {
     if (name.trim()) {
-      console.log("Name submitted:", name);
+      // console.log("Name submitted:", name);
       try {
         // 1️⃣ Start flow API call
         const res = await startFlow(name);
         const userId = res.data.userId;
-
 
         // 2️⃣ Save userId + name in global context
         setUserData((prev) => ({
@@ -32,7 +31,7 @@ const NameDetails = () => {
           userName: name,
         }));
 
-        console.log("Flow started. User ID:", userId);
+        // console.log("Flow started. User ID:", userId);
 
         // 3️⃣ Navigate to next page based on OTP status
         if (!isOTPVerified) {
