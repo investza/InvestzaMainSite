@@ -28,6 +28,7 @@ const Preloader = ({ onComplete }) => {
         align-items: center;
         justify-content: center;
         transform-origin: 52% 57%;
+        transform: scale(1);
       }
 
       .preloader-image-container.loaded {
@@ -213,6 +214,7 @@ const Preloader = ({ onComplete }) => {
   useEffect(() => {
     let progressInterval;
     let loadComplete = false;
+    let allAssetsLoaded = false;
 
     // Animate progress from 0 to 100
     progressInterval = setInterval(() => {
@@ -222,9 +224,9 @@ const Preloader = ({ onComplete }) => {
           return 100;
         }
         
-        // If not loaded yet, slow down near 95
+        // If not loaded yet, slow down near 95 and cap at 99
         if (!loadComplete && prev >= 95) {
-          return prev + 0.5;
+          return Math.min(prev + 0.5, 99);
         }
         
         // Normal increment
@@ -233,36 +235,75 @@ const Preloader = ({ onComplete }) => {
       });
     }, 150);
 
+    // Comprehensive asset loading check
+    const checkAllAssetsLoaded = () => {
+      // Check document ready state
+      const documentReady = document.readyState === 'complete';
+      
+      // Check all images are loaded
+      const images = Array.from(document.images);
+      const imagesLoaded = images.every(img => img.complete && img.naturalHeight !== 0);
+      
+      // Check all stylesheets are loaded
+      const stylesheets = Array.from(document.styleSheets);
+      const stylesheetsLoaded = stylesheets.every(sheet => {
+        try {
+          return sheet.cssRules !== null;
+        } catch (e) {
+          return true; // Cross-origin stylesheets
+        }
+      });
+      
+      return documentReady && imagesLoaded && stylesheetsLoaded;
+    };
+
     // Track actual asset loading
     const handleLoad = () => {
-      loadComplete = true;
-      setLoadingProgress(100);
-      
-      // Wait a bit then mark as loaded to trigger animation
-      setTimeout(() => {
-        setAssetsLoaded(true);
+      if (checkAllAssetsLoaded()) {
+        loadComplete = true;
+        allAssetsLoaded = true;
+        setLoadingProgress(100);
+        clearInterval(progressInterval); // Stop the progress interval
         
-        // Complete animation after 4500ms total
+        // Wait for progress to show 100% briefly, then start animation
         setTimeout(() => {
-          setIsVisible(false);
-          if (onComplete) {
-            onComplete();
-          }
-        }, 4500);
-      }, 300);
+          setAssetsLoaded(true);
+          
+          // Complete animation after 4500ms total
+          setTimeout(() => {
+            setIsVisible(false);
+            if (onComplete) {
+              onComplete();
+            }
+          }, 4500);
+        }, 800); // Increased delay to ensure 100% is visible
+      }
+    };
+
+    // Check periodically for asset loading
+    const assetCheckInterval = setInterval(() => {
+      if (!allAssetsLoaded && checkAllAssetsLoaded()) {
+        handleLoad();
+        clearInterval(assetCheckInterval);
+      }
+    }, 100);
+
+    // Also listen for load event
+    const loadHandler = () => {
+      setTimeout(handleLoad, 200); // Small delay to ensure everything is settled
     };
 
     // Check if already loaded
-    if (document.readyState === 'complete') {
-      // Delay to show animation
+    if (checkAllAssetsLoaded()) {
       setTimeout(handleLoad, 500);
     } else {
-      window.addEventListener('load', handleLoad);
+      window.addEventListener('load', loadHandler);
     }
 
     return () => {
       clearInterval(progressInterval);
-      window.removeEventListener('load', handleLoad);
+      clearInterval(assetCheckInterval);
+      window.removeEventListener('load', loadHandler);
     };
   }, [onComplete]);
 
