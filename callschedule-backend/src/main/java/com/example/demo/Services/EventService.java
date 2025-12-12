@@ -16,5 +16,6 @@ public interface EventService {
     List<String> upload(MultipartFile[] files);
     ResponseEntity<ApiResponse> deleteEvent(String id);
     ResponseEntity<ApiResponse> updateEvent(String id, CreateEventRequest req);
+    ResponseEntity<?> countEvents();
 }
 

@@ -1,6 +1,8 @@
 package com.example.demo.Services;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.demo.dto.ApiResponse;
 import com.example.demo.dto.ContactMessageRequest;
@@ -10,5 +12,7 @@ public interface ContactService {
     ResponseEntity<ApiResponse> deleteMessage(String id);
     ResponseEntity<ApiResponse> updateMessage(String id, ContactMessageRequest dto);
     ResponseEntity<?> getAllMessages();
+    ResponseEntity<?> getStats();
+    void updateStatus(String id, String status);
 }
 

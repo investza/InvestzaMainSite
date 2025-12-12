@@ -31,5 +31,7 @@ public class Booking {
     private LocalDate date;
     private LocalTime time;
 
+    private String status;
+
     private LocalDateTime createdAt;
 }

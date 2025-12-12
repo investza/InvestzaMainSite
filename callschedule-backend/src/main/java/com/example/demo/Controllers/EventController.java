@@ -63,4 +63,9 @@ public class EventController {
 
         return service.updateEvent(id, req);
     }
+
+    @GetMapping("/count")
+    public ResponseEntity<?> countEvents(){
+        return service.countEvents();
+    }
 }

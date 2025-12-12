@@ -47,20 +47,20 @@ public class ReviewPortfolioController {
         return service.verifyOtp(req);
     }
 
-    // STEP - 3
+    // STEP - 4
     @PostMapping("/investment")
     public ResponseEntity<?> investment(@RequestBody InvestmentRequest req){
         return service.investment(req);
     }
 
-    // STEP - 4
+    // STEP - 5
     @GetMapping("/check-slot")
     public ResponseEntity<?> getSlots(@RequestParam String date) {
         LocalDate parsedDate = LocalDate.parse(date);
         return service.getAvailableSlots(parsedDate);
     }
 
-    // STEP 5
+    // STEP 6
     @PostMapping("/submit")
     public ResponseEntity<?> submitRequest(@RequestBody ReviewPortfolioRequest req) {
         return service.submitRequest(req);

@@ -9,5 +9,6 @@ import com.example.demo.Models.Booking;
 
 public interface BookingRepository extends MongoRepository<Booking, String> {
     long countByDateAndTime(LocalDate date, LocalTime time);
+    long countByStatus(String status);
     
 }

@@ -1,5 +1,6 @@
 package com.example.demo.Services.impl;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ public class ContactServiceImpl implements ContactService {
     // ------------------ SAVE + SEND MAIL ------------------
     @Override
     public void processForm(ContactMessageRequest dto) {
-        repo.save(dtoToEntity(dto)); // save to DB
+        ContactMessage res = repo.save(dtoToEntity(dto));
 
         try {
             sendMail(dto);
@@ -53,7 +54,7 @@ public class ContactServiceImpl implements ContactService {
         m.setEmail(dto.getEmail());
         m.setSubject(dto.getSubject());
         m.setMessage(dto.getMessage());
-        m.setStatus("pending");
+        m.setStatus("PENDING");
         return m;
     }
 
@@ -146,5 +147,25 @@ public class ContactServiceImpl implements ContactService {
             return ResponseEntity.internalServerError()
                     .body(Map.of("message", e.getMessage()));
         }
+    }
+
+    // ------------------get stats----------------
+    @Override
+    public ResponseEntity<?> getStats(){
+        Map<String, Object> stats = new HashMap<>();
+        stats.put("total", repo.count());
+        stats.put("pending", repo.countByStatus("PENDING"));
+        stats.put("done", repo.countByStatus("DONE"));
+        return ResponseEntity.ok(stats);
+    }
+
+
+    // --------------Update Status---------------
+    @Override
+    public void updateStatus(String id, String status){
+        ContactMessage res = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Contact request not found with id: " + id));
+        res.setStatus(status);
+        repo.save(res);
     }
 }

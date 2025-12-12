@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,6 +24,7 @@ import com.example.demo.dto.InvestmentRequest;
 import com.example.demo.dto.SendOtpRequest;
 import com.example.demo.dto.StartRequest;
 import com.example.demo.dto.VerifyOtpRequest;
+import com.example.demo.dto.ApiResponse;
 import com.example.demo.dto.UnavailabilityTimeSlotsRequest;
 
 @RestController
@@ -114,4 +116,15 @@ public class UserFlowController {
     public ResponseEntity<?> storeUnavailableSlots(@RequestBody UnavailabilityTimeSlotsRequest req){
         return slotAvailabilityService.storeUnavailableSlots(req);
     }
+
+    @GetMapping("/call/stats")
+    public ResponseEntity<?> getStats(){
+        return userFlowService.getStats();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ApiResponse> deleteCallScheduled(@RequestParam String id){
+        return userFlowService.deleteBooking(id);
+    }
+    
 }

@@ -20,6 +20,7 @@ import com.example.demo.Repositories.EventRepository;
 import com.example.demo.Services.EventService;
 import com.example.demo.dto.ApiResponse;
 import com.example.demo.dto.CreateEventRequest;
+import org.springframework.http.HttpStatus;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -189,4 +190,21 @@ public class EventServiceImpl implements EventService {
             return ResponseEntity.status(500).body(new ApiResponse(false, e.getMessage()));
         }
     }
+
+    // ----------Get Total Number of Events------------------------
+    @Override
+    public ResponseEntity<?> countEvents() {
+
+        long count = eventRepository.count();
+        long past = eventRepository.countByCategory("past");
+        long upcoming = eventRepository.countByCategory("upcoming");
+
+        if (count != 0) {
+            return ResponseEntity.ok(Map.of("count", count, "past", past, "upcoming", upcoming));
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("message", "No Event Found in DB"));
+    }
+
 }

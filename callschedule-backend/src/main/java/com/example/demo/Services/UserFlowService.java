@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,11 @@ import com.example.demo.dto.InvestmentRequest;
 import com.example.demo.dto.SendOtpRequest;
 import com.example.demo.dto.StartRequest;
 import com.example.demo.dto.VerifyOtpRequest;
+import com.example.demo.dto.ApiResponse;
 import com.example.demo.util.OtpUtil;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -192,6 +198,7 @@ public class UserFlowService {
                 .date(req.getDate())
                 .time(req.getTime())
                 .createdAt(LocalDateTime.now())
+                .status("PENDING")
                 .build();
 
         
@@ -274,5 +281,43 @@ public class UserFlowService {
                 .replace(">", "&gt;")
                 .replace("\"", "&quot;")
                 .replace("'", "&#x27;");
+    }
+
+    public ResponseEntity<?> getStats() {
+        try {
+            long total = bookingRepository.count();
+            long pending = bookingRepository.countByStatus("PENDING");
+            long done = bookingRepository.countByStatus("DONE");
+
+            Map<String, Long> stats = new HashMap<>();
+            stats.put("total", total);
+            stats.put("pending", pending);
+            stats.put("done", done);
+
+            return ResponseEntity.ok(stats);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse(false, "Failed to fetch stats: " + e.getMessage()));
+        }
+    }
+
+    // Delete a scheduled call by ID
+    public ResponseEntity<ApiResponse> deleteBooking(String id) {
+        try {
+            if (!bookingRepository.existsById(id)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiResponse(false, "Call not found with ID: " + id));
+            }
+
+            bookingRepository.deleteById(id);
+
+            return ResponseEntity.ok(
+                    new ApiResponse(true, "Call deleted successfully")
+            );
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse(false, "Failed to delete call: " + e.getMessage()));
+        }
     }
 }

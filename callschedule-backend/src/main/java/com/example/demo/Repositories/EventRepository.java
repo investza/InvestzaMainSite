@@ -6,5 +6,5 @@ import com.example.demo.Models.Event;
 
 @Repository
 public interface EventRepository extends MongoRepository<Event, String> {
-    
+    long countByCategory(String category);
 }
