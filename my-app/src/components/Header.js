@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link, useLocation } from 'react-router-dom';
 import GlassSurface from './GlassSurface';
 import './Header.css';
+
+//import userData context
+import { userDataContext } from './contexts/userDataContext';
 
 const Header = ({ onReviewPortfolio }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,6 +17,9 @@ const Header = ({ onReviewPortfolio }) => {
   const location = useLocation();
   const closeTimeoutRef = React.useRef(null);
   const loginCloseTimeoutRef = React.useRef(null);
+
+  const {userData,setUserData} = useContext(userDataContext);
+  const navigate =useNavigate();
 
   const isActive = (path) => location.pathname === path;
 
@@ -57,7 +64,15 @@ const Header = ({ onReviewPortfolio }) => {
 
   const handleReviewPortfolio = () => {
     // Navigate to portfolio review flow
-    window.location.href = '/review-portfolio';
+    //marking the category as [portfolioReview]
+     setUserData((prevUserData) => ({
+       ...prevUserData,
+       category: "portfolioReview",
+     }));
+    // console.log(flowType);
+    navigate("/schedule-call")
+    // window.location.href = '/schedule-call';
+
   };
 
   return (

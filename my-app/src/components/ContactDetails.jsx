@@ -1,14 +1,19 @@
 import { useContext, useState } from "react";
 import styles from "./ContactDetails.module.css";
 import { useNavigate } from "react-router-dom";
-import { userDetails } from "./contexts/userDetails";
+// import { userDetails } from "./contexts/userDetails";
 
 import { sendOtp } from "../api/flowApi";
+import { sendOtp_reviewPortfolio } from "../api/flowApi";
+
+import { userDataContext } from "./contexts/userDataContext";
 
 const ContactDetails = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const navigate = useNavigate();
-  const { userData, setUserData } = useContext(userDetails);
+  // const { userData, setUserData } = useContext(userDetails);
+
+  const { userData, setUserData } = useContext(userDataContext);
 
   const handleBack = () => {
     navigate("/");
@@ -18,21 +23,28 @@ const ContactDetails = () => {
     if (phoneNumber.trim()) {
       try {
         // console.log(userData.userId);
-        // 1️⃣ Call backend API
-        const res = await sendOtp(userData.userId, phoneNumber);
-
-        // 2️⃣ Save phone number to global context
-        setUserData((prev) => ({
-          ...prev,
-          userPhone: phoneNumber,
-          otp: res.data.otp,
-        }));
-
-        // 3️⃣ Confirmation to user
-        // alert("OTP sent: " + res.data.otp);
-
-        // 4️⃣ Navigate to OTP page
-        navigate("/verification", { replace: true });
+        let res;
+        //check the flowType and call the API accordinlgy
+        if (userData.category === "portfolioReview") {
+          res = await sendOtp_reviewPortfolio(userData.userId, phoneNumber);
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            userPhone: phoneNumber,
+            otp: res.data.otp,
+          }));
+          // 4️⃣ Navigate to OTP page
+          navigate("/verification");
+          // console.log(res);
+        } else {
+          res = await sendOtp(userData.userId, phoneNumber);
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            userPhone: phoneNumber,
+            otp: res.data.otp,
+          }));
+          // 4️⃣ Navigate to OTP page
+          navigate("/verification");
+        }
       } catch (error) {
         console.error("Error sending OTP:", error);
         alert("Failed to send OTP. Try again.");

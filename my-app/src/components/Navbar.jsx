@@ -17,7 +17,8 @@ function Navbar() {
 
   useEffect(() => {
     setOS(getOS());
-  }, [os]);
+    console.log(getOS());
+  }, []);
 
   useLayoutEffect(() => {
     const navHeight = navRef.current?.offsetHeight || 0;
@@ -40,11 +41,14 @@ function Navbar() {
     const userAgent = navigator.userAgent.toLowerCase();
     const platform = navigator.platform.toLowerCase();
 
-    if (platform.includes("win")) return "Windows";
-    if (platform.includes("mac")) return "macOS";
-    if (platform.includes("linux")) return "Linux";
+    // Detect mobile first
     if (/iphone|ipad|ipod/.test(userAgent)) return "iOS";
     if (/android/.test(userAgent)) return "Android";
+
+    // Desktop next
+    if (platform.includes("win")) return "Windows";
+    if (platform.includes("mac")) return "macOS";
+    if (/linux/.test(platform) && !/android/.test(userAgent)) return "Linux";
 
     return "Unknown";
   }

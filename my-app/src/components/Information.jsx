@@ -1,17 +1,30 @@
-import React from "react";
+import { React, useContext } from "react";
 import styles from "./Information.module.css";
 import Abhishek from "../assets/abhishek.webp";
 import groupPhoto from "../assets/pm2.png";
+
+import { userDataContext } from "./contexts/userDataContext";
+
 const Information = () => {
+  const { userData, setUserData } = useContext(userDataContext);
+
   return (
     <div className={styles["information-section"]}>
       <div className={styles["profile-badge"]}>
         <img src={Abhishek} alt="Abhishek" className={styles["profile-img"]} />
         <div className={styles["verified-badge"]}>✓</div>
       </div>
-      <h1 className={styles.title}>
-        Schedule a One on One with your Wealth Expert
-      </h1>
+      {userData.category === "callScheduling" ? (
+        <h1 className={styles.title}>
+          Schedule a One on One with your Wealth Expert
+        </h1>
+      ) : (
+        <h1 className={styles.title}>
+          {" "}
+          Review My Portfolio with Expert Guidance
+        </h1>
+      )}
+
       <p className={styles.subtitle}>
         No charges, No Commitments • Just valuable insights.
       </p>

@@ -3,50 +3,53 @@ import React, { useState } from "react";
 import { ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import styles from "./NameDetails.module.css";
-import { OtpVerification } from "./contexts/OtpVerification";
+// import { OtpVerification } from "./contexts/OtpVerification";
 import { useContext } from "react";
 
 import { startFlow } from "../api/flowApi";
-import { userDetails } from "./contexts/userDetails";
+import { startReviewPortfolio } from "../api/flowApi";
+
+import { userDataContext } from "./contexts/userDataContext";
 
 const NameDetails = () => {
   const [name, setName] = useState("");
   const navigate = useNavigate();
 
-  const { isOTPVerified, setIsOTPVerified } = useContext(OtpVerification);
-  const { userData, setUserData } = useContext(userDetails);
+  // const { isOTPVerified, setIsOTPVerified } = useContext(OtpVerification);
+  const { userData, setUserData } = useContext(userDataContext);
 
   const handleNext = async () => {
     if (name.trim()) {
       // console.log("Name submitted:", name);
       try {
-        // 1️⃣ Start flow API call
-        const res = await startFlow(name);
-        const userId = res.data.userId;
+        let userId;
+        let res;
+        if (userData.category === "portfolioReview") {
+          //start flow for portfolio review
+          res = await startReviewPortfolio(name);
+          userId = res.data.userId;
+        } else {
+          // Start flow for call scheduling
+          res = await startFlow(name);
+          userId = res.data.userId;
+        }
 
         // 2️⃣ Save userId + name in global context
-        setUserData((prev) => ({
-          ...prev,
+        setUserData((prevUserData) => ({
+          ...prevUserData,
           userId: userId,
           userName: name,
         }));
 
         // console.log("Flow started. User ID:", userId);
 
-        // 3️⃣ Navigate to next page based on OTP status
-        if (!isOTPVerified) {
-          navigate("/contactDetails");
-        } else {
-          navigate("/investmentDetails");
-        }
+        // Navigate to next page
+        navigate("/contactDetails");
       } catch (error) {
         console.error("Error starting flow:", error);
       }
-      if (!isOTPVerified) {
-        navigate("/contactDetails");
-      } else {
-        navigate("/InvestmentDetails");
-      }
+
+      navigate("/contactDetails");
     }
   };
 

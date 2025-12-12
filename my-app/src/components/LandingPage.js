@@ -1,13 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
-import Lenis from 'lenis';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Header from './Header';
-import Footer from './Footer';
-import ReviewMyPortfolioForm from './ReviewMyportfolioForm';
-import GlassSurface from './GlassSurface';
-import './LandingPage.css';
+import { useEffect, useRef, useState, useContext } from "react";
+import Lenis from "lenis";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Header from "./Header";
+import Footer from "./Footer";
+import ReviewMyPortfolioForm from "./ReviewMyportfolioForm";
+import GlassSurface from "./GlassSurface";
+import "./LandingPage.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+//import userData context
+import { userDataContext } from "./contexts/userDataContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,9 +24,15 @@ const LandingPage = () => {
   const carouselRef = useRef(null);
   const lenisRef = useRef(null);
   const [showPortfolioForm, setShowPortfolioForm] = useState(false);
+
+  //userData context usage
+  const { userData, setUserData, clearUserData } = useContext(userDataContext);
+
+  const navigate = useNavigate();
+
   // Initialize with proper width based on window size
   const [cardWidth, setCardWidth] = useState(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const width = window.innerWidth;
       if (width <= 768) {
         return width; // Mobile: full viewport width
@@ -43,9 +53,12 @@ const LandingPage = () => {
 
   // Calculate card width based on screen size
   useEffect(() => {
+    //clearing the user data when he is on landing page
+    clearUserData();
+    // console.log(userData);
     const updateCardWidth = () => {
       const width = window.innerWidth;
-      
+
       if (width <= 768) {
         // Mobile: full viewport width (cards have internal padding)
         setCardWidth(width);
@@ -59,15 +72,21 @@ const LandingPage = () => {
     };
 
     updateCardWidth();
-    window.addEventListener('resize', updateCardWidth);
-    return () => window.removeEventListener('resize', updateCardWidth);
+    window.addEventListener("resize", updateCardWidth);
+    return () => window.removeEventListener("resize", updateCardWidth);
   }, []);
 
   // Preload all expert images to prevent black screen
   useEffect(() => {
-    const imageUrls = ['/expert1.jpg', '/expert2.jpg', '/expert3.jpg', '/expert4.jpg', '/expert5.jpg'];
+    const imageUrls = [
+      "/expert1.jpg",
+      "/expert2.jpg",
+      "/expert3.jpg",
+      "/expert4.jpg",
+      "/expert5.jpg",
+    ];
 
-    imageUrls.forEach(url => {
+    imageUrls.forEach((url) => {
       const img = new Image();
       img.src = url;
     });
@@ -79,23 +98,26 @@ const LandingPage = () => {
     if (!carousel) return;
 
     const handleTransitionEnd = () => {
-      if (currentSlide === 6) { // After last clone
-        carousel.style.transition = 'none';
+      if (currentSlide === 6) {
+        // After last clone
+        carousel.style.transition = "none";
         setCurrentSlide(1);
         setTimeout(() => {
-          carousel.style.transition = 'transform 0.5s ease';
+          carousel.style.transition = "transform 0.5s ease";
         }, 50);
-      } else if (currentSlide === 0) { // After first clone
-        carousel.style.transition = 'none';
+      } else if (currentSlide === 0) {
+        // After first clone
+        carousel.style.transition = "none";
         setCurrentSlide(5);
         setTimeout(() => {
-          carousel.style.transition = 'transform 0.5s ease';
+          carousel.style.transition = "transform 0.5s ease";
         }, 50);
       }
     };
 
-    carousel.addEventListener('transitionend', handleTransitionEnd);
-    return () => carousel.removeEventListener('transitionend', handleTransitionEnd);
+    carousel.addEventListener("transitionend", handleTransitionEnd);
+    return () =>
+      carousel.removeEventListener("transitionend", handleTransitionEnd);
   }, [currentSlide]);
 
   useEffect(() => {
@@ -116,13 +138,13 @@ const LandingPage = () => {
         // Crossfade where incoming video fades in first, then outgoing fades out
         setTimeout(() => {
           // Start fading in the next video while current stays at full opacity
-          nextVideo.style.opacity = '1';
-          nextVideo.style.filter = 'blur(0px)';
+          nextVideo.style.opacity = "1";
+          nextVideo.style.filter = "blur(0px)";
 
           // After next video is fully visible, fade out current video
           setTimeout(() => {
-            currentVideo.style.opacity = '0';
-            currentVideo.style.filter = 'blur(1px)';
+            currentVideo.style.opacity = "0";
+            currentVideo.style.filter = "blur(1px)";
           }, 500); // Wait for incoming video to be fully visible
         }, 100);
 
@@ -132,19 +154,21 @@ const LandingPage = () => {
         // Reset current video and transition state after fade completes
         setTimeout(() => {
           currentVideo.currentTime = 0;
-          currentVideo.style.filter = 'blur(0px)'; // Reset filter
+          currentVideo.style.filter = "blur(0px)"; // Reset filter
           setIsTransitioning(false);
         }, 1100); // Match sequential transition timing (500ms + 500ms + buffer)
       };
 
       const handleVideo1TimeUpdate = () => {
-        if (!isTransitioning && video1.duration - video1.currentTime < 3) { // Start fade 3 seconds before end
+        if (!isTransitioning && video1.duration - video1.currentTime < 3) {
+          // Start fade 3 seconds before end
           fadeTransition(video1, video2, 2);
         }
       };
 
       const handleVideo2TimeUpdate = () => {
-        if (!isTransitioning && video2.duration - video2.currentTime < 3) { // Start fade 3 seconds before end
+        if (!isTransitioning && video2.duration - video2.currentTime < 3) {
+          // Start fade 3 seconds before end
           fadeTransition(video2, video1, 1);
         }
       };
@@ -159,13 +183,13 @@ const LandingPage = () => {
       const handleVideo2Load = () => {
         video2.currentTime = 0;
         // Video 2 starts hidden
-        video2.style.opacity = '0';
+        video2.style.opacity = "0";
       };
 
-      video1.addEventListener('timeupdate', handleVideo1TimeUpdate);
-      video2.addEventListener('timeupdate', handleVideo2TimeUpdate);
-      video1.addEventListener('loadeddata', handleVideo1Load);
-      video2.addEventListener('loadeddata', handleVideo2Load);
+      video1.addEventListener("timeupdate", handleVideo1TimeUpdate);
+      video2.addEventListener("timeupdate", handleVideo2TimeUpdate);
+      video1.addEventListener("loadeddata", handleVideo1Load);
+      video2.addEventListener("loadeddata", handleVideo2Load);
 
       // Initialize first video
       if (video1.readyState >= 3) {
@@ -173,10 +197,10 @@ const LandingPage = () => {
       }
 
       return () => {
-        video1.removeEventListener('timeupdate', handleVideo1TimeUpdate);
-        video2.removeEventListener('timeupdate', handleVideo2TimeUpdate);
-        video1.removeEventListener('loadeddata', handleVideo1Load);
-        video2.removeEventListener('loadeddata', handleVideo2Load);
+        video1.removeEventListener("timeupdate", handleVideo1TimeUpdate);
+        video2.removeEventListener("timeupdate", handleVideo2TimeUpdate);
+        video1.removeEventListener("loadeddata", handleVideo1Load);
+        video2.removeEventListener("loadeddata", handleVideo2Load);
       };
     }
   }, [activeVideo, isTransitioning]);
@@ -186,8 +210,8 @@ const LandingPage = () => {
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      direction: 'vertical',
-      gestureDirection: 'vertical',
+      direction: "vertical",
+      gestureDirection: "vertical",
       smooth: true,
       mouseMultiplier: 1,
       smoothTouch: false,
@@ -197,7 +221,7 @@ const LandingPage = () => {
       wheelMultiplier: 1,
       syncTouch: false,
       syncTouchLerp: 0.1,
-      __experimental__naiveDimensions: false
+      __experimental__naiveDimensions: false,
     });
 
     lenisRef.current = lenis;
@@ -206,21 +230,22 @@ const LandingPage = () => {
     // Backdrop image is now loaded via img element in HTML
 
     // Initialize wealth approach title for animation
-    const wealthApproachTitle = document.querySelector('.wealth-approach-title');
+    const wealthApproachTitle = document.querySelector(
+      ".wealth-approach-title"
+    );
     if (wealthApproachTitle) {
-      wealthApproachTitle.style.opacity = '0';
-      wealthApproachTitle.style.transform = 'translateY(-100px)'; // Start higher to end at -20px
+      wealthApproachTitle.style.opacity = "0";
+      wealthApproachTitle.style.transform = "translateY(-100px)"; // Start higher to end at -20px
     }
-
-
 
     const handleScroll = (time) => {
       const scrollY = lenis.scroll;
-      const videoOverlay = document.querySelector('.video-overlay');
-      const heroSection = document.querySelector('.hero');
-      const downloadWidget = document.querySelector('.download-widget');
-      const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
-
+      const videoOverlay = document.querySelector(".video-overlay");
+      const heroSection = document.querySelector(".hero");
+      const downloadWidget = document.querySelector(".download-widget");
+      const heroHeight = heroSection
+        ? heroSection.offsetHeight
+        : window.innerHeight;
 
       // Calculate opacity based on scroll position relative to hero height
       const scrollProgress = Math.min(scrollY / (heroHeight * 0.8), 1);
@@ -229,33 +254,46 @@ const LandingPage = () => {
       // Show/hide download widget based on scroll position
       if (downloadWidget) {
         if (scrollY > heroHeight * 0.8) {
-          downloadWidget.classList.add('visible');
+          downloadWidget.classList.add("visible");
         } else {
-          downloadWidget.classList.remove('visible');
+          downloadWidget.classList.remove("visible");
         }
       }
 
       // Video overlay tint effect
       if (videoOverlay) {
         if (scrollY >= heroHeight) {
-          videoOverlay.style.setProperty('--scroll-tint-opacity', 0.6);
+          videoOverlay.style.setProperty("--scroll-tint-opacity", 0.6);
         } else {
-          videoOverlay.style.setProperty('--scroll-tint-opacity', tintOpacity);
+          videoOverlay.style.setProperty("--scroll-tint-opacity", tintOpacity);
         }
       }
 
       // Combined backdrop and founder logic (no white blip)
-      const backdropSection = document.querySelector('.backdrop-section');
-      const backdropImage = document.querySelector('.backdrop-image');
-      const backdropContent = document.querySelector('.backdrop-content');
-      const wealthInsightsSection = document.querySelector('.wealth-insights');
-      const wealthApproachSection = document.querySelector('.wealth-approach-section');
-      const processCardsSection = document.querySelector('.process-cards-section');
-      const founderSection = document.querySelector('.founder-section');
-      const founderImage = document.querySelector('.founder-image');
-      const founderContent = document.querySelector('.founder-content');
+      const backdropSection = document.querySelector(".backdrop-section");
+      const backdropImage = document.querySelector(".backdrop-image");
+      const backdropContent = document.querySelector(".backdrop-content");
+      const wealthInsightsSection = document.querySelector(".wealth-insights");
+      const wealthApproachSection = document.querySelector(
+        ".wealth-approach-section"
+      );
+      const processCardsSection = document.querySelector(
+        ".process-cards-section"
+      );
+      const founderSection = document.querySelector(".founder-section");
+      const founderImage = document.querySelector(".founder-image");
+      const founderContent = document.querySelector(".founder-content");
 
-      if (backdropSection && backdropImage && heroSection && wealthInsightsSection && wealthApproachSection && processCardsSection && founderSection && founderImage) {
+      if (
+        backdropSection &&
+        backdropImage &&
+        heroSection &&
+        wealthInsightsSection &&
+        wealthApproachSection &&
+        processCardsSection &&
+        founderSection &&
+        founderImage
+      ) {
         const heroTop = heroSection.offsetTop;
         const backdropTop = backdropSection.offsetTop;
         const backdropHeight = backdropSection.offsetHeight;
@@ -264,13 +302,15 @@ const LandingPage = () => {
         const processCardsHeight = processCardsSection.offsetHeight;
 
         // Lift up effect: cards section reveals founder background from bottom to top
-        const processCardsElement = document.querySelector('.process-cards-section');
+        const processCardsElement = document.querySelector(
+          ".process-cards-section"
+        );
 
         // Lenis-style scroll: backdrop scrolls out, founder scrolls in from below
 
         // Reset cards position
         if (processCardsElement) {
-          processCardsElement.style.transform = 'translateY(0px)';
+          processCardsElement.style.transform = "translateY(0px)";
         }
 
         // Lenis-style: Both backgrounds part of scroll system
@@ -282,71 +322,89 @@ const LandingPage = () => {
           const imageParallaxOffset = scrollProgress * 100;
 
           // Backdrop visible and scrolling normally
-          backdropImage.style.opacity = '1';
+          backdropImage.style.opacity = "1";
           backdropImage.style.transform = `translateY(-${imageParallaxOffset}px) scale(1.0)`;
 
           // Founder completely hidden before distinctive approach
-          founderImage.style.opacity = '0';
-          founderImage.style.transform = 'translateY(100vh)';
+          founderImage.style.opacity = "0";
+          founderImage.style.transform = "translateY(100vh)";
 
           // Founder content completely hidden before distinctive approach - aggressive hiding
           if (founderContent) {
-            founderContent.style.opacity = '0';
-            founderContent.style.visibility = 'hidden';
-            founderContent.style.display = 'none';
+            founderContent.style.opacity = "0";
+            founderContent.style.visibility = "hidden";
+            founderContent.style.display = "none";
           }
 
           // Show backdrop content when in backdrop section
           if (backdropContent) {
-            if (scrollY >= backdropTop - window.innerHeight && scrollY < backdropBottom) {
-              const contentProgress = (scrollY - backdropTop + window.innerHeight) / (backdropHeight + window.innerHeight);
+            if (
+              scrollY >= backdropTop - window.innerHeight &&
+              scrollY < backdropBottom
+            ) {
+              const contentProgress =
+                (scrollY - backdropTop + window.innerHeight) /
+                (backdropHeight + window.innerHeight);
               const textParallaxOffset = contentProgress * 30;
-              backdropContent.style.opacity = '1';
+              backdropContent.style.opacity = "1";
               backdropContent.style.transform = `translateY(-200px) translateY(-${textParallaxOffset}px)`;
             } else {
-              backdropContent.style.opacity = '0';
-              backdropContent.style.transform = 'translateY(-200px)';
+              backdropContent.style.opacity = "0";
+              backdropContent.style.transform = "translateY(-200px)";
             }
           }
-        }
-        else {
+        } else {
           // From distinctive approach onwards: Founder background replaces backdrop completely
           const scrollThroughDistinctive = scrollY - wealthApproachTop;
-          const distinctiveTotalHeight = wealthApproachSection.offsetHeight + processCardsHeight;
-          const scrollProgress = Math.min(scrollThroughDistinctive / distinctiveTotalHeight, 1);
+          const distinctiveTotalHeight =
+            wealthApproachSection.offsetHeight + processCardsHeight;
+          const scrollProgress = Math.min(
+            scrollThroughDistinctive / distinctiveTotalHeight,
+            1
+          );
 
           // Hide backdrop immediately when cards section starts - no flash
-          backdropImage.style.opacity = '0';
+          backdropImage.style.opacity = "0";
           backdropImage.style.transform = `translateY(-${window.innerHeight}px) scale(1.0)`;
 
           if (backdropContent) {
-            backdropContent.style.opacity = '0';
-            backdropContent.style.transform = 'translateY(-150px)';
+            backdropContent.style.opacity = "0";
+            backdropContent.style.transform = "translateY(-150px)";
           }
 
           // Get the wealth approach title element
-          const wealthApproachTitle = document.querySelector('.wealth-approach-title');
+          const wealthApproachTitle = document.querySelector(
+            ".wealth-approach-title"
+          );
 
           // Founder background stays fixed throughout
           const isMobile = window.innerWidth <= 768;
-          
-          founderImage.style.opacity = '1';
-          founderImage.style.position = 'fixed';
-          founderImage.style.top = '0px';
-          founderImage.style.left = '0px';
-          founderImage.style.width = '100vw';
-          founderImage.style.height = '100vh';
-          founderImage.style.transform = 'translateY(0px)';
-          founderImage.style.zIndex = '1';
-          founderImage.style.background = 'transparent';
-          
+
+          founderImage.style.opacity = "1";
+          founderImage.style.position = "fixed";
+          founderImage.style.top = "0px";
+          founderImage.style.left = "0px";
+          founderImage.style.width = "100vw";
+          founderImage.style.height = "100vh";
+          founderImage.style.transform = "translateY(0px)";
+          founderImage.style.zIndex = "1";
+          founderImage.style.background = "transparent";
+
           // Target the img element directly for mobile positioning
           if (isMobile) {
-            const founderImg = founderImage.querySelector('img');
+            const founderImg = founderImage.querySelector("img");
             if (founderImg) {
-              founderImg.style.setProperty('object-position', '15% 20%', 'important');
-              founderImg.style.setProperty('transform', 'scale(1.5)', 'important');
-              founderImg.style.setProperty('object-fit', 'cover', 'important');
+              founderImg.style.setProperty(
+                "object-position",
+                "15% 20%",
+                "important"
+              );
+              founderImg.style.setProperty(
+                "transform",
+                "scale(1.5)",
+                "important"
+              );
+              founderImg.style.setProperty("object-fit", "cover", "important");
             }
           }
 
@@ -354,10 +412,10 @@ const LandingPage = () => {
           if (scrollProgress < 0.7) {
             // Keep cards in normal position during sticky phase
             if (wealthApproachTitle) {
-              wealthApproachTitle.style.transform = 'translateY(-20px)';
+              wealthApproachTitle.style.transform = "translateY(-20px)";
             }
             if (processCardsElement) {
-              processCardsElement.style.transform = 'translateY(0px)';
+              processCardsElement.style.transform = "translateY(0px)";
             }
           } else {
             // Cards lift up dramatically
@@ -365,7 +423,9 @@ const LandingPage = () => {
             const liftAmount = liftProgress * window.innerHeight * 1.5;
 
             if (wealthApproachTitle) {
-              wealthApproachTitle.style.transform = `translateY(-${liftAmount + 20}px)`;
+              wealthApproachTitle.style.transform = `translateY(-${
+                liftAmount + 20
+              }px)`;
             }
             if (processCardsElement) {
               processCardsElement.style.transform = `translateY(-${liftAmount}px)`;
@@ -376,38 +436,57 @@ const LandingPage = () => {
         // Founder content positioning - ALWAYS fixed, never transitions
         if (founderContent && scrollY >= wealthApproachTop) {
           const isMobile = window.innerWidth <= 768;
-          
-          founderContent.style.position = 'fixed';
-          founderContent.style.top = isMobile ? '5%' : '0px';
-          founderContent.style.left = '0px';
-          founderContent.style.width = '100vw';
-          founderContent.style.height = '100vh';
-          founderContent.style.transform = 'translateY(0px)';
-          founderContent.style.zIndex = '2';
-          founderContent.style.opacity = '1';
-          founderContent.style.visibility = 'visible';
-          founderContent.style.display = 'flex';
+
+          founderContent.style.position = "fixed";
+          founderContent.style.top = isMobile ? "5%" : "0px";
+          founderContent.style.left = "0px";
+          founderContent.style.width = "100vw";
+          founderContent.style.height = "100vh";
+          founderContent.style.transform = "translateY(0px)";
+          founderContent.style.zIndex = "2";
+          founderContent.style.opacity = "1";
+          founderContent.style.visibility = "visible";
+          founderContent.style.display = "flex";
           if (isMobile) {
-            founderContent.style.setProperty('gap', '0', 'important');
-            founderContent.style.setProperty('justify-content', 'center', 'important');
-            founderContent.style.setProperty('padding-top', '0', 'important');
-            founderContent.style.setProperty('align-items', 'center', 'important');
-            
+            founderContent.style.setProperty("gap", "0", "important");
+            founderContent.style.setProperty(
+              "justify-content",
+              "center",
+              "important"
+            );
+            founderContent.style.setProperty("padding-top", "0", "important");
+            founderContent.style.setProperty(
+              "align-items",
+              "center",
+              "important"
+            );
+
             // Directly manipulate child positions
-            const founderText = founderContent.querySelector('.founder-text');
-            const founderProfile = founderContent.querySelector('.founder-profile');
+            const founderText = founderContent.querySelector(".founder-text");
+            const founderProfile =
+              founderContent.querySelector(".founder-profile");
             if (founderText && founderProfile) {
-              founderText.style.setProperty('transform', 'translateY(100px)', 'important');
-              founderText.style.setProperty('margin-bottom', '0', 'important');
-              founderProfile.style.setProperty('transform', 'translateY(-200px)', 'important');
-              founderProfile.style.setProperty('margin-top', '0', 'important');
+              founderText.style.setProperty(
+                "transform",
+                "translateY(100px)",
+                "important"
+              );
+              founderText.style.setProperty("margin-bottom", "0", "important");
+              founderProfile.style.setProperty(
+                "transform",
+                "translateY(-200px)",
+                "important"
+              );
+              founderProfile.style.setProperty("margin-top", "0", "important");
             }
           }
         }
       }
 
       // Wealth approach section parallax effect with fade-in
-      const wealthApproachTitle = document.querySelector('.wealth-approach-title');
+      const wealthApproachTitle = document.querySelector(
+        ".wealth-approach-title"
+      );
 
       if (wealthApproachSection && wealthApproachTitle) {
         const wealthApproachTop = wealthApproachSection.offsetTop;
@@ -417,10 +496,13 @@ const LandingPage = () => {
         if (viewportBottom >= wealthApproachTop) {
           // Calculate progress from when section first appears at bottom of screen
           const distanceFromBottom = viewportBottom - wealthApproachTop;
-          const scrollProgress = Math.max(0, Math.min(1, distanceFromBottom / (window.innerHeight * 0.6)));
+          const scrollProgress = Math.max(
+            0,
+            Math.min(1, distanceFromBottom / (window.innerHeight * 0.6))
+          );
 
           // Parallax movement from above (starts 100px above, moves to -20px)
-          const parallaxOffset = 100 - (scrollProgress * 80); // Moves from -100px to -20px
+          const parallaxOffset = 100 - scrollProgress * 80; // Moves from -100px to -20px
 
           // Fade in effect (0 to 1 opacity)
           const fadeOpacity = scrollProgress;
@@ -429,18 +511,17 @@ const LandingPage = () => {
           wealthApproachTitle.style.opacity = fadeOpacity;
         } else {
           // Reset to initial state when section hasn't reached bottom of viewport yet
-          wealthApproachTitle.style.transform = 'translateY(-100px)';
-          wealthApproachTitle.style.opacity = '0';
+          wealthApproachTitle.style.transform = "translateY(-100px)";
+          wealthApproachTitle.style.opacity = "0";
         }
       }
-
     };
 
     // Add Lenis class to html element
-    document.documentElement.classList.add('lenis');
+    document.documentElement.classList.add("lenis");
 
     // Add scroll limits to prevent bouncing above hero section
-    lenis.on('scroll', (e) => {
+    lenis.on("scroll", (e) => {
       // Prevent scrolling above 0 (top of page)
       if (e.scroll < 0) {
         lenis.scrollTo(0, { immediate: true });
@@ -457,8 +538,10 @@ const LandingPage = () => {
     };
 
     // Check scroll limits on wheel and touch events
-    window.addEventListener('wheel', enforceScrollLimits, { passive: true });
-    window.addEventListener('touchmove', enforceScrollLimits, { passive: true });
+    window.addEventListener("wheel", enforceScrollLimits, { passive: true });
+    window.addEventListener("touchmove", enforceScrollLimits, {
+      passive: true,
+    });
 
     // Animation frame for Lenis
     function raf(time) {
@@ -469,56 +552,57 @@ const LandingPage = () => {
 
     // Cleanup
     return () => {
-      window.removeEventListener('wheel', enforceScrollLimits);
-      window.removeEventListener('touchmove', enforceScrollLimits);
+      window.removeEventListener("wheel", enforceScrollLimits);
+      window.removeEventListener("touchmove", enforceScrollLimits);
       lenis.destroy();
     };
   }, []);
 
   // GSAP Stacking Cards Animation
   useEffect(() => {
-    const cards = gsap.utils.toArray('.lenis-card');
-    const wrapper = document.querySelector('.lenis-cards-wrapper');
-    const leftText = document.querySelector('.lenis-left');
-    
+    const cards = gsap.utils.toArray(".lenis-card");
+    const wrapper = document.querySelector(".lenis-cards-wrapper");
+    const leftText = document.querySelector(".lenis-left");
+
     if (!wrapper) return;
-    
+
     // Pin the left text
     if (leftText) {
       ScrollTrigger.create({
         trigger: leftText,
-        start: 'top 20%',
+        start: "top 20%",
         endTrigger: wrapper,
-        end: 'bottom bottom',
-        pin: true,
-        pinSpacing: false,
-        markers: false
-      });
-    }
-    
-    // Pin each card with 20px offset
-    cards.forEach((card, index) => {
-      const offset = index * 20; // 20px gap between cards
-      
-      ScrollTrigger.create({
-        trigger: card,
-        start: `top ${20 + (offset / window.innerHeight * 100)}%`,
-        endTrigger: wrapper,
-        end: 'bottom bottom',
+        end: "bottom bottom",
         pin: true,
         pinSpacing: false,
         markers: false,
-        invalidateOnRefresh: true
+      });
+    }
+
+    // Pin each card with 20px offset
+    cards.forEach((card, index) => {
+      const offset = index * 20; // 20px gap between cards
+
+      ScrollTrigger.create({
+        trigger: card,
+        start: `top ${20 + (offset / window.innerHeight) * 100}%`,
+        endTrigger: wrapper,
+        end: "bottom bottom",
+        pin: true,
+        pinSpacing: false,
+        markers: false,
+        invalidateOnRefresh: true,
       });
     });
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => {
+      ScrollTrigger.getAll().forEach((trigger) => {
         const triggerElement = trigger.vars.trigger;
-        if (triggerElement && (
-          triggerElement.classList.contains('lenis-card') ||
-          triggerElement.classList.contains('lenis-left')
-        )) {
+        if (
+          triggerElement &&
+          (triggerElement.classList.contains("lenis-card") ||
+            triggerElement.classList.contains("lenis-left"))
+        ) {
           trigger.kill();
         }
       });
@@ -563,14 +647,23 @@ const LandingPage = () => {
           <h2 className="hero-text-below">with Tailored Strategies</h2>
 
           <div className="hero-buttons">
-            <button className="cta-button single" onClick={() => {
-              window.location.href = '/schedule-call';
-            }}>Schedule a Call</button>
+            <button
+              className="cta-button single"
+              onClick={() => {
+                //marking the category as [callScheduling]
+                setUserData((prevUserData) => ({
+                  ...prevUserData,
+                  category: "callScheduling",
+                }));
+
+                navigate("/schedule-call");
+              }}
+            >
+              Schedule a Call
+            </button>
           </div>
         </div>
       </section>
-
-
 
       {/* Wealth Insights Section */}
       <section className="wealth-insights">
@@ -586,9 +679,10 @@ const LandingPage = () => {
               <div
                 ref={carouselRef}
                 className="insights-cards"
-                style={{ transform: `translateX(-${currentSlide * cardWidth}px)` }}
+                style={{
+                  transform: `translateX(-${currentSlide * cardWidth}px)`,
+                }}
               >
-
                 {/* Clone of last card for seamless backward scroll */}
                 <div className="insight-card">
                   <div className="expert-image">
@@ -602,9 +696,13 @@ const LandingPage = () => {
                     />
                   </div>
                   <div className="insight-content">
-                    <p className="insight-quote">"Value investing never goes out of style"</p>
+                    <p className="insight-quote">
+                      "Value investing never goes out of style"
+                    </p>
                     <h3 className="expert-name">Prashant Jain</h3>
-                    <p className="expert-title">Former CIO, HDFC Asset Management</p>
+                    <p className="expert-title">
+                      Former CIO, HDFC Asset Management
+                    </p>
                   </div>
                 </div>
 
@@ -621,9 +719,13 @@ const LandingPage = () => {
                     />
                   </div>
                   <div className="insight-content">
-                    <p className="insight-quote">"Equity is always a no brainer."</p>
+                    <p className="insight-quote">
+                      "Equity is always a no brainer."
+                    </p>
                     <h3 className="expert-name">Aashish Sommaiyaa</h3>
-                    <p className="expert-title">ED & CEO, Whiteosk capital management</p>
+                    <p className="expert-title">
+                      ED & CEO, Whiteosk capital management
+                    </p>
                   </div>
                 </div>
 
@@ -639,7 +741,10 @@ const LandingPage = () => {
                     />
                   </div>
                   <div className="insight-content">
-                    <p className="insight-quote">"I feel blessed that I'm helping so many people build financial independence"</p>
+                    <p className="insight-quote">
+                      "I feel blessed that I'm helping so many people build
+                      financial independence"
+                    </p>
                     <h3 className="expert-name">Kalpen Parekh</h3>
                     <p className="expert-title">CEO & MD at DSP mutual funds</p>
                   </div>
@@ -657,9 +762,14 @@ const LandingPage = () => {
                     />
                   </div>
                   <div className="insight-content">
-                    <p className="insight-quote">"When you are 25, your greatest asset cannot be fanancial because you don't have wealth"</p>
+                    <p className="insight-quote">
+                      "When you are 25, your greatest asset cannot be fanancial
+                      because you don't have wealth"
+                    </p>
                     <h3 className="expert-name">Radhika Gupta</h3>
-                    <p className="expert-title">MD & CEO, Edelweiss Asset Management</p>
+                    <p className="expert-title">
+                      MD & CEO, Edelweiss Asset Management
+                    </p>
                   </div>
                 </div>
 
@@ -675,7 +785,9 @@ const LandingPage = () => {
                     />
                   </div>
                   <div className="insight-content">
-                    <p className="insight-quote">"What is important is to keep going on...."</p>
+                    <p className="insight-quote">
+                      "What is important is to keep going on...."
+                    </p>
                     <h3 className="expert-name">Sanjay Choudhary</h3>
                     <p className="expert-title">Founder & CEO at Incuspaze</p>
                   </div>
@@ -693,9 +805,14 @@ const LandingPage = () => {
                     />
                   </div>
                   <div className="insight-content">
-                    <p className="insight-quote">"Money has so much importance in your life but money should not drive one person"</p>
+                    <p className="insight-quote">
+                      "Money has so much importance in your life but money
+                      should not drive one person"
+                    </p>
                     <h3 className="expert-name">Vijai Mantri</h3>
-                    <p className="expert-title">Co-Founder & Chief Investment Strategist at JRL Money</p>
+                    <p className="expert-title">
+                      Co-Founder & Chief Investment Strategist at JRL Money
+                    </p>
                   </div>
                 </div>
 
@@ -712,9 +829,13 @@ const LandingPage = () => {
                     />
                   </div>
                   <div className="insight-content">
-                    <p className="insight-quote">"Equity is always a no brainer."</p>
+                    <p className="insight-quote">
+                      "Equity is always a no brainer."
+                    </p>
                     <h3 className="expert-name">Aashish Sommaiyaa</h3>
-                    <p className="expert-title">ED & CEO, Whiteosk capital management</p>
+                    <p className="expert-title">
+                      ED & CEO, Whiteosk capital management
+                    </p>
                   </div>
                 </div>
               </div>
@@ -729,16 +850,16 @@ const LandingPage = () => {
             {[1, 2, 3, 4, 5].map((index) => (
               <span
                 key={index}
-                className={`dot ${currentSlide === index ? 'active' : ''}`}
+                className={`dot ${currentSlide === index ? "active" : ""}`}
                 onClick={() => setCurrentSlide(index)}
               ></span>
             ))}
           </div>
 
           <div className="insights-footer">
-            <a 
-              href="https://www.youtube.com/@investzaWealth/podcasts" 
-              target="_blank" 
+            <a
+              href="https://www.youtube.com/@investzaWealth/podcasts"
+              target="_blank"
               rel="noopener noreferrer"
               className="view-episodes-btn"
             >
@@ -756,16 +877,29 @@ const LandingPage = () => {
             <div className="stats-grid">
               <div className="stat-card">
                 <div className="stat-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
                     <path d="M3,3H21V5H19V19A2,2 0 0,1 17,21H7A2,2 0 0,1 5,19V5H3V3M7,5V19H17V5H7M9,7H15V9H9V7M9,11H15V13H9V11M9,15H15V17H9V15Z" />
                   </svg>
                 </div>
-                <p>Higher Exposure to Thematic Funds/High Allocation to Exciting Themes</p>
+                <p>
+                  Higher Exposure to Thematic Funds/High Allocation to Exciting
+                  Themes
+                </p>
               </div>
 
               <div className="stat-card">
                 <div className="stat-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
                     <path d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z" />
                   </svg>
                 </div>
@@ -774,20 +908,36 @@ const LandingPage = () => {
 
               <div className="stat-card">
                 <div className="stat-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
                     <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z" />
                   </svg>
                 </div>
-                <p>Focused on timing of investments and fund selection rather than asset allocation</p>
+                <p>
+                  Focused on timing of investments and fund selection rather
+                  than asset allocation
+                </p>
               </div>
 
               <div className="stat-card">
                 <div className="stat-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
                     <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 8.12,16.5 8.91,15.77L10.32,17.18C9.75,17.96 9.29,18.81 8.95,19.72L7.07,18.28M9.5,10.5C9.5,11.19 9.81,11.8 10.31,12.19L9.5,14C8.47,13.39 7.75,12.24 7.75,10.95C7.75,9.66 8.47,8.5 9.5,7.89V10.5M12,4.75C14.9,4.75 17.25,7.1 17.25,10C17.25,12.9 14.9,15.25 12,15.25C9.1,15.25 6.75,12.9 6.75,10C6.75,7.1 9.1,4.75 12,4.75Z" />
                   </svg>
                 </div>
-                <p>Not having a reliable advisor, financial planner or mutual fund distributor with expertise</p>
+                <p>
+                  Not having a reliable advisor, financial planner or mutual
+                  fund distributor with expertise
+                </p>
               </div>
             </div>
 
@@ -809,8 +959,12 @@ const LandingPage = () => {
               <h2>Why INVESTZA?</h2>
             </div>
             <div className="why-investza-right">
-              <p className="why-subtitle">We don't believe in a one-size-fits-all.</p>
-              <p className="why-description">We believe wealth management should be unique to you</p>
+              <p className="why-subtitle">
+                We don't believe in a one-size-fits-all.
+              </p>
+              <p className="why-description">
+                We believe wealth management should be unique to you
+              </p>
             </div>
           </div>
 
@@ -819,17 +973,27 @@ const LandingPage = () => {
             <div className="feature-cards-grid">
               <div className="feature-card">
                 <h3>Personalized Strategies</h3>
-                <p>We plan investment strategies around your goals, risk appetite and timeline — no generic market trends, no pre-set models.</p>
+                <p>
+                  We plan investment strategies around your goals, risk appetite
+                  and timeline — no generic market trends, no pre-set models.
+                </p>
               </div>
 
               <div className="feature-card">
                 <h3>Backed by Institutional Grade Research</h3>
-                <p>Our team combines financial expertise with data-backed insights allowing you to make smarter and more confident decisions</p>
+                <p>
+                  Our team combines financial expertise with data-backed
+                  insights allowing you to make smarter and more confident
+                  decisions
+                </p>
               </div>
 
               <div className="feature-card">
                 <h3>Transparency & Trust at Every Step</h3>
-                <p>No hidden agendas or complicated jargon. Just honest advice, full visibility, and a partnership built on trust.</p>
+                <p>
+                  No hidden agendas or complicated jargon. Just honest advice,
+                  full visibility, and a partnership built on trust.
+                </p>
               </div>
             </div>
           </div>
@@ -864,7 +1028,9 @@ const LandingPage = () => {
       {/* Wealth Creation Approach Section */}
       <section className="wealth-approach-section">
         <div className="wealth-approach-content">
-          <h2 className="wealth-approach-title">Our Distinctive Approach to Wealth Creation</h2>
+          <h2 className="wealth-approach-title">
+            Our Distinctive Approach to Wealth Creation
+          </h2>
         </div>
       </section>
 
@@ -876,12 +1042,21 @@ const LandingPage = () => {
               <div className="process-card-content">
                 <div className="process-number">01</div>
                 <div className="process-icon">
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                  <svg
+                    width="40"
+                    height="40"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
                     <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z" />
                   </svg>
                 </div>
                 <h3 className="process-title">Defining the Objective</h3>
-                <p className="process-description">We understand the entire picture and define a clear financial objective establishing the foundation of your investment strategy.</p>
+                <p className="process-description">
+                  We understand the entire picture and define a clear financial
+                  objective establishing the foundation of your investment
+                  strategy.
+                </p>
               </div>
             </div>
 
@@ -889,12 +1064,21 @@ const LandingPage = () => {
               <div className="process-card-content">
                 <div className="process-number">02</div>
                 <div className="process-icon">
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                  <svg
+                    width="40"
+                    height="40"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
                     <path d="M12,2L13.09,8.26L22,9L13.09,9.74L12,16L10.91,9.74L2,9L10.91,8.26L12,2M12,21L10.91,14.74L2,14L10.91,13.26L12,7L13.09,13.26L22,14L13.09,14.74L12,21Z" />
                   </svg>
                 </div>
                 <h3 className="process-title">Strategic Planning</h3>
-                <p className="process-description">With institutional grade research, we plan a custom strategy integrating optimized asset allocation and intelligent diversification meant only for you.</p>
+                <p className="process-description">
+                  With institutional grade research, we plan a custom strategy
+                  integrating optimized asset allocation and intelligent
+                  diversification meant only for you.
+                </p>
               </div>
             </div>
 
@@ -902,12 +1086,21 @@ const LandingPage = () => {
               <div className="process-card-content">
                 <div className="process-number">03</div>
                 <div className="process-icon">
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                  <svg
+                    width="40"
+                    height="40"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
                     <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z" />
                   </svg>
                 </div>
                 <h3 className="process-title">Implementing the Strategy</h3>
-                <p className="process-description">Your customized strategy is deployed seamlessly using suitable instruments and platforms with precision, absolute clarity and efficiency.</p>
+                <p className="process-description">
+                  Your customized strategy is deployed seamlessly using suitable
+                  instruments and platforms with precision, absolute clarity and
+                  efficiency.
+                </p>
               </div>
             </div>
 
@@ -915,12 +1108,21 @@ const LandingPage = () => {
               <div className="process-card-content">
                 <div className="process-number">04</div>
                 <div className="process-icon">
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                  <svg
+                    width="40"
+                    height="40"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
                     <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M11,6V12.41L15.36,14.95L16.64,12.59L13,10.59V6H11Z" />
                   </svg>
                 </div>
                 <h3 className="process-title">Consistent Monitoring</h3>
-                <p className="process-description">We consistently monitor your portfolio and make prompt adjustments to ensure your investments stay aligned, tax efficient and on track.</p>
+                <p className="process-description">
+                  We consistently monitor your portfolio and make prompt
+                  adjustments to ensure your investments stay aligned, tax
+                  efficient and on track.
+                </p>
               </div>
             </div>
           </div>
@@ -936,7 +1138,10 @@ const LandingPage = () => {
           <div className="founder-content">
             <div className="founder-text">
               <blockquote className="founder-quote">
-                "At Investza, our mission is simple — to make wealth creation less intimidating and more accessible. We're here to cut through the noise, offer real guidance, and help you build a financial future that's truly yours."
+                "At Investza, our mission is simple — to make wealth creation
+                less intimidating and more accessible. We're here to cut through
+                the noise, offer real guidance, and help you build a financial
+                future that's truly yours."
               </blockquote>
             </div>
             <div className="founder-profile">
@@ -956,7 +1161,10 @@ const LandingPage = () => {
           <div className="lenis-layout">
             <div className="lenis-left">
               <h2>How Investza can help you grow your portfolio</h2>
-              <p>Your financial journey doesn't just end with investing — it's supposed to evolve.</p>
+              <p>
+                Your financial journey doesn't just end with investing — it's
+                supposed to evolve.
+              </p>
             </div>
 
             <div className="lenis-right">
@@ -964,28 +1172,44 @@ const LandingPage = () => {
                 <div className="lenis-card" data-card="1">
                   <div className="card-content">
                     <h3>Wealth Creation</h3>
-                    <p>From mutual funds to alternative investments, we identify high-potential opportunities to grow your portfolio meaningfully.</p>
+                    <p>
+                      From mutual funds to alternative investments, we identify
+                      high-potential opportunities to grow your portfolio
+                      meaningfully.
+                    </p>
                   </div>
                 </div>
 
                 <div className="lenis-card" data-card="2">
                   <div className="card-content">
                     <h3>Tax Planning</h3>
-                    <p>Integrating tax planning in your investment journey — we ensure you save more, comply effortlessly, and grow your wealth in a smart manner.</p>
+                    <p>
+                      Integrating tax planning in your investment journey — we
+                      ensure you save more, comply effortlessly, and grow your
+                      wealth in a smart manner.
+                    </p>
                   </div>
                 </div>
 
                 <div className="lenis-card" data-card="3">
                   <div className="card-content">
                     <h3>Wealth Protection</h3>
-                    <p>We deploy risk-managed strategies and periodic reviews to shield your portfolio from market volatility and unexpected setbacks.</p>
+                    <p>
+                      We deploy risk-managed strategies and periodic reviews to
+                      shield your portfolio from market volatility and
+                      unexpected setbacks.
+                    </p>
                   </div>
                 </div>
 
                 <div className="lenis-card" data-card="4">
                   <div className="card-content">
                     <h3>Portfolio Management</h3>
-                    <p>Professional portfolio management with continuous monitoring and rebalancing to optimize your investment returns over time.</p>
+                    <p>
+                      Professional portfolio management with continuous
+                      monitoring and rebalancing to optimize your investment
+                      returns over time.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -1001,7 +1225,12 @@ const LandingPage = () => {
 
           <div className="team-grid">
             <div className="team-member">
-              <a href="https://www.linkedin.com/in/abhishek-mehta-ca-cfa/" target="_blank" rel="noopener noreferrer" className="member-image-link">
+              <a
+                href="https://www.linkedin.com/in/abhishek-mehta-ca-cfa/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="member-image-link"
+              >
                 <div className="member-image">
                   <img src="/abhishek.webp" alt="Abhishek Mehta" />
                   <div className="hover-overlay">
@@ -1018,7 +1247,12 @@ const LandingPage = () => {
             </div>
 
             <div className="team-member">
-              <a href="https://www.linkedin.com/in/pooja-chandgothia-470054108/" target="_blank" rel="noopener noreferrer" className="member-image-link">
+              <a
+                href="https://www.linkedin.com/in/pooja-chandgothia-470054108/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="member-image-link"
+              >
                 <div className="member-image">
                   <img src="/pooja.webp" alt="Pooja Chandgothia" />
                   <div className="hover-overlay">
@@ -1035,7 +1269,12 @@ const LandingPage = () => {
             </div>
 
             <div className="team-member">
-              <a href="https://www.linkedin.com/in/varunvinayan/" target="_blank" rel="noopener noreferrer" className="member-image-link">
+              <a
+                href="https://www.linkedin.com/in/varunvinayan/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="member-image-link"
+              >
                 <div className="member-image">
                   <img src="/varun.webp" alt="Varun Vinayan" />
                   <div className="hover-overlay">
@@ -1053,7 +1292,10 @@ const LandingPage = () => {
           </div>
 
           <div className="team-cta">
-            <button className="meet-team-btn" onClick={() => window.location.href = '/team'}>
+            <button
+              className="meet-team-btn"
+              onClick={() => (window.location.href = "/team")}
+            >
               Meet the Team
               <div className="btn-arrow">→</div>
             </button>
@@ -1071,7 +1313,10 @@ const LandingPage = () => {
               {/* First set of testimonials */}
               <div className="testimonial-card">
                 <div className="testimonial-content">
-                  <p className="testimonial-text">"My portfolio is now aligned with my values and goals. Investza made that happen with deep insight and care."</p>
+                  <p className="testimonial-text">
+                    "My portfolio is now aligned with my values and goals.
+                    Investza made that happen with deep insight and care."
+                  </p>
                   <div className="client-info">
                     <div className="client-avatar">
                       <img src="/client1.webp" alt="Parish Tekriwal" />
@@ -1086,7 +1331,11 @@ const LandingPage = () => {
 
               <div className="testimonial-card">
                 <div className="testimonial-content">
-                  <p className="testimonial-text">"What I appreciate most about Investza is the transparency. I know where my money is, why it's there, and what to expect next."</p>
+                  <p className="testimonial-text">
+                    "What I appreciate most about Investza is the transparency.
+                    I know where my money is, why it's there, and what to expect
+                    next."
+                  </p>
                   <div className="client-info">
                     <div className="client-avatar">
                       <img src="/client2.webp" alt="Adnan Khan" />
@@ -1101,7 +1350,11 @@ const LandingPage = () => {
 
               <div className="testimonial-card">
                 <div className="testimonial-content">
-                  <p className="testimonial-text">"With Investza, I feel like I have a real partner- not just an advisor. They've helped me build wealth with clarity and confidence."</p>
+                  <p className="testimonial-text">
+                    "With Investza, I feel like I have a real partner- not just
+                    an advisor. They've helped me build wealth with clarity and
+                    confidence."
+                  </p>
                   <div className="client-info">
                     <div className="client-avatar">
                       <img src="/client3.webp" alt="Ankit Mehta" />
@@ -1116,7 +1369,10 @@ const LandingPage = () => {
 
               <div className="testimonial-card">
                 <div className="testimonial-content">
-                  <p className="testimonial-text">"I used to invest based on trends. Investza changed that-now every fund I hold has a reason and a stratery behind it."</p>
+                  <p className="testimonial-text">
+                    "I used to invest based on trends. Investza changed that-now
+                    every fund I hold has a reason and a stratery behind it."
+                  </p>
                   <div className="client-info">
                     <div className="client-avatar">
                       <img src="/client4.webp" alt="Anik Chhabria" />
@@ -1131,7 +1387,11 @@ const LandingPage = () => {
 
               <div className="testimonial-card">
                 <div className="testimonial-content">
-                  <p className="testimonial-text">"Investza dosen't just manage my portfolio-they help me understand it. Every decision feels informed, strategic, and built for the long term."</p>
+                  <p className="testimonial-text">
+                    "Investza dosen't just manage my portfolio-they help me
+                    understand it. Every decision feels informed, strategic, and
+                    built for the long term."
+                  </p>
                   <div className="client-info">
                     <div className="client-avatar">
                       <img src="/client5.webp" alt="Shishir Gupta" />
@@ -1146,7 +1406,11 @@ const LandingPage = () => {
 
               <div className="testimonial-card">
                 <div className="testimonial-content">
-                  <p className="testimonial-text">"Their SIP recommendations helped me build a disciplined approach to wealth. I don't even worry about market ups and downs anymore."</p>
+                  <p className="testimonial-text">
+                    "Their SIP recommendations helped me build a disciplined
+                    approach to wealth. I don't even worry about market ups and
+                    downs anymore."
+                  </p>
                   <div className="client-info">
                     <div className="client-avatar">
                       <img src="/client6.webp" alt="Vishnu Priya Jyotula" />
@@ -1162,7 +1426,10 @@ const LandingPage = () => {
               {/* Duplicate set for infinite scroll */}
               <div className="testimonial-card">
                 <div className="testimonial-content">
-                  <p className="testimonial-text">"My portfolio is now aligned with my values and goals. Investza made that happen with deep insight and care."</p>
+                  <p className="testimonial-text">
+                    "My portfolio is now aligned with my values and goals.
+                    Investza made that happen with deep insight and care."
+                  </p>
                   <div className="client-info">
                     <div className="client-avatar">
                       <img src="/client1.webp" alt="Parish Tekriwal" />
@@ -1177,7 +1444,11 @@ const LandingPage = () => {
 
               <div className="testimonial-card">
                 <div className="testimonial-content">
-                  <p className="testimonial-text">"What I appreciate most about Investza is the transparency. I know where my money is, why it's there, and what to expect next."</p>
+                  <p className="testimonial-text">
+                    "What I appreciate most about Investza is the transparency.
+                    I know where my money is, why it's there, and what to expect
+                    next."
+                  </p>
                   <div className="client-info">
                     <div className="client-avatar">
                       <img src="/client2.webp" alt="Adnan Khan" />
@@ -1192,7 +1463,11 @@ const LandingPage = () => {
 
               <div className="testimonial-card">
                 <div className="testimonial-content">
-                  <p className="testimonial-text">"With Investza, I feel like I have a real partner- not just an advisor. They've helped me build wealth with clarity and confidence."</p>
+                  <p className="testimonial-text">
+                    "With Investza, I feel like I have a real partner- not just
+                    an advisor. They've helped me build wealth with clarity and
+                    confidence."
+                  </p>
                   <div className="client-info">
                     <div className="client-avatar">
                       <img src="/client3.webp" alt="Ankit Mehta" />
@@ -1246,10 +1521,18 @@ const LandingPage = () => {
               <div className="download-title">Download Wealth Tracker</div>
               <div className="app-store-buttons">
                 <div className="store-button google-play-btn">
-                  <img src="/google_play_icon.svg" alt="Google Play" className="store-icon" />
+                  <img
+                    src="/google_play_icon.svg"
+                    alt="Google Play"
+                    className="store-icon"
+                  />
                 </div>
                 <div className="store-button app-store-btn">
-                  <img src="/app_store_icon.svg" alt="App Store" className="store-icon" />
+                  <img
+                    src="/app_store_icon.svg"
+                    alt="App Store"
+                    className="store-icon"
+                  />
                 </div>
               </div>
             </div>
@@ -1266,28 +1549,40 @@ const LandingPage = () => {
         <div className="badge-content">
           <p className="badge-title">Download Wealth Tracker App</p>
         </div>
-        <button className="badge-button" onClick={() => {
-          const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-          let storeUrl;
-          
-          // Detect iOS
-          if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-            storeUrl = 'https://apps.apple.com/in/app/wealth-tracker-mf-analysis/id6751183825';
-          } 
-          // Detect Android
-          else if (/android/i.test(userAgent)) {
-            storeUrl = 'https://play.google.com/store/apps/details?id=com.nvcproject.InvestzaApp&hl=en_IN';
-          }
-          // Default to Play Store for other devices
-          else {
-            storeUrl = 'https://play.google.com/store/apps/details?id=com.nvcproject.InvestzaApp&hl=en_IN';
-          }
-          
-          window.open(storeUrl, '_blank', 'noopener,noreferrer');
-        }}>
+        <button
+          className="badge-button"
+          onClick={() => {
+            const userAgent =
+              navigator.userAgent || navigator.vendor || window.opera;
+            let storeUrl;
+
+            // Detect iOS
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+              storeUrl =
+                "https://apps.apple.com/in/app/wealth-tracker-mf-analysis/id6751183825";
+            }
+            // Detect Android
+            else if (/android/i.test(userAgent)) {
+              storeUrl =
+                "https://play.google.com/store/apps/details?id=com.nvcproject.InvestzaApp&hl=en_IN";
+            }
+            // Default to Play Store for other devices
+            else {
+              storeUrl =
+                "https://play.google.com/store/apps/details?id=com.nvcproject.InvestzaApp&hl=en_IN";
+            }
+
+            window.open(storeUrl, "_blank", "noopener,noreferrer");
+          }}
+        >
           Get App
         </button>
-        <div className="badge-close" onClick={() => document.getElementById('downloadBadge').classList.add('hidden')}>
+        <div
+          className="badge-close"
+          onClick={() =>
+            document.getElementById("downloadBadge").classList.add("hidden")
+          }
+        >
           ✕
         </div>
       </div>

@@ -3,20 +3,22 @@ import styles from "./VerifyOtp.module.css";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 
-import { OtpVerification } from "./contexts/OtpVerification";
-import { userDetails } from "./contexts/userDetails";
-
 import { verifyOtp } from "../api/flowApi";
+import { verifyOtp_reviewPortfolio } from "../api/flowApi";
 
-const VerifyOtp = ({ phoneNumber, onVerify }) => {
+import { sendOtp } from "../api/flowApi";
+import { sendOtp_reviewPortfolio } from "../api/flowApi";
+
+import { userDataContext } from "./contexts/userDataContext";
+
+const VerifyOtp = ({ onVerify }) => {
   const [otp, setOtp] = useState("");
   const [timer, setTimer] = useState(26);
   const [canResend, setCanResend] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { userData, setUserData } = useContext(userDetails);
-
-  const { isOTPVerified, setIsOTPVerified } = useContext(OtpVerification);
+  const { userData, setUserData } = useContext(userDataContext);
+  // const { isOTPVerified, setIsOTPVerified } = useContext(OtpVerification);
 
   const navigate = useNavigate();
 
@@ -43,22 +45,31 @@ const VerifyOtp = ({ phoneNumber, onVerify }) => {
 
     if (otp.length === 4) {
       try {
-        const res = await verifyOtp(userData.userId, otp);
+        let res;
+        if (userData.category === "portfolioReview") {
+          res = await verifyOtp_reviewPortfolio(userData.userId, otp);
 
-        if (res.data.verified) {
-          setIsLoading(true);
-
-          setTimeout(() => {
-            // console.log("OTP Verified:", otp);
-            setIsOTPVerified(true);
-
-            navigate("/investmentDetails", { replace: true });
-
-            if (onVerify) onVerify(otp);
-            setIsLoading(false);
-          }, 1000);
+          if (res.status === 200) {
+            setIsLoading(true);
+            setTimeout(() => {
+              navigate("/investmentDetails", { replace: true });
+            }, 1000);
+          } else {
+            alert("Wrong OTP");
+          }
         } else {
-          alert("Wrong OTP");
+          res = await verifyOtp(userData.userId, otp);
+
+          if (res.data.verified) {
+            setIsLoading(true);
+
+            setTimeout(() => {
+              setIsLoading(false);
+              navigate("/investmentDetails", { replace: true });
+            }, 1000);
+          } else {
+            alert("Wrong OTP");
+          }
         }
       } catch (error) {
         alert("Error verifying OTP");
@@ -67,11 +78,33 @@ const VerifyOtp = ({ phoneNumber, onVerify }) => {
     }
   };
 
-  const handleResend = () => {
-    setOtp("");
-    setTimer(26);
-    setCanResend(false);
-    // console.log("OTP Resent to", phoneNumber);
+  const handleResend = async () => {
+    try {
+      let res;
+      if (userData.category === "callScheduling") {
+        res = await sendOtp(userData.userId, userData.userPhone);
+        setUserData((prevUserData) => ({
+          ...prevUserData,
+          otp: res.data.otp,
+        }));
+      } else {
+        res = await sendOtp_reviewPortfolio(
+          userData.userId,
+          userData.userPhone
+        );
+        setUserData((prevUserData) => ({
+          ...prevUserData,
+          otp: res.data.otp,
+        }));
+      }
+
+      setOtp("");
+      setTimer(26);
+      setCanResend(false);
+    } catch (err) {
+      console.log(err);
+      alert(err);
+    }
   };
 
   return (
@@ -80,10 +113,7 @@ const VerifyOtp = ({ phoneNumber, onVerify }) => {
         {/* Header */}
         <div className={styles["otp-header"]}>
           <h1 className={styles["otp-title"]}>Verify OTP</h1>
-          <p className={styles["otp-description"]}>
-            Enter the 4-digit OTP sent to{" "}
-            <span className={styles["otp-number"]}>{phoneNumber}</span>
-          </p>
+          <p className={styles["otp-description"]}>Enter the 4-digit OTP</p>
         </div>
 
         {/* Form */}

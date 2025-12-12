@@ -2,13 +2,16 @@ import styles from "./InvestmentDetails.module.css";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { selectInvestment } from "../api/flowApi";
-import { userDetails } from "./contexts/userDetails";
+import { setInvestment } from "../api/flowApi";
 import { ChevronRight } from "lucide-react";
+
+import { userDataContext } from "./contexts/userDataContext";
 
 const InvestmentDetails = () => {
   const [selectedRange, setSelectedRange] = useState("");
+  const { userData } = useContext(userDataContext);
 
-  const { userData } = useContext(userDetails);
+  // const { userData } = useContext(userDetails);
 
   const navigate = useNavigate();
 
@@ -38,8 +41,19 @@ const InvestmentDetails = () => {
   };
 
   const handleContinue = async () => {
-    const res = await selectInvestment(userData.userId, selectedRange);
-    navigate("/scheduleCall");
+    try {
+      let res;
+      if (userData.category === "portfolioReview") {
+        res = await setInvestment(userData.userId, selectedRange);
+      } else {
+        res = await selectInvestment(userData.userId, selectedRange);
+      }
+
+      navigate("/scheduleCall");
+    } catch (err) {
+      alert(err);
+      console.log(err);
+    }
   };
 
   return (

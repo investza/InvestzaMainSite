@@ -2,9 +2,11 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import { ChevronRight, ChevronLeft, Calendar } from "lucide-react";
 import styles from "./ScheduleComponent.module.css";
 import { useNavigate } from "react-router-dom";
-import { DetailsContext } from "./contexts/Details";
-import { userDetails } from "./contexts/userDetails";
+
 import { checkSlot } from "../api/flowApi";
+import { checkSlot_reviewPortfolio } from "../api/flowApi";
+
+import { userDataContext } from "./contexts/userDataContext";
 
 const ScheduleComponent = () => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -16,8 +18,7 @@ const ScheduleComponent = () => {
   const calendarRef = useRef(null);
   const navigate = useNavigate();
 
-  const { data, setData } = useContext(DetailsContext);
-  const { userData, setUserData } = useContext(userDetails);
+  const { userData, setUserData } = useContext(userDataContext);
 
   // ---------------- LOCAL DATE FIX ----------------
   const formatLocalDate = (date) => {
@@ -66,7 +67,13 @@ const ScheduleComponent = () => {
 
     const fetchSlots = async () => {
       try {
-        const res = await checkSlot(backendDate);
+        let res;
+
+        if (userData.category === "portfolioReview") {
+          res = await checkSlot_reviewPortfolio(backendDate);
+        } else {
+          res = await checkSlot(backendDate);
+        }
 
         const mapped = {};
         res.data.slots.forEach((slot) => {
@@ -113,15 +120,15 @@ const ScheduleComponent = () => {
     });
 
     // Save for UI screen
-    setData((prev) => ({
-      ...prev,
-      time: selectedTime,
-      date: formattedDate,
-    }));
+    // setData((prev) => ({
+    //   ...prev,
+    //   time: selectedTime,
+    //   date: formattedDate,
+    // }));
 
     // Save for backend
-    setUserData((prev) => ({
-      ...prev,
+    setUserData((prevUserData) => ({
+      ...prevUserData,
       time: backendTime,
       date: backendDate,
     }));

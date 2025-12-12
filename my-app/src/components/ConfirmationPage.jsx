@@ -1,20 +1,28 @@
 import React, { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { CheckCircle, Calendar, Clock, Mail, ArrowRight } from "lucide-react";
 import styles from "./ConfirmationPage.module.css";
-import { useNavigate } from "react-router-dom";
-import { DetailsContext } from "./contexts/Details";
+
+import { userDataContext } from "./contexts/userDataContext";
 
 const ConfirmationPage = () => {
   const [showContent, setShowContent] = useState(false);
   const navigate = useNavigate();
-  const { data } = useContext(DetailsContext);
+
+  const { userData, setUserData, clearUserData } = useContext(userDataContext);
+
+  const [UIDate, setUIdate] = useState("");
+  const [UITime, setUITime] = useState("");
 
   useEffect(() => {
     // Show content with animation
     const contentTimer = setTimeout(() => setShowContent(true), 100);
 
     // Navigate to home after 10 seconds
-    const navigateTimer = setTimeout(() => navigate("/"), 10000);
+    const navigateTimer = setTimeout(() => {
+      clearUserData(); // <-- clear context + localStorage here
+      navigate("/");
+    }, 10000);
 
     // Cleanup timers on unmount
     return () => {
@@ -23,12 +31,45 @@ const ConfirmationPage = () => {
     };
   }, [navigate]);
 
+  useEffect(() => {
+    function formatDateTime(dateStr, timeStr) {
+      // ---- Format Date ----
+      const date = new Date(dateStr);
+      const formattedDate = date.toLocaleDateString("en-US", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      });
+
+      // ---- Format Time ----
+      const [hour, minute] = timeStr.split(":");
+      const time = new Date();
+      time.setHours(hour);
+      time.setMinutes(minute);
+
+      const formattedTime = time.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+
+      return { formattedDate, formattedTime };
+    }
+
+    const { formattedDate, formattedTime } = formatDateTime(
+      userData.date,
+      userData.time
+    );
+
+    setUIdate(formattedDate);
+    setUITime(formattedTime);
+  }, []);
+
   const appointmentDetails = {
-    date: data.date,
-    time: data.time,
-    duration: "45 minutes",
-    email: data.email,
-    guestEmail: data.guestEmail,
+    date: UIDate,
+    time: UITime,
+    email: userData.email,
+    guestEmail: userData.guestEmail,
     timezone: "Indian Standard Time (IST)",
   };
 
@@ -104,7 +145,10 @@ const ConfirmationPage = () => {
         <div className={styles["action-buttons"]}>
           <button
             className={styles["btn-primary"]}
-            onClick={() => navigate("/")}
+            onClick={() => {
+              clearUserData(); // <-- clear context + localStorage here
+              navigate("/");
+            }}
           >
             Back to Home
             <ArrowRight size={20} />

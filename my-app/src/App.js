@@ -1,102 +1,68 @@
-import React, { useState, useEffect } from 'react';
+
+// IMPORTS THAT MUST ALWAYS BE LOADED AT START
+// (Small libraries, CSS, contexts, utilities)
+
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+
 import Preloader from './components/Preloader';
-import LandingPage from './components/LandingPage';
-import EventsPage from './pages/EventsPage';
-import AboutUs from './pages/AboutUs';
-import TeamPage from './pages/TeamPage';
-import ContactUs from './pages/ContactUs';
-import FAQPage from './pages/FAQPage';
-import LearnWhy from './pages/LearnWhy';
-import Newsletter from './pages/Newsletter';
-import NewsletterDetail from './pages/NewsletterDetail';
-import RefundPolicy from './pages/RefundPolicy';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import Disclaimer from './pages/Disclaimer';
-import TermsConditions from './pages/TermsConditions';
+import './App.css';
+import './components/PreloaderAnimations.css';
 
-//wealth tracker page import
-import WealthTracker from './components/WealthTracker';
-
-// CallSchedule flow components
-import Information from './components/Information';
-import NameDetails from './components/NameDetails';
-import VerifyOtp from './components/VerifyOtp';
-import Vision from './components/Vision';
-import ContactDetails from './components/ContactDetails';
-import InvestmentDetails from './components/InvestmentDetails';
-import { ConfirmationPageWrapper } from './components/ConfirmationPageWrapper';
-import ScheduleComponent from './components/ScheduleComponent';
-import EmailDetails from './components/EmailDetails';
-import BookingList from './components/BookingList';
-import Page from './components/Page';
-
-// Portfolio Review flow components
-import InformationPortfolio from './components/InformationPortfolio';
-import NameDetailsPortfolio from './components/NameDetailsPortfolio';
-import VerifyOtpPortfolio from './components/VerifyOtpPortfolio';
-import ContactDetailsPortfolio from './components/ContactDetailsPortfolio';
-import InvestmentDetailsPortfolio from './components/InvestmentDetailsPortfolio';
-import { ConfirmationPageWrapperPortfolio } from './components/ConfirmationPageWrapperPortfolio';
-import ScheduleComponentPortfolio from './components/ScheduleComponentPortfolio';
-import EmailDetailsPortfolio from './components/EmailDetailsPortfolio';
-
-// Contexts
-import { DetailsContext } from './components/contexts/Details';
-import { OtpVerification } from './components/contexts/OtpVerification';
-import { userDetails } from './components/contexts/userDetails';
-
-// Assets
+// Shared assets
 import AdnanKhan from './assets/Adnan-Khan.webp';
 import AnkitMehta from './assets/Ankit-Mehta.webp';
 
-import './App.css';
-import './components/PreloaderAnimations.css';
-import ShowQR from './components/ShowQR';
 
-// ScrollToTop component to reset scroll position on route change
+
+//  PAGE-LEVEL LAZY LOADING (Major optimization)
+const LandingPage = lazy(() => import('./components/LandingPage'));
+const EventsPage = lazy(() => import('./pages/EventsPage'));
+const AboutUs = lazy(() => import('./pages/AboutUs'));
+const TeamPage = lazy(() => import('./pages/TeamPage'));
+const ContactUs = lazy(() => import('./pages/ContactUs'));
+const FAQPage = lazy(() => import('./pages/FAQPage'));
+const LearnWhy = lazy(() => import('./pages/LearnWhy'));
+const Newsletter = lazy(() => import('./pages/Newsletter'));
+const NewsletterDetail = lazy(() => import('./pages/NewsletterDetail'));
+const RefundPolicy = lazy(() => import('./pages/RefundPolicy'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const Disclaimer = lazy(() => import('./pages/Disclaimer'));
+const TermsConditions = lazy(() => import('./pages/TermsConditions'));
+const WealthTracker = lazy(() => import('./components/WealthTracker'));
+const Page = lazy(() => import('./components/Page'));
+const ShowQR = lazy(() => import('./components/ShowQR'));
+
+
+
+// CALL SCHEDULING FLOW LAZY IMPORTS
+const Information = lazy(() => import('./components/Information'));
+const NameDetails = lazy(() => import('./components/NameDetails'));
+const VerifyOtp = lazy(() => import('./components/VerifyOtp'));
+const Vision = lazy(() => import('./components/Vision'));
+const ContactDetails = lazy(() => import('./components/ContactDetails'));
+const InvestmentDetails = lazy(() => import('./components/InvestmentDetails'));
+const ConfirmationPage = lazy(() => import('./components/ConfirmationPage'));
+const ScheduleComponent = lazy(() => import('./components/ScheduleComponent'));
+const EmailDetails = lazy(() => import('./components/EmailDetails'));
+
+// Scroll-to-top logic
 function ScrollToTop() {
   const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-
+  useEffect(() => window.scrollTo(0, 0), [pathname]);
   return null;
 }
 
 function App() {
   const [showPreloader, setShowPreloader] = useState(true);
-
-  const [data, setData] = useState({
-    date: '',
-    time: '',
-    duration: '45 minutes',
-    email: '',
-    guestEmail: '',
-    timezone: 'Indian Standard Time (IST)',
-  });
-
-  const [userData, setUserData] = useState({
-    userId: '',
-    userName: '',
-    userPhone: '',
-    otp: '',
-    date: '',
-    time: '',
-    email: '',
-    guestEmail: '',
-    message: '',
-  });
-
   const [isOTPVerified, setIsOTPVerified] = useState(false);
 
+  
+  // Preloader logic
   useEffect(() => {
-    const hasSeenPreloader = sessionStorage.getItem('preloaderShown');
-    if (hasSeenPreloader) {
+    const seen = sessionStorage.getItem('preloaderShown');
+    if (seen) {
       setShowPreloader(false);
-      document.body.classList.remove('preloader-active');
-      // Don't add preloader-complete if already seen - elements should be visible normally
     } else {
       document.body.classList.add('preloader-active');
     }
@@ -105,152 +71,95 @@ function App() {
   const handlePreloaderComplete = () => {
     document.body.classList.remove('preloader-active');
     document.body.classList.add('preloader-complete');
-    // Keep preloader mounted longer to ensure animations trigger
-    setTimeout(() => {
-      setShowPreloader(false);
-    }, 500);
+    setTimeout(() => setShowPreloader(false), 500);
     sessionStorage.setItem('preloaderShown', 'true');
   };
-
-  useEffect(() => {
-    const saved = localStorage.getItem('userData');
-    if (saved) {
-      setData(JSON.parse(saved));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('userData', JSON.stringify(data));
-  }, [data]);
 
   return (
     <Router>
       <ScrollToTop />
+
+      {/*  Preloader visible ONLY until bundle + first route is ready */}
       {showPreloader && <Preloader onComplete={handlePreloaderComplete} />}
       <div className={`App ${showPreloader ? 'preloader-active' : ''}`}>
-        <userDetails.Provider value={{ userData, setUserData }}>
-          <OtpVerification.Provider value={{ isOTPVerified, setIsOTPVerified }}>
-            <DetailsContext.Provider value={{ data, setData }}>
-              <Routes>
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/events" element={<EventsPage />} />
-                <Route path="/about" element={<AboutUs />} />
-                <Route path="/team" element={<TeamPage />} />
-                <Route path="/contact" element={<ContactUs />} />
-                <Route path="/faq" element={<FAQPage />} />
-                <Route path="/learn-why" element={<LearnWhy />} />
-                <Route path="/newsletter" element={<Newsletter />} />
-                <Route path="/newsletter/:id" element={<NewsletterDetail />} />
-                <Route path="/refund" element={<RefundPolicy />} />
-                <Route path="/privacy" element={<PrivacyPolicy />} />
-                <Route path="/disclaimer" element={<Disclaimer />} />
-                <Route path="/terms" element={<TermsConditions />} />
-                <Route path="/wealth-tracker" element={<WealthTracker />}  />
-                
-                {/* CallSchedule flow routes */}
-                <Route
-                  path="/schedule-call"
-                  element={<Page Left={<Information />} Right={<NameDetails />} />}
-                />
-                <Route
-                  path="/contactDetails"
-                  element={
-                    <Page
-                      Left={
-                        <Vision
-                          authorName={'Mr. Adnan Khan'}
-                          authorTestimony={`What I appreciate most about Investza is the transparency. I know where my money is, why it's there and what to expect next.`}
-                          authorTitle={'Actor'}
-                          authorImage={AdnanKhan}
-                        />
-                      }
-                      Right={<ContactDetails />}
-                    />
-                  }
-                />
-                <Route path="/verification" element={<VerifyOtp />} />
-                <Route
-                  path="/investmentDetails"
-                  element={
-                    <Page
-                      Left={
-                        <Vision
-                          authorName={`Mr. Ankit Mehta`}
-                          authorTestimony={`With Investza, I feel like I have real partner – not just an advisor. They've helped me build wealth with clarity and confidence.`}
-                          authorTitle={'MD at Chemkart LTD'}
-                          authorImage={AnkitMehta}
-                        />
-                      }
-                      Right={<InvestmentDetails />}
-                    />
-                  }
-                />
-                <Route
-                  path="/scheduleCall"
-                  element={<Page Left={<Information />} Right={<ScheduleComponent />} />}
-                />
-                <Route
-                  path="/emailDetails"
-                  element={<Page Left={<Information />} Right={<EmailDetails />} />}
-                />
-                <Route path="/confirmation" element={<ConfirmationPageWrapper />} />
-                {/* <Route path="/bookings" element={<BookingList />} /> */}
+              {/*  Suspense wraps all lazy routes */}
+              <Suspense>
+                <Routes>
+                  {/* Standard Routes */}
+                  <Route path="/" element={<LandingPage />} />
+                  <Route path="/events" element={<EventsPage />} />
+                  <Route path="/about" element={<AboutUs />} />
+                  <Route path="/team" element={<TeamPage />} />
+                  <Route path="/contact" element={<ContactUs />} />
+                  <Route path="/faq" element={<FAQPage />} />
+                  <Route path="/learn-why" element={<LearnWhy />} />
+                  <Route path="/newsletter" element={<Newsletter />} />
+                  <Route path="/newsletter/:id" element={<NewsletterDetail />} />
+                  <Route path="/refund" element={<RefundPolicy />} />
+                  <Route path="/privacy" element={<PrivacyPolicy />} />
+                  <Route path="/disclaimer" element={<Disclaimer />} />
+                  <Route path="/terms" element={<TermsConditions />} />
+                  <Route path="/wealth-tracker" element={<WealthTracker />} />
+                  <Route path="/showQR" element={<ShowQR />} />
 
-                {/* Portfolio Review flow routes */}
-                <Route
-                  path="/review-portfolio"
-                  element={<Page Left={<InformationPortfolio />} Right={<NameDetailsPortfolio />} />}
-                />
-                <Route
-                  path="/portfolio-contact"
-                  element={
-                    <Page
-                      Left={
-                        <Vision
-                          authorName={'Mr. Adnan Khan'}
-                          authorTestimony={`What I appreciate most about Investza is the transparency. I know where my money is, why it's there and what to expect next.`}
-                          authorTitle={'Actor'}
-                          authorImage={AdnanKhan}
-                        />
-                      }
-                      Right={<ContactDetailsPortfolio />}
-                    />
-                  }
-                />
-                <Route path="/portfolio-verification" element={<VerifyOtpPortfolio />} />
-                <Route
-                  path="/portfolio-investment"
-                  element={
-                    <Page
-                      Left={
-                        <Vision
-                          authorName={`Mr. Ankit Mehta`}
-                          authorTestimony={`With Investza, I feel like I have real partner – not just an advisor. They've helped me build wealth with clarity and confidence.`}
-                          authorTitle={'MD at Chemkart LTD'}
-                          authorImage={AnkitMehta}
-                        />
-                      }
-                      Right={<InvestmentDetailsPortfolio />}
-                    />
-                  }
-                />
-                <Route
-                  path="/portfolio-schedule"
-                  element={<Page Left={<InformationPortfolio />} Right={<ScheduleComponentPortfolio />} />}
-                />
-                <Route
-                  path="/portfolio-email"
-                  element={<Page Left={<InformationPortfolio />} Right={<EmailDetailsPortfolio />} />}
-                />
-                <Route path="/portfolio-confirmation" element={<ConfirmationPageWrapperPortfolio />} />
+                  
+                  {/*  CALL SCHEDULING ROUTES */}
+                  <Route
+                    path="/schedule-call"
+                    element={<Page Left={<Information />} Right={<NameDetails />} />}
+                  />
 
-                 <Route path='/showQR' element = {<ShowQR />} />
-              </Routes>
-            </DetailsContext.Provider>
-          </OtpVerification.Provider>
-        </userDetails.Provider>
+                  <Route
+                    path="/contactDetails"
+                    element={
+                      <Page
+                        Left={
+                          <Vision
+                            authorName={'Mr. Adnan Khan'}
+                            authorTestimony={`What I appreciate most about Investza is the transparency.`}
+                            authorTitle={'Actor'}
+                            authorImage={AdnanKhan}
+                          />
+                        }
+                        Right={<ContactDetails />}
+                      />
+                    }
+                  />
+
+                  <Route path="/verification" element={<VerifyOtp />} />
+
+                  <Route
+                    path="/investmentDetails"
+                    element={
+                      <Page
+                        Left={
+                          <Vision
+                            authorName={`Mr. Ankit Mehta`}
+                            authorTestimony={`With Investza, I feel like I have real partner.`}
+                            authorTitle={'MD at Chemkart LTD'}
+                            authorImage={AnkitMehta}
+                          />
+                        }
+                        Right={<InvestmentDetails />}
+                      />
+                    }
+                  />
+
+                  <Route
+                    path="/scheduleCall"
+                    element={<Page Left={<Information />} Right={<ScheduleComponent />} />}
+                  />
+
+                  <Route
+                    path="/emailDetails"
+                    element={<Page Left={<Information />} Right={<EmailDetails />} />}
+                  />
+
+                  <Route path="/confirmation" element={<ConfirmationPage />} />
+
+                </Routes> 
+              </Suspense>
       </div>
-     
     </Router>
   );
 }
