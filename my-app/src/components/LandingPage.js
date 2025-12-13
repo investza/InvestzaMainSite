@@ -345,12 +345,16 @@ const LandingPage = () => {
               const contentProgress =
                 (scrollY - backdropTop + window.innerHeight) /
                 (backdropHeight + window.innerHeight);
-              const textParallaxOffset = contentProgress * 30;
+              const textParallaxOffset = contentProgress * 20;
               backdropContent.style.opacity = "1";
-              backdropContent.style.transform = `translateY(-200px) translateY(-${textParallaxOffset}px)`;
+              // Use responsive positioning based on viewport height
+              const baseOffset = Math.min(50, window.innerHeight * 0.05);
+              backdropContent.style.transform = `translateY(-${baseOffset}px) translateY(-${textParallaxOffset}px)`;
             } else {
               backdropContent.style.opacity = "0";
-              backdropContent.style.transform = "translateY(-200px)";
+              // Use responsive positioning for hidden state
+              const baseOffset = Math.min(50, window.innerHeight * 0.05);
+              backdropContent.style.transform = `translateY(-${baseOffset}px)`;
             }
           }
         } else {
@@ -369,7 +373,9 @@ const LandingPage = () => {
 
           if (backdropContent) {
             backdropContent.style.opacity = "0";
-            backdropContent.style.transform = "translateY(-150px)";
+            // Use responsive positioning
+            const baseOffset = Math.min(50, window.innerHeight * 0.05);
+            backdropContent.style.transform = `translateY(-${baseOffset}px)`;
           }
 
           // Get the wealth approach title element
@@ -385,7 +391,15 @@ const LandingPage = () => {
           founderImage.style.top = "0px";
           founderImage.style.left = "0px";
           founderImage.style.width = "100vw";
-          founderImage.style.height = "100vh";
+          
+          // Set minimum height on mobile to prevent image from shifting up
+          if (isMobile) {
+            founderImage.style.height = "100vh";
+            founderImage.style.minHeight = "600px";
+          } else {
+            founderImage.style.height = "100vh";
+          }
+          
           founderImage.style.transform = "translateY(0px)";
           founderImage.style.zIndex = "1";
           founderImage.style.background = "transparent";
@@ -394,9 +408,25 @@ const LandingPage = () => {
           if (isMobile) {
             const founderImg = founderImage.querySelector("img");
             if (founderImg) {
+              // Adjust object-position based on viewport height to prevent overlap
+              const viewportHeight = window.innerHeight;
+              let verticalPosition = "20%";
+              
+              if (viewportHeight <= 400) {
+                verticalPosition = "60%";
+              } else if (viewportHeight <= 500) {
+                verticalPosition = "55%";
+              } else if (viewportHeight <= 600) {
+                verticalPosition = "50%";
+              } else if (viewportHeight <= 700) {
+                verticalPosition = "45%";
+              } else if (viewportHeight <= 800) {
+                verticalPosition = "35%";
+              }
+              
               founderImg.style.setProperty(
                 "object-position",
-                "15% 20%",
+                `15% ${verticalPosition}`,
                 "important"
               );
               founderImg.style.setProperty(
