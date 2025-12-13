@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import preloaderImage from './preloader_comp.png';
+import { useEffect, useState } from 'react';
 
 const Preloader = ({ onComplete }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [assetsLoaded, setAssetsLoaded] = useState(false);
+  const [isLiftingUp, setIsLiftingUp] = useState(false);
+  const [videoEnded, setVideoEnded] = useState(false);
+  const [videoRef, setVideoRef] = useState(null);
 
   useEffect(() => {
     const styleTag = document.createElement('style');
@@ -15,191 +17,75 @@ const Preloader = ({ onComplete }) => {
         inset: 0;
         width: 100vw;
         height: 100vh;
-        background: #ffffff;
+        background: #000000;
         z-index: 9999;
         overflow: hidden;
         pointer-events: none;
+        transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       }
 
-      .preloader-image-container {
+      .preloader-wrapper.lifting {
+        transform: translateY(-100vh);
+      }
+
+      .preloader-wrapper.fade-out {
+        opacity: 0;
+        transition: opacity 0.3s ease-out;
+      }
+
+      .preloader-video-container {
         position: absolute;
-        inset: 0;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        transform-origin: 52% 57%;
-        transform: scale(1);
+        overflow: hidden;
       }
 
-      .preloader-image-container.loaded {
-        animation: preloaderZoomIn 4500ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
+      .preloader-video {
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        user-select: none;
+        pointer-events: none;
+        display: block;
       }
+
+
 
       .preloader-loading-text {
         position: fixed;
         bottom: 10%;
         left: 50%;
         transform: translateX(-50%);
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         font-size: 1.5rem;
         font-weight: 600;
         color: #ffffff;
         text-align: center;
         z-index: 10000;
-        mix-blend-mode: difference;
         opacity: 1;
-        transition: opacity 1s ease-out;
+        transition: opacity 0.5s ease-out;
       }
 
       .preloader-loading-text.fade-out {
         opacity: 0;
       }
 
-      .preloader-image {
-        width: 100vw;
-        height: 100vh;
-        object-fit: cover;
-        user-select: none;
-        pointer-events: none;
-        transform: scale(1);
-      }
-
-      @keyframes preloaderBackgroundFade {
-        0% {
-          background: #ffffff;
-        }
-        26.67% {
-          background: #ffffff;
-        }
-        44.44% {
-          background: transparent;
-        }
-        100% {
-          background: transparent;
-        }
-      }
-
-      @keyframes preloaderBackgroundFadePaused {
-        0% {
-          background: #ffffff;
-        }
-        63.16% {
-          background: #ffffff;
-        }
-        100% {
-          background: transparent;
-        }
-      }
-
-      .preloader-wrapper.paused {
-        animation: preloaderBackgroundFadePaused 1900ms ease-out forwards;
-        animation-play-state: paused;
-      }
-
-      .preloader-wrapper.loaded {
-        animation: preloaderBackgroundFade 4500ms ease-out forwards;
-      }
-
-      @keyframes preloaderZoomIn {
-        0% {
-          transform: scale(1);
-        }
-        44.44% {
-          transform: scale(1);
-        }
-        100% {
-          transform: scale(120);
-        }
-      }
-
-      @media (max-width: 1024px) {
-        .preloader-image-container {
-          transform-origin: 52% 56%;
-        }
-
-        .preloader-loading-text {
-          font-size: 1.3rem;
-        }
-
-        @keyframes preloaderZoomIn {
-          0% {
-            transform: scale(1);
-          }
-          44.44% {
-            transform: scale(1);
-          }
-          100% {
-            transform: scale(120);
-          }
-        }
-      }
-
       @media (max-width: 768px) {
-        .preloader-image-container {
-          transform-origin: 52% 56%;
-        }
-
         .preloader-loading-text {
-          font-size: 1.1rem;
-        }
-
-        @keyframes preloaderZoomIn {
-          0% {
-            transform: scale(1);
-          }
-          44.44% {
-            transform: scale(1);
-          }
-          100% {
-            transform: scale(100);
-          }
+          font-size: 1.2rem;
+          bottom: 8%;
         }
       }
 
       @media (max-width: 480px) {
-        .preloader-image-container {
-          transform-origin: 52% 52.28%;
-        }
-
-        .preloader-image-container::before,
-        .preloader-image-container::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          right: 0;
-          height: 35vh;
-          background: #08090A;
-          z-index: 1;
-        }
-
-        .preloader-image-container::before {
-          top: 0;
-        }
-
-        .preloader-image-container::after {
-          bottom: 0;
-        }
-
-        .preloader-image {
-          object-fit: contain;
-        }
-
         .preloader-loading-text {
           font-size: 1rem;
-          bottom: 8%;
-          z-index: 2;
-        }
-
-        @keyframes preloaderZoomIn {
-          0% {
-            transform: scale(1);
-          }
-          44.44% {
-            transform: scale(1);
-          }
-          100% {
-            transform: scale(150);
-          }
+          bottom: 6%;
         }
       }
     `;
@@ -213,25 +99,24 @@ const Preloader = ({ onComplete }) => {
 
   useEffect(() => {
     let progressInterval;
-    let loadComplete = false;
-    let allAssetsLoaded = false;
+    let assetsLoaded = false;
 
-    // Animate progress from 0 to 100
+    // Animate progress from 0 to 100 based on asset loading
     progressInterval = setInterval(() => {
       setLoadingProgress((prev) => {
-        // If assets loaded, jump to 100
-        if (loadComplete && prev < 100) {
+        // If assets are fully loaded, jump to 100
+        if (assetsLoaded && prev < 100) {
           return 100;
         }
         
-        // If not loaded yet, slow down near 95 and cap at 99
-        if (!loadComplete && prev >= 95) {
-          return Math.min(prev + 0.5, 99);
+        // If assets not loaded yet, slow down near 95 and cap at 99
+        if (!assetsLoaded && prev >= 95) {
+          return Math.min(prev + 0.3, 99);
         }
         
-        // Normal increment
-        const increment = prev < 60 ? 8 : prev < 80 ? 4 : 2;
-        return Math.min(prev + increment, loadComplete ? 100 : 95);
+        // Normal increment - smooth progression
+        const increment = prev < 60 ? 5 : prev < 85 ? 3 : 1;
+        return Math.min(prev + increment, assetsLoaded ? 100 : 95);
       });
     }, 150);
 
@@ -258,44 +143,48 @@ const Preloader = ({ onComplete }) => {
     };
 
     // Track actual asset loading
-    const handleLoad = () => {
+    const handleAssetsLoaded = () => {
       if (checkAllAssetsLoaded()) {
-        loadComplete = true;
-        allAssetsLoaded = true;
-        setLoadingProgress(100);
-        clearInterval(progressInterval); // Stop the progress interval
-        
-        // Wait for progress to show 100% briefly, then start animation
-        setTimeout(() => {
-          setAssetsLoaded(true);
-          
-          // Complete animation after 4500ms total
-          setTimeout(() => {
-            setIsVisible(false);
-            if (onComplete) {
-              onComplete();
-            }
-          }, 4500);
-        }, 800); // Increased delay to ensure 100% is visible
+        assetsLoaded = true;
+        // Assets are loaded, progress will jump to 100 in next interval
       }
     };
 
     // Check periodically for asset loading
     const assetCheckInterval = setInterval(() => {
-      if (!allAssetsLoaded && checkAllAssetsLoaded()) {
-        handleLoad();
+      if (!assetsLoaded && checkAllAssetsLoaded()) {
+        handleAssetsLoaded();
+      }
+      
+      // When progress reaches 100% AND video has ended, start curtain lift
+      if (loadingProgress >= 100 && videoEnded) {
+        clearInterval(progressInterval);
         clearInterval(assetCheckInterval);
+        
+        // Brief pause to show 100%, then lift curtain
+        setTimeout(() => {
+          setAssetsLoaded(true);
+          setIsLiftingUp(true);
+          
+          // Remove preloader AFTER curtain animation completes
+          setTimeout(() => {
+            setIsVisible(false);
+            if (onComplete) {
+              onComplete();
+            }
+          }, 1500); // Exact curtain animation duration
+        }, 500);
       }
     }, 100);
 
     // Also listen for load event
     const loadHandler = () => {
-      setTimeout(handleLoad, 200); // Small delay to ensure everything is settled
+      setTimeout(handleAssetsLoaded, 200);
     };
 
     // Check if already loaded
     if (checkAllAssetsLoaded()) {
-      setTimeout(handleLoad, 500);
+      setTimeout(handleAssetsLoaded, 300);
     } else {
       window.addEventListener('load', loadHandler);
     }
@@ -305,21 +194,51 @@ const Preloader = ({ onComplete }) => {
       clearInterval(assetCheckInterval);
       window.removeEventListener('load', loadHandler);
     };
-  }, [onComplete]);
+  }, [onComplete, loadingProgress, videoEnded]);
+
+  // Determine which video to show based on screen size
+  const getPreloaderVideo = () => {
+    if (typeof window !== 'undefined') {
+      const isMobile = window.innerWidth <= 768;
+      return isMobile ? '/preloader_phone.mp4' : '/preloader_desktop.mp4';
+    }
+    return '/preloader_desktop.mp4';
+  };
+
+  const handleVideoRef = (video) => {
+    if (video && video !== videoRef) {
+      setVideoRef(video);
+    }
+  };
+
+  const handleVideoEnded = () => {
+    setVideoEnded(true);
+    // Pause the video at the last frame (no white screen now!)
+    if (videoRef) {
+      videoRef.currentTime = videoRef.duration;
+      videoRef.pause();
+    }
+  };
 
   if (!isVisible) return null;
 
   return (
-    <div className={`preloader-wrapper ${assetsLoaded ? 'loaded' : 'paused'}`}>
-      <div className={`preloader-image-container ${assetsLoaded ? 'loaded' : ''}`}>
-        <img 
-          src={preloaderImage} 
-          alt="Investza" 
-          className="preloader-image"
+    <div className={`preloader-wrapper ${isLiftingUp ? 'lifting' : ''}`}>
+      <div className="preloader-video-container">
+        <video 
+          ref={handleVideoRef}
+          src={getPreloaderVideo()} 
+          className="preloader-video"
+          autoPlay
+          muted
+          playsInline
+          loop={false}
+          preload="auto"
+          onEnded={handleVideoEnded}
         />
       </div>
-      <div className={`preloader-loading-text ${loadingProgress === 100 ? 'fade-out' : ''}`}>
-        {loadingProgress}%
+      <div className={`preloader-loading-text ${assetsLoaded ? 'fade-out' : ''}`}>
+        {Math.floor(loadingProgress)}%
       </div>
     </div>
   );

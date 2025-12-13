@@ -55,7 +55,6 @@ function ScrollToTop() {
 
 function App() {
   const [showPreloader, setShowPreloader] = useState(true);
-  const [isOTPVerified, setIsOTPVerified] = useState(false);
 
   
   // Preloader logic
@@ -69,9 +68,16 @@ function App() {
   }, []);
 
   const handlePreloaderComplete = () => {
+    // Ensure body has black background to prevent white flash
+    document.body.style.backgroundColor = '#000000';
+    document.documentElement.style.backgroundColor = '#000000';
+    
     document.body.classList.remove('preloader-active');
     document.body.classList.add('preloader-complete');
-    setTimeout(() => setShowPreloader(false), 500);
+    
+    // Preloader handles its own timing now
+    setShowPreloader(false);
+    
     sessionStorage.setItem('preloaderShown', 'true');
   };
 
