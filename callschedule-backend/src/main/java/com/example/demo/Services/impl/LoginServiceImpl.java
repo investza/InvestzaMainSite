@@ -1,6 +1,7 @@
 package com.example.demo.Services.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,5 +111,10 @@ public class LoginServiceImpl implements LoginService {
         return ResponseEntity.ok(
                 new ApiResponse(true, "Admin role updated successfully")
         );
+    }
+
+    @Override
+    public ResponseEntity<?> countAdmin(){
+        return ResponseEntity.ok(Map.of("count", AdminRepo.count()));
     }
 }

@@ -49,4 +49,9 @@ public class LoginController {
     public ResponseEntity<ApiResponse> changeAdminRole(@RequestBody ChangeRoleRequest req) {
         return loginService.changeAdminRole(req);
     }
+
+    @GetMapping("/count")
+    public ResponseEntity<?> countAdmin(){
+        return loginService.countAdmin();
+    }
 }

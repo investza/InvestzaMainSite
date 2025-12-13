@@ -15,4 +15,5 @@ public interface LoginService {
     ResponseEntity<ApiResponse> deleteAdmin(String id);
     ResponseEntity<?> getAllAdmins(); 
     ResponseEntity<ApiResponse> changeAdminRole(ChangeRoleRequest req);
+    ResponseEntity<?> countAdmin();
 }
