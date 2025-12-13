@@ -320,4 +320,8 @@ public class UserFlowService {
                     .body(new ApiResponse(false, "Failed to delete call: " + e.getMessage()));
         }
     }
+
+    public ResponseEntity<?> getAllScheduledCall(){
+        return ResponseEntity.ok(bookingRepository.findAll());
+    }
 }

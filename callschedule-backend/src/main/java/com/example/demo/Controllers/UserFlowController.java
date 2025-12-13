@@ -1,15 +1,14 @@
 package com.example.demo.Controllers;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,13 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.Models.UserTemp;
 import com.example.demo.Services.SlotAvailabilityService;
 import com.example.demo.Services.UserFlowService;
+import com.example.demo.dto.ApiResponse;
 import com.example.demo.dto.CreateBookingRequest;
 import com.example.demo.dto.InvestmentRequest;
 import com.example.demo.dto.SendOtpRequest;
 import com.example.demo.dto.StartRequest;
-import com.example.demo.dto.VerifyOtpRequest;
-import com.example.demo.dto.ApiResponse;
 import com.example.demo.dto.UnavailabilityTimeSlotsRequest;
+import com.example.demo.dto.VerifyOtpRequest;
 
 @RestController
 @RequestMapping("/api/flow")
@@ -111,6 +110,7 @@ public class UserFlowController {
         return slotAvailabilityService.getAvailableSlots(parsedDate);
     }
 
+    // --------------Admin-------------------------
     // Storing admin slots unavailability
     @PostMapping("/save-unavailability")
     public ResponseEntity<?> storeUnavailableSlots(@RequestBody UnavailabilityTimeSlotsRequest req){
@@ -123,8 +123,14 @@ public class UserFlowController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ApiResponse> deleteCallScheduled(@RequestParam String id){
+    public ResponseEntity<ApiResponse> deleteCallScheduled(@PathVariable String id){
         return userFlowService.deleteBooking(id);
     }
+
+    @GetMapping("/list")
+    public ResponseEntity<?> getAllScheduledCall(){
+        return userFlowService.getAllScheduledCall();
+    }
+    
     
 }

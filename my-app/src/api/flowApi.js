@@ -133,4 +133,14 @@ export const changeAdminRole = (payload) => {
 };
 
 
+// ---------------------------Call Scheduling------------------------------
+
+export const adminGetAllScheduledCalls = () => axios.get(`${API}/flow/list`);
+
+export const adminDeleteScheduledCall = (id) => axios.delete(`${API}/flow/delete/${id}`);
+
+export const adminGetCallStats = () => axios.get(`${API}/flow/call/stats`);
+
+// payload = { adminId, date, timeSlots }
+export const adminSaveUnavailabilitySlots = (payload) => axios.post(`${API}/flow/save-unavailability`, payload);
 
