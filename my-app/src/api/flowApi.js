@@ -102,9 +102,35 @@ export const deleteReviewPortfolio = (id) => axios.delete(`${API}/review_portfol
 export const getReviewPortfolioStats = () => axios.get(`${API}/review_portfolio/stats`);
 
 
-// 
+// ------------------ LOGIN / AUTH APIS ----------------------------------
 
+// Admin Login
+export const adminLogin = (payload) => {
+  // payload = { adminName, password }
+  return axios.post(`${API}/auth/login`, payload);
+};
 
+// Add New Admin
+export const addAdmin = (payload) => {
+  // payload = { adminName, email, password }
+  return axios.post(`${API}/auth/add-admin`, payload);
+};
+
+// Get All Admins
+export const getAllAdmins = () => {
+  return axios.get(`${API}/auth/admin/list`);
+};
+
+// Delete Admin by ID
+export const deleteAdmin = (id) => {
+  return axios.delete(`${API}/auth/delete/${id}`);
+};
+
+// Change Admin Role
+export const changeAdminRole = (payload) => {
+  // payload = { adminId, role }
+  return axios.post(`${API}/auth/change-role`, payload);
+};
 
 
 
