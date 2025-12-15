@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = "http://localhost:8080/api";
-// const API = "/api";   -> for production
+// const API = "/api";  // -> for production
 
 // --------------------Call Scheduling----------------------------------------
 export const startFlow = (fullName) => axios.post(`${API}/flow/start`, { fullName });
@@ -104,33 +104,30 @@ export const getReviewPortfolioStats = () => axios.get(`${API}/review_portfolio/
 
 // ------------------ LOGIN / AUTH APIS ----------------------------------
 
-// Admin Login
 export const adminLogin = (payload) => {
   // payload = { adminName, password }
   return axios.post(`${API}/auth/login`, payload);
 };
 
-// Add New Admin
 export const addAdmin = (payload) => {
   // payload = { adminName, email, password }
   return axios.post(`${API}/auth/add-admin`, payload);
 };
 
-// Get All Admins
 export const getAllAdmins = () => {
   return axios.get(`${API}/auth/admin/list`);
 };
 
-// Delete Admin by ID
 export const deleteAdmin = (id) => {
   return axios.delete(`${API}/auth/delete/${id}`);
 };
 
-// Change Admin Role
 export const changeAdminRole = (payload) => {
   // payload = { adminId, role }
   return axios.post(`${API}/auth/change-role`, payload);
 };
+
+export const countAdmin = () => axios.get(`${API}/auth/count`);
 
 
 // ---------------------------Call Scheduling------------------------------
@@ -142,5 +139,7 @@ export const adminDeleteScheduledCall = (id) => axios.delete(`${API}/flow/delete
 export const adminGetCallStats = () => axios.get(`${API}/flow/call/stats`);
 
 // payload = { adminId, date, timeSlots }
-export const adminSaveUnavailabilitySlots = (payload) => axios.post(`${API}/flow/save-unavailability`, payload);
+export const adminSaveUnavailabilitySlots = (payload) => axios.post(`${API}/flow/save-unavailability`, payload);   
+
+
 

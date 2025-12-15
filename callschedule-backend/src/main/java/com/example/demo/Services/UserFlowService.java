@@ -5,15 +5,17 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -23,17 +25,14 @@ import com.example.demo.Models.Booking;
 import com.example.demo.Models.UserTemp;
 import com.example.demo.Repositories.BookingRepository;
 import com.example.demo.Repositories.UserTempRepository;
+import com.example.demo.dto.ApiResponse;
 import com.example.demo.dto.CheckSlotResponse;
 import com.example.demo.dto.CreateBookingRequest;
 import com.example.demo.dto.InvestmentRequest;
 import com.example.demo.dto.SendOtpRequest;
 import com.example.demo.dto.StartRequest;
 import com.example.demo.dto.VerifyOtpRequest;
-import com.example.demo.dto.ApiResponse;
 import com.example.demo.util.OtpUtil;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -197,8 +196,8 @@ public class UserFlowService {
                 .investmentRange(u.getInvestmentRange())
                 .date(req.getDate())
                 .time(req.getTime())
-                .createdAt(LocalDateTime.now())
                 .status("PENDING")
+                .createdAt(LocalDateTime.now())
                 .build();
 
         
@@ -322,6 +321,6 @@ public class UserFlowService {
     }
 
     public ResponseEntity<?> getAllScheduledCall(){
-        return ResponseEntity.ok(bookingRepository.findAll());
+        return ResponseEntity.ok(bookingRepository.findAll()); 
     }
 }
