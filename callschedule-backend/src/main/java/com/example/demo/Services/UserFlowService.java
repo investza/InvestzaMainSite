@@ -32,6 +32,7 @@ import com.example.demo.dto.CreateBookingRequest;
 import com.example.demo.dto.InvestmentRequest;
 import com.example.demo.dto.SendOtpRequest;
 import com.example.demo.dto.StartRequest;
+import com.example.demo.dto.UpdateBookingRequest;
 import com.example.demo.dto.VerifyOtpRequest;
 import com.example.demo.util.OtpUtil;
 
@@ -335,4 +336,23 @@ public class UserFlowService {
         return bookingRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Booking request not found with id: " + id));
     }
+
+    @Transactional
+    public Booking updateBooking(String id, UpdateBookingRequest req) {
+
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
+
+        if (req.getFullName() != null) booking.setFullName(req.getFullName());
+        if (req.getMobile() != null) booking.setMobile(req.getMobile());
+        if (req.getEmail() != null) booking.setEmail(req.getEmail());
+        if (req.getGuestEmail() != null) booking.setGuestEmail(req.getGuestEmail());
+        if (req.getMessage() != null) booking.setMessage(req.getMessage());
+        if (req.getInvestmentRange() != null) booking.setInvestmentRange(req.getInvestmentRange());
+        if (req.getDate() != null) booking.setDate(req.getDate());
+        if (req.getTime() != null) booking.setTime(req.getTime());
+
+        return bookingRepository.save(booking);
+    }
+
 }

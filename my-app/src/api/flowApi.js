@@ -141,5 +141,9 @@ export const adminGetCallStats = () => axios.get(`${API}/flow/call/stats`);
 // payload = { adminId, date, timeSlots }
 export const adminSaveUnavailabilitySlots = (payload) => axios.post(`${API}/flow/save-unavailability`, payload);   
 
+// { fullName, mobile, email, guestEmail, message, investmentRange, date, time }
+export const updateCallBooking = (id, payload) =>
+  axios.patch(`${API}/flow/update-booking/${id}`, payload);
+
 
 

@@ -26,6 +26,7 @@ import com.example.demo.dto.InvestmentRequest;
 import com.example.demo.dto.SendOtpRequest;
 import com.example.demo.dto.StartRequest;
 import com.example.demo.dto.UnavailabilityTimeSlotsRequest;
+import com.example.demo.dto.UpdateBookingRequest;
 import com.example.demo.dto.VerifyOtpRequest;
 
 @RestController
@@ -151,5 +152,23 @@ public class UserFlowController {
     
     }
     
+    @PatchMapping("/update-booking/{id}")
+    public ResponseEntity<?> updateBooking(
+            @PathVariable String id,
+            @RequestBody UpdateBookingRequest req) {
+
+        try {
+            return ResponseEntity.ok(
+                userFlowService.updateBooking(id, req)
+            );
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse(false, e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse(false, "Failed to update booking"));
+        }
+    }
+
     
 }
