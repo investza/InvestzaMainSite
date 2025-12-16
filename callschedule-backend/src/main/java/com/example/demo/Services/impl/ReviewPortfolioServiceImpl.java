@@ -23,6 +23,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.Models.Booking;
 import com.example.demo.Models.CallHandlerAvailability;
 import com.example.demo.Models.PortfolioReviewer;
 import com.example.demo.Models.ReviewPortfolio;
@@ -34,6 +35,7 @@ import com.example.demo.Repositories.ReviewPortfolioRepository;
 import com.example.demo.Repositories.ReviewUserTempRepository;
 import com.example.demo.Services.ReviewPortfolioService;
 import com.example.demo.Services.SmsService;
+import com.example.demo.dto.UpdateBookingRequest;
 import com.example.demo.dto.review_portfolio.InvestmentRequest;
 import com.example.demo.dto.review_portfolio.ReviewPortfolioRequest;
 import com.example.demo.dto.review_portfolio.StartRequest;
@@ -468,6 +470,25 @@ public class ReviewPortfolioServiceImpl implements ReviewPortfolioService {
         stats.put("pending", reviewPortfolioRepository.countByStatus("PENDING"));
         stats.put("done", reviewPortfolioRepository.countByStatus("DONE"));
         return stats;
+    }
+
+    @Transactional
+    @Override
+    public ReviewPortfolio updateReviewPortfolio(String id, UpdateBookingRequest req) {
+
+        ReviewPortfolio existing = reviewPortfolioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Review Portfolio not found with id: " + id));
+
+        if (req.getFullName() != null) existing.setFullName(req.getFullName());
+        if (req.getMobile() != null) existing.setContactNumber(req.getMobile());
+        if (req.getEmail() != null) existing.setEmail(req.getEmail());
+        if (req.getGuestEmail() != null) existing.setGuestEmail(req.getGuestEmail());
+        if (req.getMessage() != null) existing.setMessage(req.getMessage());
+        if (req.getInvestmentRange() != null) existing.setInvestmentRange(req.getInvestmentRange());
+        if (req.getDate() != null) existing.setDate(req.getDate());
+        if (req.getTime() != null) existing.setTime(req.getTime());
+
+        return reviewPortfolioRepository.save(existing);
     }
 
 }

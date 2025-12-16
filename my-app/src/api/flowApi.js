@@ -101,6 +101,9 @@ export const deleteReviewPortfolio = (id) => axios.delete(`${API}/review_portfol
 
 export const getReviewPortfolioStats = () => axios.get(`${API}/review_portfolio/stats`);
 
+// { fullName, mobile, email, guestEmail, message, investmentRange, date, time }
+export const updateReviewPortfolio = (id, payload) => axios.patch(`${API}/review_portfolio/update/${id}`, payload);
+
 
 // ------------------ LOGIN / AUTH APIS ----------------------------------
 
@@ -142,8 +145,7 @@ export const adminGetCallStats = () => axios.get(`${API}/flow/call/stats`);
 export const adminSaveUnavailabilitySlots = (payload) => axios.post(`${API}/flow/save-unavailability`, payload);   
 
 // { fullName, mobile, email, guestEmail, message, investmentRange, date, time }
-export const updateCallBooking = (id, payload) =>
-  axios.patch(`${API}/flow/update-booking/${id}`, payload);
+export const updateCallBooking = (id, payload) => axios.patch(`${API}/flow/update-booking/${id}`, payload);
 
 
 
