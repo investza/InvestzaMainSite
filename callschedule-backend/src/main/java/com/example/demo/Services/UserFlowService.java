@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.Models.Booking;
+import com.example.demo.Models.ReviewPortfolio;
 import com.example.demo.Models.UserTemp;
 import com.example.demo.Repositories.BookingRepository;
 import com.example.demo.Repositories.UserTempRepository;
@@ -322,5 +323,16 @@ public class UserFlowService {
 
     public ResponseEntity<?> getAllScheduledCall(){
         return ResponseEntity.ok(bookingRepository.findAll()); 
+    }
+
+    public Booking updateStatus(String id, String status) {
+        Booking existing = getRequestById(id);
+        existing.setStatus(status);
+        return bookingRepository.save(existing);
+    }
+
+    public Booking getRequestById(String id) {
+        return bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking request not found with id: " + id));
     }
 }

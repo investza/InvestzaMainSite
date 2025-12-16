@@ -132,7 +132,7 @@ export const countAdmin = () => axios.get(`${API}/auth/count`);
 
 // ---------------------------Call Scheduling------------------------------
 
-export const adminGetAllScheduledCalls = () => axios.get(`${API}/flow/list`);
+export const updateCallStatus = (id, status) => axios.patch(`${API}/flow/${id}/update-status`, { params: { status }, });
 
 export const adminDeleteScheduledCall = (id) => axios.delete(`${API}/flow/delete/${id}`);
 
