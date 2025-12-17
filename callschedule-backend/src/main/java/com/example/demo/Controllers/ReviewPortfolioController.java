@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.Models.ReviewPortfolio;
 import com.example.demo.Services.ReviewPortfolioService;
 import com.example.demo.dto.ApiResponse;
+import com.example.demo.dto.UpdateBookingRequest;
 import com.example.demo.dto.review_portfolio.InvestmentRequest;
 import com.example.demo.dto.review_portfolio.ReviewPortfolioRequest;
 import com.example.demo.dto.review_portfolio.SendOtpRequest;
@@ -145,6 +146,25 @@ public class ReviewPortfolioController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse(false, "Failed to fetch stats: " + e.getMessage()));
+        }
+    }
+
+    // Edit the Review Portfolio Data
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<?> updateReviewPortfolio(
+            @PathVariable String id,
+            @RequestBody UpdateBookingRequest req) {
+
+        try {
+            return ResponseEntity.ok(
+                service.updateReviewPortfolio(id, req)
+            );
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse(false, e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse(false, "Failed to update Review Portfolio"));
         }
     }
 }

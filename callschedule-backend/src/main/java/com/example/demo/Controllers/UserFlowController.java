@@ -4,11 +4,13 @@ import java.time.LocalDate;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,7 @@ import com.example.demo.dto.InvestmentRequest;
 import com.example.demo.dto.SendOtpRequest;
 import com.example.demo.dto.StartRequest;
 import com.example.demo.dto.UnavailabilityTimeSlotsRequest;
+import com.example.demo.dto.UpdateBookingRequest;
 import com.example.demo.dto.VerifyOtpRequest;
 
 @RestController
@@ -127,10 +130,45 @@ public class UserFlowController {
         return userFlowService.deleteBooking(id);
     }
 
-    @GetMapping("/list")
-    public ResponseEntity<?> getAllScheduledCall(){
-        return userFlowService.getAllScheduledCall();
+    @PatchMapping("/{id}/update-status")
+    public ResponseEntity<?> updateStatus(
+        @PathVariable String id,
+            @RequestParam String status) {
+        try {
+            if (!status.equals("PENDING") && !status.equals("DONE")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(new ApiResponse(false, "Status must be either PENDING or DONE"));
+            }
+            
+            userFlowService.updateStatus(id, status);
+            return ResponseEntity.ok(new ApiResponse(true, "Status updated successfully"));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse(false, e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse(false, "Failed to update status: " + e.getMessage()));
+        }
+    
     }
     
+    @PatchMapping("/update-booking/{id}")
+    public ResponseEntity<?> updateBooking(
+            @PathVariable String id,
+            @RequestBody UpdateBookingRequest req) {
+
+        try {
+            return ResponseEntity.ok(
+                userFlowService.updateBooking(id, req)
+            );
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse(false, e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse(false, "Failed to update booking"));
+        }
+    }
+
     
 }
