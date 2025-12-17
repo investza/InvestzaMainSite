@@ -53,7 +53,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public ResponseEntity<ApiResponse> login(LoginRequest req) {
+    public ResponseEntity<?> login(LoginRequest req) {
 
         // Find Admin by Adminname OR email
         Optional<Admin> optionalAdmin = AdminRepo.findByAdminNameOrEmail(req.getAdminName(), req.getAdminName());
@@ -74,7 +74,7 @@ public class LoginServiceImpl implements LoginService {
         }
 
         // Login success
-        return ResponseEntity.ok(new ApiResponse(true, "Login successful!"));
+        return ResponseEntity.ok(Map.of("status", "true", "message", "Login Admin Successful", "adminId", Admin.getId()));
     }
 
     @Override

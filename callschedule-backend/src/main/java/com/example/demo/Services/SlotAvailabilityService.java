@@ -90,13 +90,12 @@ public class SlotAvailabilityService {
                         new ApiResponse(true, "Unavailable slots updated")
                 );
             }
-
             // ELSE → create new entry
             CallHandlerAvailability newEntry = CallHandlerAvailability.builder()
                     .handlerId(req.getAdminId())
                     .date(parsedDate)
                     .unavailableSlots(req.getTimeSlots())
-                    .build();
+                    .build();   
 
             availabilityRepo.save(newEntry);
 

@@ -29,5 +29,5 @@ public interface ReviewPortfolioService {
     public ReviewPortfolio updateStatus(String id, String status);
      public void deleteRequest(String id);
      public Map<String, Object> getStats(); 
-    public ReviewPortfolio updateReviewPortfolio(String id, UpdateBookingRequest req)
+    public ReviewPortfolio updateReviewPortfolio(String id, UpdateBookingRequest req);
 }

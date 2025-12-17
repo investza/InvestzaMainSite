@@ -10,7 +10,7 @@ import com.example.demo.dto.ChangeRoleRequest;
 
 
 public interface LoginService {
-    ResponseEntity<ApiResponse> login(LoginRequest req);
+    ResponseEntity<?> login(LoginRequest req);
     ResponseEntity<ApiResponse> addAdmin(AddAdminRequest req);
     ResponseEntity<ApiResponse> deleteAdmin(String id);
     ResponseEntity<?> getAllAdmins(); 
