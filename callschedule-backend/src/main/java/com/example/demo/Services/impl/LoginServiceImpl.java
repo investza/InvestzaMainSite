@@ -3,6 +3,7 @@ package com.example.demo.Services.impl;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import com.example.demo.dto.AddAdminRequest;
 import com.example.demo.dto.ApiResponse;
 import com.example.demo.dto.ChangeRoleRequest;
 import com.example.demo.dto.LoginRequest;
+import com.example.demo.util.JwtUtil;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -25,32 +27,60 @@ public class LoginServiceImpl implements LoginService {
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    @Autowired
+    private JwtUtil jwtUtil;    
+
     @Override
     public ResponseEntity<ApiResponse> addAdmin(AddAdminRequest req) {
 
-        // Check if Admin already exists by Adminname or email
-        Optional<Admin> existing = AdminRepo.findByAdminNameOrEmail(req.getAdminName(), req.getEmail());
+        // ---- ROLE VALIDATION ----
+        Set<String> allowedRoles = Set.of(
+                "ADMIN",
+                "CALL_HANDLER",
+                "PORTFOLIO_HANDLER"
+        );
+
+        if (req.getRole() == null ||
+            !allowedRoles.contains(req.getRole().trim().toUpperCase())) {
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(new ApiResponse(false,
+                            "Invalid role. Allowed roles are ADMIN, CALL_HANDLER, PORTFOLIO_HANDLER"));
+        }
+
+        // Normalize role
+        String role = req.getRole().trim().toUpperCase();
+
+        // Check if Admin already exists
+        Optional<Admin> existing =
+                AdminRepo.findByAdminNameOrEmail(req.getAdminName(), req.getEmail());
+
         if (existing.isPresent()) {
             return ResponseEntity
                     .badRequest()
-                    .body(new ApiResponse(false, "Admin already exists with this Adminname/email"));
+                    .body(new ApiResponse(false,
+                            "Admin already exists with this Adminname/email"));
         }
 
         // Create new Admin
-        Admin Admin = new Admin();
-        Admin.setAdminName(req.getAdminName());
-        Admin.setEmail(req.getEmail());
-        Admin.setPassword(passwordEncoder.encode(req.getPassword())); // Encrypt password
-        Admin.setRole("Admin");
+        Admin admin = new Admin();
+        admin.setAdminName(req.getAdminName());
+        admin.setEmail(req.getEmail());
+        admin.setPassword(passwordEncoder.encode(req.getPassword()));
+        admin.setRole(role);
 
-
-        try{
-            AdminRepo.save(Admin);
-            return ResponseEntity.ok(new ApiResponse(true, "Admin created successfully"));
-        }catch(Exception e){
-            return ResponseEntity.status(500).body(new ApiResponse(false, e.getMessage()));
+        try {
+            AdminRepo.save(admin);
+            return ResponseEntity.ok(
+                    new ApiResponse(true, "Admin created successfully"));
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(500)
+                    .body(new ApiResponse(false, e.getMessage()));
         }
     }
+
 
     @Override
     public ResponseEntity<?> login(LoginRequest req) {
@@ -64,17 +94,22 @@ public class LoginServiceImpl implements LoginService {
                     .body(new ApiResponse(false, "Invalid Adminname/email or password"));
         }
 
-        Admin Admin = optionalAdmin.get();
+        Admin admin = optionalAdmin.get();
 
         // Check password
-        if (!passwordEncoder.matches(req.getPassword(), Admin.getPassword())) {
+        if (!passwordEncoder.matches(req.getPassword(), admin.getPassword())) {
             return ResponseEntity
                     .badRequest()
                     .body(new ApiResponse(false, "Invalid Adminname/email or password"));
         }
 
-        // Login success
-        return ResponseEntity.ok(Map.of("status", "true", "message", "Login Admin Successful", "adminId", Admin.getId()));
+        String token = jwtUtil.generateToken(admin);
+
+        return ResponseEntity.ok(Map.of(
+            "token", token,
+            "role", admin.getRole(),
+            "adminId", admin.getId()
+        ));
     }
 
     @Override

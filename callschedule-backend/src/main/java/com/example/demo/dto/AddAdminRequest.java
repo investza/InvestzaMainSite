@@ -7,4 +7,5 @@ public class AddAdminRequest {
     private String adminName;
     private String email;
     private String password;
+    private String role;
 }
