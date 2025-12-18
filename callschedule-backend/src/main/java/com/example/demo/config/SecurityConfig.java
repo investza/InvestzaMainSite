@@ -19,37 +19,52 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
+            .cors(cors -> {}) 
             .csrf(csrf -> csrf.disable())
 
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
 
                 // -------- PUBLIC APIs --------
-                .requestMatchers("/api/auth/login", "/api/contact/receive", "/api/events/list", "/api/events/event/**", 
-                    "/api/review_portfolio/start", "/api/review_portfolio/send-otp", "/api/review_portfolio/verify-otp", "/api/review_portfolio/investment", "/api/review_portfolio/check-slot", "/api/review_portfolio/submit",
-                    "/api/flow/start", "/api/flow/send-otp", "/api/flow/verify-otp", "/api/flow/investment", "/api/flow/create-booking", "/api/flow/check-slot" 
+                .requestMatchers(
+                    "/api/auth/login",
+                    "/api/contact/receive",
+                    "/api/events/list",
+                    "/api/events/event/**",
+
+                    "/api/review_portfolio/start",
+                    "/api/review_portfolio/send-otp",
+                    "/api/review_portfolio/verify-otp",
+                    "/api/review_portfolio/investment",
+                    "/api/review_portfolio/check-slot",
+                    "/api/review_portfolio/submit",
+
+                    "/api/flow/start",
+                    "/api/flow/send-otp",
+                    "/api/flow/verify-otp",
+                    "/api/flow/investment",
+                    "/api/flow/create-booking",
+                    "/api/flow/check-slot"
                 ).permitAll()
 
                 // -------- PROTECTED ADMIN APIs --------
                 .requestMatchers(
-                        "/api/auth/**",
-                        "/api/review_portfolio/**",
-                        "/api/events/**",
-                        "/api/contact/**",
-                        "/api/flow/**"
+                    "/api/auth/**",
+                    "/api/review_portfolio/**",
+                    "/api/events/**",
+                    "/api/contact/**",
+                    "/api/flow/**"
                 )
                 .hasAnyRole("ADMIN", "CALL_HANDLER", "PORTFOLIO_HANDLER")
 
-                // -------- ALL OTHERS --------
                 .anyRequest().authenticated()
             )
 
-            // JWT FILTER
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-
-            // Disable default login mechanisms
             .httpBasic(httpBasic -> httpBasic.disable())
             .formLogin(form -> form.disable());
 
         return http.build();
     }
+
 }
