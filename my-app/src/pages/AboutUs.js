@@ -4,8 +4,8 @@ import { ChevronDown } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from 'lenis';
-import Header from '../components/Header';
-import AboutUsFooter from './AboutUsFooter';
+// import Header from '../components/Header';
+// import AboutUsFooter from './AboutUsFooter';
 import "./AboutUs.css";
 
 const Customisation = "/customization-icon.webp";
@@ -311,7 +311,7 @@ function AboutUs() {
   return (
     <div className="about-us-page">
       {/* ---------- HEADER ---------- */}
-      <Header />
+      {/* <Header /> */}
       
       {/* ---------- HERO ---------- */}
       <section 
@@ -434,7 +434,7 @@ function AboutUs() {
       </section>
 
       {/* Footer */}
-      <AboutUsFooter />
+      {/* <AboutUsFooter /> */}
     </div>
   );
 }

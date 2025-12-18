@@ -15,7 +15,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(@NonNull CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("https://investza.in", "https://www.investza.in")
+                        .allowedOrigins("https://investza.in", "https://www.investza.in", "http://localhost:3000")
                         .allowedMethods("*")
                         .allowedHeaders("*")
                         .allowCredentials(false);

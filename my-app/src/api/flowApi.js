@@ -1,4 +1,6 @@
 import axios from "axios";
+import axiosPrivate from "./axiosPrivate";
+
 
 const API = "http://localhost:8080/api";
 // const API = "/api";  // -> for production
@@ -23,7 +25,7 @@ export const createBooking = (payload) =>
   axios.post(`${API}/flow/create-booking`, payload);
 
 export const getBookings = () =>
-  axios.get(`${API}/flow/bookings`);
+  axiosPrivate.get(`${API}/flow/bookings`);
 
 
 // ------------------- Contact Us ---------------------------------------
@@ -51,101 +53,205 @@ export const submit_reviewPortfolio = (payload) => axios.post(`${API}/review_por
 
 
 
+// ------------------------------------------------------------------ ADMIN ------------------------------------------------------------------
+
+// ---------------- CONTACT ----------------
+export const adminGetAllContacts = () =>
+  axiosPrivate.get("/contact/all");
+
+export const adminDeleteContact = (id) =>
+  axiosPrivate.delete(`/contact/delete/${id}`);
+
+export const adminUpdateContactStatus = (id, status) =>
+  axiosPrivate.patch(`/contact/${id}/status`, null, {
+    params: { status },
+  });
+
+export const adminGetContactStats = () =>
+  axiosPrivate.get("/contact/stats");
 
 
-
-
-
-
-// ------------------------------------------------------------------ADMIN---------------------------------------------------------------------------------------
-
-// ----------------CONTACT-----------------------
-export const adminGetAllContacts = () => axios.get(`${API}/contact/all`);
-
-export const adminDeleteContact = (id) => axios.delete(`${API}/contact/delete/${id}`);
-
-export const adminUpdateContactStatus = (id, status) => axios.patch(`${API}/contact/${id}/status`, { params: { status }, });
-
-export const adminGetContactStats = () => axios.get(`${API}/contact/stats`);
-
-
-// -------------------EVENT-------------------------
-export const createEvent = (payload) => axios.post(`${API}/events/create`, payload); // payload = title, description, images, date, details
+// ---------------- EVENT ----------------
+export const createEvent = (payload) =>
+  axiosPrivate.post("/events/create", payload);
 
 export const uploadEventImages = (files) => {
-    const formData = new FormData();
-    files.forEach((file) => formData.append("files", file));
-    return axios.post(`${API}/events/upload`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-    });
+  const formData = new FormData();
+  files.forEach((file) => formData.append("files", file));
+
+  return axiosPrivate.post("/events/upload", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 };
 
-export const getEventById = (id) => axios.get(`${API}/events/event/${id}`);
+export const getEventById = (id) =>
+  axiosPrivate.get(`/events/event/${id}`);
 
-export const deleteEvent = (id) => axios.delete(`${API}/events/delete/${id}`);
+export const deleteEvent = (id) =>
+  axiosPrivate.delete(`/events/delete/${id}`);
 
-export const updateEvent = (id, payload) => axios.put(`${API}/events/update/${id}`, payload); // payload = title, description, images, date, details
+export const updateEvent = (id, payload) =>
+  axiosPrivate.put(`/events/update/${id}`, payload);
 
-export const countEvents = () => axios.get(`${API}/events/count`);
-
-
-// -----------------REVIEW PORTFOLIO ADMIN-----------------
-
-export const getAllReviewPortfolios = () => axios.get(`${API}/review_portfolio/list`);
-
-export const getReviewPortfolioById = (id) => axios.get(`${API}/review_portfolio/${id}`);
-
-export const updateReviewPortfolioStatus = (id, status) => axios.patch(`${API}/review_portfolio/${id}/status`, { params: { status }, });
-
-export const deleteReviewPortfolio = (id) => axios.delete(`${API}/review_portfolio/${id}`);
-
-export const getReviewPortfolioStats = () => axios.get(`${API}/review_portfolio/stats`);
-
-// { fullName, mobile, email, guestEmail, message, investmentRange, date, time }
-export const updateReviewPortfolio = (id, payload) => axios.patch(`${API}/review_portfolio/update/${id}`, payload);
+export const countEvents = () =>
+  axiosPrivate.get("/events/count");
 
 
-// ------------------ LOGIN / AUTH APIS ----------------------------------
+// ---------------- REVIEW PORTFOLIO ----------------
+export const getAllReviewPortfolios = () =>
+  axiosPrivate.get("/review_portfolio/list");
 
+export const getReviewPortfolioById = (id) =>
+  axiosPrivate.get(`/review_portfolio/${id}`);
+
+export const updateReviewPortfolioStatus = (id, status) =>
+  axiosPrivate.patch(`/review_portfolio/${id}/status`, null, {
+    params: { status },
+  });
+
+export const deleteReviewPortfolio = (id) =>
+  axiosPrivate.delete(`/review_portfolio/${id}`);
+
+export const getReviewPortfolioStats = () =>
+  axiosPrivate.get("/review_portfolio/stats");
+
+export const updateReviewPortfolio = (id, payload) =>
+  axiosPrivate.patch(`/review_portfolio/update/${id}`, payload);
+
+
+// ---------------- AUTH / ADMIN ----------------
 export const adminLogin = (payload) => {
   // payload = { adminName, password }
   return axios.post(`${API}/auth/login`, payload);
-};
+}; //(done)
+export const getAllAdmins = () =>
+  axiosPrivate.get("/auth/admin/list");
 
-export const addAdmin = (payload) => {
-  // payload = { adminName, email, password }
-  return axios.post(`${API}/auth/add-admin`, payload);
-};
+export const deleteAdmin = (id) =>
+  axiosPrivate.delete(`/auth/delete/${id}`);
 
-export const getAllAdmins = () => {
-  return axios.get(`${API}/auth/admin/list`);
-};
+export const changeAdminRole = (payload) =>
+  axiosPrivate.post("/auth/change-role", payload);
 
-export const deleteAdmin = (id) => {
-  return axios.delete(`${API}/auth/delete/${id}`);
-};
-
-export const changeAdminRole = (payload) => {
-  // payload = { adminId, role }
-  return axios.post(`${API}/auth/change-role`, payload);
-};
-
-export const countAdmin = () => axios.get(`${API}/auth/count`);
+export const countAdmin = () =>
+  axiosPrivate.get("/auth/count");
 
 
-// ---------------------------Call Scheduling------------------------------
+// ---------------- CALL SCHEDULING ----------------
+export const updateCallStatus = (id, status) =>
+  axiosPrivate.patch(`/flow/${id}/update-status`, null, {
+    params: { status },
+  });
 
-export const updateCallStatus = (id, status) => axios.patch(`${API}/flow/${id}/update-status`, { params: { status }, });
+export const adminDeleteScheduledCall = (id) =>
+  axiosPrivate.delete(`/flow/delete/${id}`);
 
-export const adminDeleteScheduledCall = (id) => axios.delete(`${API}/flow/delete/${id}`);
+export const adminGetCallStats = () =>
+  axiosPrivate.get("/flow/call/stats");
 
-export const adminGetCallStats = () => axios.get(`${API}/flow/call/stats`);
+export const adminSaveUnavailabilitySlots = (payload) =>
+  axiosPrivate.post("/flow/save-unavailability", payload);
 
-// payload = { adminId, date, timeSlots }
-export const adminSaveUnavailabilitySlots = (payload) => axios.post(`${API}/flow/save-unavailability`, payload);   
+export const updateCallBooking = (id, payload) =>
+  axiosPrivate.patch(`/flow/update-booking/${id}`, payload);
 
-// { fullName, mobile, email, guestEmail, message, investmentRange, date, time }
-export const updateCallBooking = (id, payload) => axios.patch(`${API}/flow/update-booking/${id}`, payload);
+
+
+
+
+
+
+
+// // ------------------------------------------------------------------ADMIN---------------------------------------------------------------------------------------
+
+// // ----------------CONTACT----------------------- [DONE]
+// export const adminGetAllContacts = () => axios.get(`${API}/contact/all`); //contact list (done)
+
+// export const adminDeleteContact = (id) => axios.delete(`${API}/contact/delete/${id}`); //deleting the contact (done)
+
+// export const adminUpdateContactStatus = (id, status) => axios.patch(`${API}/contact/${id}/status`,null, { params: { status }, }); //(done)
+
+// export const adminGetContactStats = () => axios.get(`${API}/contact/stats`); //contact message stats  (done)
+
+
+// // -------------------EVENT------------------------- [DONE]
+// export const createEvent = (payload) => axios.post(`${API}/events/create`, payload); // payload = title, description, images,  date, details //(done)
+
+// export const uploadEventImages = (files) => {
+//     const formData = new FormData();
+//     files.forEach((file) => formData.append("files", file));
+//     return axios.post(`${API}/events/upload`, formData, {
+//         headers: { "Content-Type": "multipart/form-data" },
+//     });
+// }; //(done)
+
+// export const getEventById = (id) => axios.get(`${API}/events/event/${id}`); //(not needed)
+
+// export const deleteEvent = (id) => axios.delete(`${API}/events/delete/${id}`); //(done)
+
+// export const updateEvent = (id, payload) => axios.put(`${API}/events/update/${id}`, payload); // payload = title, description, images, date, details (done)
+
+// export const countEvents = () => axios.get(`${API}/events/count`); //events counting and stats (done)
+
+
+// // -----------------REVIEW PORTFOLIO ADMIN----------------- [DONE]
+
+// export const getAllReviewPortfolios = () => axios.get(`${API}/review_portfolio/list`); //(done)
+
+// export const getReviewPortfolioById = (id) => axios.get(`${API}/review_portfolio/${id}`); //(not needed)
+
+// export const updateReviewPortfolioStatus = (id, status) => axios.patch(`${API}/review_portfolio/${id}/status`,null, { params: { status }, }); //(done)
+
+// export const deleteReviewPortfolio = (id) => axios.delete(`${API}/review_portfolio/${id}`); //(done)
+
+// export const getReviewPortfolioStats = () => axios.get(`${API}/review_portfolio/stats`); //portfolio stats count (done)
+
+// // { fullName, mobile, email, guestEmail, message, investmentRange, date, time }
+// export const updateReviewPortfolio = (id, payload) => axios.patch(`${API}/review_portfolio/update/${id}`, payload); //(done)
+
+
+// // ------------------ LOGIN / AUTH APIS ----------------------------------
+
+// export const adminLogin = (payload) => {
+//   // payload = { adminName, password }
+//   return axios.post(`${API}/auth/login`, payload);
+// }; //(done)
+
+// export const addAdmin = (payload) => {
+//   // payload = { adminName, email, password }
+//   return axios.post(`${API}/auth/add-admin`, payload);
+// }; //(not integrated)
+
+// export const getAllAdmins = () => {
+//   return axios.get(`${API}/auth/admin/list`);
+// }; //(not integrated)
+
+// export const deleteAdmin = (id) => {
+//   return axios.delete(`${API}/auth/delete/${id}`);
+// }; //(not integrated)
+
+// export const changeAdminRole = (payload) => {
+//   // payload = { adminId, role }
+//   return axios.post(`${API}/auth/change-role`, payload);
+// }; //(not integrated)
+
+// export const countAdmin = () => axios.get(`${API}/auth/count`); //(done)
+
+
+
+// // ---------------------------Call Scheduling------------------------------
+
+// export const updateCallStatus = (id, status) => axios.patch(`${API}/flow/${id}/update-status`,null, { params: { status }, }); //(done)
+
+// export const adminDeleteScheduledCall = (id) => axios.delete(`${API}/flow/delete/${id}`); //(done)
+
+// export const adminGetCallStats = () => axios.get(`${API}/flow/call/stats`); //(done)
+
+// // payload = { adminId, date, timeSlots }
+// export const adminSaveUnavailabilitySlots = (payload) => axios.post(`${API}/flow/save-unavailability`, payload);   
+
+// // { fullName, mobile, email, guestEmail, message, investmentRange, date, time }
+// export const updateCallBooking = (id, payload) => axios.patch(`${API}/flow/update-booking/${id}`, payload); //(done)
 
 
 

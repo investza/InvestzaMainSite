@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
-import Header from '../components/Header';
-import AboutUsFooter from './AboutUsFooter';
+// import Header from '../components/Header';
+// import AboutUsFooter from './AboutUsFooter';
 import './LearnWhy.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -103,7 +103,7 @@ function LearnWhy() {
 
   return (
     <div className="learn-why-page">
-      <Header />
+      {/* <Header /> */}
 
       <div className="learn-why-content">
         <div className="cards-container">
@@ -139,8 +139,8 @@ function LearnWhy() {
           ))}
         </div>
       </div>
-
-      <AboutUsFooter />
+{/* 
+      <AboutUsFooter /> */}
     </div>
   );
 }

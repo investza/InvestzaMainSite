@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import Lenis from 'lenis';
-import Header from '../components/Header';
-import AboutUsFooter from './AboutUsFooter';
+// import Header from '../components/Header';
+// import AboutUsFooter from './AboutUsFooter';
 import './NewsletterEstate.css';
 
 function NewsletterEstate() {
@@ -36,8 +36,8 @@ function NewsletterEstate() {
 
   return (
     <div className="newsletter-estate-page">
-      <Header />
-      
+      {/* <Header />
+       */}
       <div className="estate-content">
         <div className="estate-container">
           <div className="estate-spacer"></div>
@@ -172,7 +172,7 @@ function NewsletterEstate() {
         </div>
       </div>
 
-      <AboutUsFooter />
+      {/* <AboutUsFooter /> */}
     </div>
   );
 }

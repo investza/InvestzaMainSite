@@ -323,9 +323,10 @@ const Footer = () => {
         className="footer-end-section"
         style={{
           backgroundImage: "url(/footer.png)",
-          backgroundSize: "cover",
-          backgroundPosition: "center 140%",
+          backgroundSize: "contain",
+          backgroundPosition: "center bottom",
           backgroundRepeat: "no-repeat",
+          // height:"100%",
         }}
       >
         <div className="footer-end-container">

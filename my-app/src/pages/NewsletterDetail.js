@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import Lenis from 'lenis';
-import Header from '../components/Header';
-import AboutUsFooter from './AboutUsFooter';
+// import Header from '../components/Header';
+// import AboutUsFooter from './AboutUsFooter';
 import NewsletterPune from './NewsletterPune';
 import NewsletterEstate from './NewsletterEstate';
 import NewsletterRBI from './NewsletterRBI';
@@ -97,7 +97,7 @@ function NewsletterDetail() {
 
   return (
     <div className="newsletter-detail-page">
-      <Header />
+      {/* <Header /> */}
       <div className="nd-wrapper">
         <div className="nd-frame">
           {/* Top horizontal line */}
@@ -381,7 +381,7 @@ function NewsletterDetail() {
           </div>
         </div>
       </div>
-      <AboutUsFooter />
+      {/* <AboutUsFooter /> */}
     </div>
   );
 }

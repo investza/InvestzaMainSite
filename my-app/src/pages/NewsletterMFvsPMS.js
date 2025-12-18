@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import Lenis from 'lenis';
-import Header from '../components/Header';
-import AboutUsFooter from './AboutUsFooter';
+// import Header from '../components/Header';
+// import AboutUsFooter from './AboutUsFooter';
 import './NewsletterMFvsPMS.css';
 
 function NewsletterMFvsPMS() {
@@ -36,7 +36,7 @@ function NewsletterMFvsPMS() {
 
   return (
     <div className="newsletter-mfpms-page">
-      <Header />
+      {/* <Header /> */}
       
       <div className="mfpms-content">
         <div className="mfpms-container">
@@ -141,8 +141,8 @@ Should serious long-term capital be compounded in Mutual Funds or in PMS?</p>
      
         </div>
       </div>
-
-      <AboutUsFooter />
+{/* 
+      <AboutUsFooter /> */}
     </div>
   );
 }

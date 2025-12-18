@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import Lenis from 'lenis';
-import Header from '../components/Header';
-import AboutUsFooter from './AboutUsFooter';
+// import Header from '../components/Header';
+// import AboutUsFooter from './AboutUsFooter';
 import './NewsletterRBI.css';
 
 
@@ -41,7 +41,7 @@ function NewsletterRBI() {
 
   return (
     <div className="newsletter-rbi-page">
-      <Header />
+      {/* <Header /> */}
       
       <div className="rbi-content">
         <div className="rbi-container">
@@ -232,8 +232,8 @@ function NewsletterRBI() {
           </div>
         </div>
       </div>
-
-      <AboutUsFooter />
+{/* 
+      <AboutUsFooter /> */}
     </div>
   );
 }

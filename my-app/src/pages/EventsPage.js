@@ -1,9 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, useEffect, useRef, useState } from 'react';
 import Lenis from 'lenis';
-import Header from '../components/Header';
-import EventsFooter from './EventsFooter';
+// import Header from '../components/Header';
+// import EventsFooter from './EventsFooter';
 import './EventsPage.css';
 import {getEvents} from "../api/flowApi";
+
+import FAQ from "../assets/FAQ.webp";
 
 
 const EventsPage = () => {
@@ -183,7 +185,7 @@ function formatDate(dateStr) {
 
   return (
     <div className="events-page">
-      <Header />
+      {/* <Header /> */}
       
       <section className="events-hero" style={{ backgroundImage: 'url(/webinar_pic.webp)' }}>
         <div className="hero-overlay"></div>
@@ -423,50 +425,6 @@ function formatDate(dateStr) {
               <p style={{ fontSize: '16px', fontWeight: '600', color: 'rgba(255, 255, 255, 0.9)', margin: 0 }}>Proven Track Record</p>
             </div>
           </div>
-
-          {/* Mentor Content */}
-          {/* <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'flex-start' }} className="mentor-content">
-            <div style={{ paddingRight: '20px' }}>
-              <h2 style={{ fontSize: '52px', fontWeight: '700', marginBottom: '20px', color: 'white', lineHeight: '1.2' }}>Meet Your Mentor</h2>
-              <p style={{ fontSize: '18px', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '30px', lineHeight: '1.7' }}>
-                "Early Retirement isn't a dream-it's a strategy. And with the right tools, you can make it a reality."
-              </p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 40px 0' }}>
-                <li style={{ fontSize: '17px', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '15px', paddingLeft: '35px', position: 'relative', lineHeight: '1.6' }}>
-                  <span style={{ content: '', position: 'absolute', left: 0, top: '4px', width: '18px', height: '18px', background: '#4a9eff', borderRadius: '50%', display: 'inline-block', marginRight: '15px' }}></span>
-                  Over 15 years of experience in wealth management
-                </li>
-                <li style={{ fontSize: '17px', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '15px', paddingLeft: '35px', position: 'relative', lineHeight: '1.6' }}>
-                  <span style={{ content: '', position: 'absolute', left: 0, top: '4px', width: '18px', height: '18px', background: '#4a9eff', borderRadius: '50%', display: 'inline-block', marginRight: '15px' }}></span>
-                  Helped 10,000+ professionals reshape their financial future
-                </li>
-                <li style={{ fontSize: '17px', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '15px', paddingLeft: '35px', position: 'relative', lineHeight: '1.6' }}>
-                  <span style={{ content: '', position: 'absolute', left: 0, top: '4px', width: '18px', height: '18px', background: '#4a9eff', borderRadius: '50%', display: 'inline-block', marginRight: '15px' }}></span>
-                  Known for simplifying complex strategies into actionable steps
-                </li>
-              </ul>
-              <button style={{ 
-                background: 'rgba(255, 255, 255, 0.1)',
-                backdropFilter: 'blur(20px)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                color: 'white',
-                padding: '14px 35px',
-                borderRadius: '25px',
-                fontSize: '16px',
-                fontWeight: '600',
-                cursor: 'pointer'
-              }}>Know More</button>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <div style={{ width: '100%', maxWidth: '450px', borderRadius: '25px', overflow: 'hidden', marginBottom: '30px' }}>
-                <img src="/abhishek_working.webp" alt="Abhishek Mehta" style={{ width: '100%', height: 'auto', display: 'block' }} />
-              </div>
-              <div style={{ textAlign: 'center' }}>
-                <h3 style={{ fontSize: '28px', fontWeight: '700', color: 'white', margin: '0 0 8px 0' }}>Abhishek Mehta</h3>
-                <p style={{ fontSize: '16px', color: 'rgba(255, 255, 255, 0.7)', margin: 0 }}>Founder & Chief Strategist</p>
-              </div>
-            </div>
-          </div> */}
         </div>
       </section>
 
@@ -589,7 +547,7 @@ function formatDate(dateStr) {
 
             <div className="faq-right">
               <div className="faq-illustration">
-                <img src="/faq.webp" alt="FAQ" />
+                <img src={FAQ} alt="FAQ" />
               </div>
             </div>
           </div>
@@ -597,7 +555,7 @@ function formatDate(dateStr) {
       </section>
 
       {/* Footer */}
-      <EventsFooter />
+      {/* <EventsFooter /> */}
 
       {/* Event Details Modal */}
       {eventDetailsModal && (

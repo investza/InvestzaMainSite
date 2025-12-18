@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Lenis from 'lenis';
-import Header from '../components/Header';
-import AboutUsFooter from './AboutUsFooter';
+// import Header from '../components/Header';
+// import AboutUsFooter from './AboutUsFooter';
 import './Newsletter.css';
 
 function Newsletter() {
@@ -158,7 +158,7 @@ function Newsletter() {
 
   return (
     <div className="newsletter-page">
-      <Header />
+      {/* <Header /> */}
       
       <div 
         className="newsletter-hero"
@@ -201,7 +201,7 @@ function Newsletter() {
         </div>
       </div>
 
-      <AboutUsFooter />
+      {/* <AboutUsFooter /> */}
     </div>
   );
 }

@@ -2,8 +2,9 @@ import { useState, useRef, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 import Lenis from 'lenis';
 import ReCAPTCHA from 'react-google-recaptcha';
-import Header from '../components/Header';
-import ContactFooter from './ContactFooter';
+import { sendContactMessage } from "../api/flowApi";
+// import Header from '../components/Header';
+// import ContactFooter from './ContactFooter';
 import './ContactUs.css';
 
 const ContactUs = () => {
@@ -89,7 +90,7 @@ const ContactUs = () => {
     setRecaptchaToken(token);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     
     if (!recaptchaToken) {
@@ -106,6 +107,36 @@ const ContactUs = () => {
       subject: '',
       message: ''
     });
+    
+    const payload = {
+      name: formData.name,
+      email: formData.email,
+      subject: formData.subject,
+      message: formData.message,
+    };
+
+    try {
+      // console.log("Sending payload:", payload);
+
+      const res = await sendContactMessage(payload);
+
+      if (res.data.status) {
+        alert("Message sent successfully!");
+      } else {
+        alert("Failed: " + res.data.message);
+      }
+    } catch (error) {
+      console.error("API error:", error);
+      alert("Something went wrong while sending message");
+    }
+
+    // Reset form
+    setFormData({
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+    });
     setRecaptchaToken(null);
     if (recaptchaRef.current) {
       recaptchaRef.current.reset();
@@ -119,7 +150,7 @@ const ContactUs = () => {
 
   return (
     <div className="contact-page-wrapper">
-      <Header />
+      {/* <Header /> */}
       
       {/* Hero Section */}
       <section 
@@ -280,7 +311,7 @@ const ContactUs = () => {
       </section>
 
       {/* Footer */}
-      <ContactFooter />
+      {/* <ContactFooter /> */}
     </div>
   );
 };

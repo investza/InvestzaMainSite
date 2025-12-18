@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import Lenis from 'lenis';
-import Header from '../components/Header';
-import AboutUsFooter from './AboutUsFooter';
+// import Header from '../components/Header';
+// import AboutUsFooter from './AboutUsFooter';
 import './TermsConditions.css';
 
 function TermsConditions() {
@@ -81,7 +81,7 @@ function TermsConditions() {
 
   return (
     <div className="terms-page">
-      <Header />
+      {/* <Header /> */}
       
       {/* Hero Section */}
       <section 
@@ -341,8 +341,8 @@ function TermsConditions() {
           </div>
         </div>
       </div>
-
-      <AboutUsFooter />
+{/* 
+      <AboutUsFooter /> */}
     </div>
   );
 }

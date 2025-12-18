@@ -3,8 +3,8 @@ import { ChevronDown } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from 'lenis';
-import Header from '../components/Header';
-import AboutUsFooter from './AboutUsFooter';
+// import Header from '../components/Header';
+// import AboutUsFooter from './AboutUsFooter';
 import "./FAQPage.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -208,7 +208,7 @@ function FAQPage() {
 
   return (
     <div className="faq-page">
-      <Header />
+      {/* <Header /> */}
       
       {/* Hero Section */}
       <section 
@@ -274,7 +274,7 @@ function FAQPage() {
         </div>
       </section>
 
-      <AboutUsFooter />
+      {/* <AboutUsFooter /> */}
     </div>
   );
 }

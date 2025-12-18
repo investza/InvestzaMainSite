@@ -32,6 +32,9 @@ const TermsConditions = lazy(() => import('./pages/TermsConditions'));
 const WealthTracker = lazy(() => import('./components/WealthTracker'));
 const Page = lazy(() => import('./components/Page'));
 const ShowQR = lazy(() => import('./components/ShowQR'));
+// const AdminApp = lazy(()=> import('./admin/AdminApp'));
+
+const MainLayout = lazy(()=> import('./layout/MainLayout'));
 
 
 
@@ -92,19 +95,21 @@ function App() {
               <Suspense>
                 <Routes>
                   {/* Standard Routes */}
-                  <Route path="/" element={<LandingPage />} />
-                  <Route path="/events" element={<EventsPage />} />
-                  <Route path="/about" element={<AboutUs />} />
-                  <Route path="/team" element={<TeamPage />} />
-                  <Route path="/contact" element={<ContactUs />} />
-                  <Route path="/faq" element={<FAQPage />} />
-                  <Route path="/learn-why" element={<LearnWhy />} />
-                  <Route path="/newsletter" element={<Newsletter />} />
-                  <Route path="/newsletter/:id" element={<NewsletterDetail />} />
-                  <Route path="/refund" element={<RefundPolicy />} />
-                  <Route path="/privacy" element={<PrivacyPolicy />} />
-                  <Route path="/disclaimer" element={<Disclaimer />} />
-                  <Route path="/terms" element={<TermsConditions />} />
+                  <Route element={<MainLayout/>}>
+                    <Route path="/" element={<LandingPage />} />
+                    <Route path="/events" element={<EventsPage />} />
+                    <Route path="/about" element={<AboutUs />} />
+                    <Route path="/team" element={<TeamPage />} />
+                    <Route path="/contact" element={<ContactUs />} />
+                    <Route path="/faq" element={<FAQPage />} />
+                    <Route path="/learn-why" element={<LearnWhy />} />
+                    <Route path="/newsletter" element={<Newsletter />} />
+                    <Route path="/newsletter/:id" element={<NewsletterDetail />} />
+                    <Route path="/refund" element={<RefundPolicy />} />
+                    <Route path="/privacy" element={<PrivacyPolicy />} />
+                    <Route path="/disclaimer" element={<Disclaimer />} />
+                    <Route path="/terms" element={<TermsConditions />} />
+                  </Route>
                   <Route path="/wealth-tracker" element={<WealthTracker />} />
                   <Route path="/showQR" element={<ShowQR />} />
 
@@ -162,7 +167,7 @@ function App() {
                   />
 
                   <Route path="/confirmation" element={<ConfirmationPage />} />
-
+                  {/* <Route path="/adminlogin/*" element={<AdminApp />} /> */}
                 </Routes> 
               </Suspense>
       </div>

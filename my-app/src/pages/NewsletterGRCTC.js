@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import Lenis from 'lenis';
-import Header from '../components/Header';
-import AboutUsFooter from './AboutUsFooter';
+// import Header from '../components/Header';
+// import AboutUsFooter from './AboutUsFooter';
 import './NewsletterGRCTC.css';
 
 import treasuryCentreOperatingModels from "../assets/treasuryCentreOperatingModels.png";
@@ -40,7 +40,7 @@ function NewsletterGRCTC() {
 
   return (
     <div className="newsletter-grctc-page">
-      <Header />
+      {/* <Header /> */}
       
       <div className="grctc-content">
         <div className="grctc-container">
@@ -200,8 +200,8 @@ function NewsletterGRCTC() {
           </div>
         </div>
       </div>
-
-      <AboutUsFooter />
+{/* 
+      <AboutUsFooter /> */}
     </div>
   );
 }

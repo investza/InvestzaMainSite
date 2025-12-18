@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import Lenis from 'lenis';
-import Header from '../components/Header';
-import AboutUsFooter from './AboutUsFooter';
+// import Header from '../components/Header';
+// import AboutUsFooter from './AboutUsFooter';
 import './NewsletterWealth.css';
 
 function NewsletterWealth() {
@@ -36,7 +36,7 @@ function NewsletterWealth() {
 
   return (
     <div className="newsletter-wealth-page">
-      <Header />
+      {/* <Header /> */}
       
       <div className="wealth-content">
         <div className="wealth-container">
@@ -241,7 +241,7 @@ function NewsletterWealth() {
         </div>
       </div>
 
-      <AboutUsFooter />
+      {/* <AboutUsFooter /> */}
     </div>
   );
 }

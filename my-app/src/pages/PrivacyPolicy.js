@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import Lenis from 'lenis';
-import Header from '../components/Header';
-import AboutUsFooter from './AboutUsFooter';
+// import Header from '../components/Header';
+// import AboutUsFooter from './AboutUsFooter';
 import './PrivacyPolicy.css';
 
 function PrivacyPolicy() {
@@ -41,7 +41,7 @@ function PrivacyPolicy() {
 
   return (
     <div className="privacy-policy-page">
-      <Header />
+      {/* <Header /> */}
      <div 
         className="privacy-policy-hero"
         style={{
@@ -294,8 +294,8 @@ If We need to rely on consent as a legal basis for processing Your information a
           </div>
         </div>
       </div>
-
-      <AboutUsFooter />
+{/* 
+      <AboutUsFooter /> */}
     </div>
   );
 }

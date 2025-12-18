@@ -2,8 +2,8 @@ import { useEffect, useRef, useState, useContext } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Header from "./Header";
-import Footer from "./Footer";
+// import Header from "./Header";
+// import Footer from "./Footer";
 import ReviewMyPortfolioForm from "./ReviewMyportfolioForm";
 import GlassSurface from "./GlassSurface";
 import "./LandingPage.css";
@@ -502,11 +502,11 @@ const LandingPage = () => {
                 "important"
               );
               founderText.style.setProperty("margin-bottom", "0", "important");
-              founderProfile.style.setProperty(
-                "transform",
-                "translateY(-200px)",
-                "important"
-              );
+              // founderProfile.style.setProperty(
+              //   // "transform",
+              //   // "translateY(-200px)",
+              //   // "important"
+              // );
               founderProfile.style.setProperty("margin-top", "0", "important");
             }
           }
@@ -642,7 +642,7 @@ const LandingPage = () => {
   return (
     <div className="landing-page">
       {/* Header/Navigation */}
-      <Header onReviewPortfolio={() => setShowPortfolioForm(true)} />
+      {/* <Header onReviewPortfolio={() => setShowPortfolioForm(true)} /> */}
 
       {/* Hero Section */}
       <section id="home" className="hero">
@@ -1546,7 +1546,7 @@ const LandingPage = () => {
       </section>
 
       {/* Footer */}
-      <Footer />
+      {/* <Footer /> */}
 
       {/* Apple Glass Style Download Widget */}
       {/* <a href="https://investza.in/wealth-tracker/" target="_blank" rel="noopener noreferrer" className="download-widget-link"> */}

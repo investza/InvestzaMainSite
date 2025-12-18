@@ -1,8 +1,8 @@
 import { useRef, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 import Lenis from 'lenis';
-import Header from '../components/Header';
-import TeamFooter from './TeamFooter';
+// import Header from '../components/Header';
+// import TeamFooter from './TeamFooter';
 import TeamCard from '../components/TeamCard';
 import './TeamPage.css';
 
@@ -84,7 +84,7 @@ const TeamPage = () => {
 
   return (
     <div className="team-page-wrapper">
-      <Header />
+      {/* <Header /> */}
       
       <div className="team-page">
         {/* Hero Section */}
@@ -178,8 +178,8 @@ const TeamPage = () => {
           </div>
         </div>
       </div>
-
-      <TeamFooter />
+{/* 
+      <TeamFooter /> */}
     </div>
   );
 };

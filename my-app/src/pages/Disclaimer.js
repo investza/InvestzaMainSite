@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import Lenis from 'lenis';
-import Header from '../components/Header';
-import AboutUsFooter from './AboutUsFooter';
+// import Header from '../components/Header';
+// import AboutUsFooter from './AboutUsFooter';
 import './Disclaimer.css';
 
 function Disclaimer() {
@@ -81,7 +81,7 @@ function Disclaimer() {
 
   return (
     <div className="disclaimer-page">
-      <Header />
+      {/* <Header /> */}
       
       {/* Hero Section */}
       <section 
@@ -188,7 +188,7 @@ function Disclaimer() {
         </div>
       </div>
 
-      <AboutUsFooter />
+      {/* <AboutUsFooter /> */}
     </div>
   );
 }

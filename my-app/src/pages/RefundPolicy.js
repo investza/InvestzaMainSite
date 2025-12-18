@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import Lenis from 'lenis';
-import Header from '../components/Header';
-import AboutUsFooter from './AboutUsFooter';
+// import Header from '../components/Header';
+// import AboutUsFooter from './AboutUsFooter';
 import './RefundPolicy.css';
 
 function RefundPolicy() {
@@ -81,7 +81,7 @@ function RefundPolicy() {
 
   return (
     <div className="refund-policy-page">
-      <Header />
+      {/* <Header /> */}
       
       {/* Hero Section */}
       <section 
@@ -140,7 +140,7 @@ function RefundPolicy() {
         </div>
       </div>
 
-      <AboutUsFooter />
+      {/* <AboutUsFooter /> */}
     </div>
   );
 }

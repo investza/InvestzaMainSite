@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Lenis from 'lenis';
-import Header from '../components/Header';
-import AboutUsFooter from './AboutUsFooter';
+// import Header from '../components/Header';
+// import AboutUsFooter from './AboutUsFooter';
 import './NewsletterPune.css';
 
 function NewsletterPune() {
@@ -41,7 +41,7 @@ function NewsletterPune() {
 
   return (
     <div className="newsletter-pune-page">
-      <Header />
+      {/* <Header /> */}
       
       <div className="pune-content">
         <div className="pune-container">
@@ -209,8 +209,8 @@ function NewsletterPune() {
           </div>
         </div>
       </div>
-
-      <AboutUsFooter />
+{/* 
+      <AboutUsFooter /> */}
     </div>
   );
 }
