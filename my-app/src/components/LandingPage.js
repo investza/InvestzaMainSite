@@ -1081,7 +1081,13 @@ const LandingPage = () => {
                     <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z" />
                   </svg>
                 </div>
-                <h3 className="process-title">Defining the Objective</h3>
+                <h3 className="process-title">
+                  <span className="process-title-desktop">Defining the Objective</span>
+                  <span className="process-title-mobile">
+                    <span className="first-word">Defining</span>
+                    <span className="second-part">the Objective</span>
+                  </span>
+                </h3>
                 <p className="process-description">
                   We understand the entire picture and define a clear financial
                   objective establishing the foundation of your investment
@@ -1103,7 +1109,13 @@ const LandingPage = () => {
                     <path d="M12,2L13.09,8.26L22,9L13.09,9.74L12,16L10.91,9.74L2,9L10.91,8.26L12,2M12,21L10.91,14.74L2,14L10.91,13.26L12,7L13.09,13.26L22,14L13.09,14.74L12,21Z" />
                   </svg>
                 </div>
-                <h3 className="process-title">Strategic Planning</h3>
+                <h3 className="process-title">
+                  <span className="process-title-desktop">Strategic Planning</span>
+                  <span className="process-title-mobile">
+                    <span className="first-word">Strategic</span>
+                    <span className="second-part">Planning</span>
+                  </span>
+                </h3>
                 <p className="process-description">
                   With institutional grade research, we plan a custom strategy
                   integrating optimized asset allocation and intelligent
@@ -1125,7 +1137,13 @@ const LandingPage = () => {
                     <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z" />
                   </svg>
                 </div>
-                <h3 className="process-title">Implementing the Strategy</h3>
+                <h3 className="process-title">
+                  <span className="process-title-desktop">Implementing the Strategy</span>
+                  <span className="process-title-mobile">
+                    <span className="first-word">Implementing</span>
+                    <span className="second-part">the Strategy</span>
+                  </span>
+                </h3>
                 <p className="process-description">
                   Your customized strategy is deployed seamlessly using suitable
                   instruments and platforms with precision, absolute clarity and
@@ -1147,7 +1165,13 @@ const LandingPage = () => {
                     <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M11,6V12.41L15.36,14.95L16.64,12.59L13,10.59V6H11Z" />
                   </svg>
                 </div>
-                <h3 className="process-title">Consistent Monitoring</h3>
+                <h3 className="process-title">
+                  <span className="process-title-desktop">Consistent Monitoring</span>
+                  <span className="process-title-mobile">
+                    <span className="first-word">Consistent</span>
+                    <span className="second-part">Monitoring</span>
+                  </span>
+                </h3>
                 <p className="process-description">
                   We consistently monitor your portfolio and make prompt
                   adjustments to ensure your investments stay aligned, tax

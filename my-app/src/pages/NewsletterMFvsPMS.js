@@ -138,11 +138,7 @@ Should serious long-term capital be compounded in Mutual Funds or in PMS?</p>
             <img src="/newsletter7_graph.png" alt="Performance Comparison: Mutual Funds vs PMS" />
           </div>
 
-          <div className="mfpms-cta-section">
-            <h3>Want to review your portfolio structure?</h3>
-            <p>Schedule a consultation with Investza Capital to understand how your current investment structure impacts your long-term wealth creation.</p>
-            <button className="mfpms-cta-button">Schedule a Call</button>
-          </div>
+     
         </div>
       </div>
 
