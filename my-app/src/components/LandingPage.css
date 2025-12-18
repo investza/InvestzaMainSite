@@ -1823,9 +1823,38 @@ body {
     line-height: 1.2;
   }
 
+  /* Mobile title display rules - show mobile version but keep inline */
+  .process-title-desktop {
+    display: none;
+  }
+
+  .process-title-mobile {
+    display: inline;
+    line-height: 1.1;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+  }
+
+  .first-word,
+  .second-part {
+    display: inline;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+  }
+
+  .first-word::after {
+    content: " ";
+    display: inline;
+  }
+
   .process-description {
     font-size: 0.9rem;
     margin-top: 40px;
+    text-align: left;
   }
 
   /* Founder section mobile styles - v6 updated */
@@ -2293,6 +2322,43 @@ body {
   top: 80px;
   right: 2.5rem;
   left: 2.5rem;
+}
+
+/* Desktop title - show by default */
+.process-title-desktop {
+  display: inline;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+
+/* Mobile title - hide by default */
+.process-title-mobile {
+  display: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+
+/* Desktop - inline display for mobile classes */
+@media (min-width: 769px) {
+  .first-word,
+  .second-part {
+    display: inline;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+  }
+
+  .first-word::after {
+    content: " ";
+    display: inline;
+  }
 }
 
 .process-description {
@@ -3157,19 +3223,21 @@ is Cards Section */
 }
 
 .lenis-card[data-card="1"] {
-  background: linear-gradient(135deg, rgba(35, 49, 90, 0.85), rgba(60, 90, 170, 0.75)) !important;
+  
+  background: linear-gradient(135deg, rgba(22, 81, 85, 0.85), rgba(50, 190, 180, 0.75)) !important;
 }
 
 .lenis-card[data-card="2"] {
-  background: linear-gradient(135deg, rgba(25, 55, 89, 0.85), rgba(100, 150, 200, 0.75)) !important;
-}
-
-.lenis-card[data-card="3"] {
+  
   background: linear-gradient(135deg, rgba(25, 73, 92, 0.85), rgba(55, 180, 210, 0.75)) !important;
 }
 
+.lenis-card[data-card="3"] {
+  background: linear-gradient(135deg, rgba(25, 55, 89, 0.85), rgba(100, 150, 200, 0.75)) !important;
+}
+
 .lenis-card[data-card="4"] {
-  background: linear-gradient(135deg, rgba(22, 81, 85, 0.85), rgba(50, 190, 180, 0.75)) !important;
+  background: linear-gradient(135deg, rgba(35, 49, 90, 0.85), rgba(60, 90, 170, 0.75)) !important;
 }
 
 .lenis-card:hover {
@@ -3956,5 +4024,102 @@ Episodes Button - Remove underline from link */
 
   .floating-download-badge.hidden {
     display: none;
+  }
+}
+/* Medium mobile devices - Keep inline between 426px and 768px */
+@media (min-width: 426px) and (max-width: 768px) {
+  .first-word,
+  .second-part {
+    display: inline !important;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+  }
+
+  .first-word::after {
+    content: " " !important;
+    display: inline !important;
+  }
+}
+
+/* Small mobile devices - Line break for process title below 425px */
+@media (max-width: 425px) {
+  /* Ensure mobile title is visible */
+  .process-title-desktop {
+    display: none !important;
+  }
+
+  .process-title-mobile {
+    display: inline !important;
+    line-height: 1.1;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+  }
+
+  /* Apply line break */
+  .process-title-mobile .first-word {
+    display: block !important;
+  }
+
+  .process-title-mobile .first-word::after {
+    content: "" !important;
+    display: block !important;
+    height: 0;
+    width: 100%;
+  }
+
+  .process-title-mobile .second-part {
+    display: block !important;
+  }
+
+  /* Remove title bottom margin to prevent extra spacing */
+  .process-title {
+    margin-bottom: 0 !important;
+  }
+
+  /* Increase gap between title and description, ensure left alignment */
+  .process-card .process-description {
+    margin-top: 60px !important;
+    text-align: left !important;
+    font-size: 0.9rem !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+    padding-top: 0 !important;
+  }
+  
+  .process-card-content .process-description {
+    margin-top: 60px !important;
+    text-align: left !important;
+    font-size: 0.9rem !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+    padding-top: 0 !important;
+  }
+
+  /* Reduce margin-top for first card to match visual spacing of other cards */
+  .process-card:nth-child(1) .process-description {
+    margin-top: 41px !important;
+  }
+
+  .process-card:nth-child(1) .process-card-content .process-description {
+    margin-top: 41px !important;
+  }
+
+  /* Add top padding for 2nd, 3rd, and 4th cards only */
+  .process-card:nth-child(2) .process-description,
+  .process-card:nth-child(3) .process-description,
+  .process-card:nth-child(4) .process-description {
+    padding-top: 2rem !important;
+  }
+
+  .process-card:nth-child(2) .process-card-content .process-description,
+  .process-card:nth-child(3) .process-card-content .process-description,
+  .process-card:nth-child(4) .process-card-content .process-description {
+    padding-top: 2rem !important;
   }
 }
