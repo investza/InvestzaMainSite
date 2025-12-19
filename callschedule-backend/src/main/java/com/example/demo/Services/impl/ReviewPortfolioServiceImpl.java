@@ -8,9 +8,11 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +37,8 @@ import com.example.demo.Repositories.ReviewPortfolioRepository;
 import com.example.demo.Repositories.ReviewUserTempRepository;
 import com.example.demo.Services.ReviewPortfolioService;
 import com.example.demo.Services.SmsService;
+import com.example.demo.dto.ApiResponse;
+import com.example.demo.dto.UnavailabilityTimeSlotsRequest;
 import com.example.demo.dto.UpdateBookingRequest;
 import com.example.demo.dto.review_portfolio.InvestmentRequest;
 import com.example.demo.dto.review_portfolio.ReviewPortfolioRequest;
@@ -489,6 +493,68 @@ public class ReviewPortfolioServiceImpl implements ReviewPortfolioService {
         if (req.getTime() != null) existing.setTime(req.getTime());
 
         return reviewPortfolioRepository.save(existing);
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<?> saveUnavailableSlots(UnavailabilityTimeSlotsRequest req) {
+        try {
+            LocalDate parsedDate = LocalDate.parse(req.getDate());
+
+            PortfolioReviewer existing =
+                    availabilityRepo.findByHandlerIdAndDate(req.getAdminId(), parsedDate);
+
+            if (existing != null) {
+                // Update (avoid duplicates)
+                Set<String> updatedSlots = new HashSet<>(existing.getUnavailableSlots());
+                updatedSlots.addAll(req.getTimeSlots());
+
+                existing.setUnavailableSlots(new ArrayList<>(updatedSlots));
+                availabilityRepo.save(existing);
+
+                return ResponseEntity.ok(
+                        new ApiResponse(true, "Unavailable slots updated successfully")
+                );
+            }
+
+            // Create new
+            PortfolioReviewer newEntry = PortfolioReviewer.builder()
+                    .handlerId(req.getAdminId())
+                    .date(parsedDate)
+                    .unavailableSlots(req.getTimeSlots())
+                    .build();
+
+            availabilityRepo.save(newEntry);
+
+            return ResponseEntity.ok(
+                    new ApiResponse(true, "Unavailable slots saved successfully")
+            );
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(new ApiResponse(false, e.getMessage()));
+        }
+    }
+    @Override
+    public ResponseEntity<?> getUnavailabilities(String date, String id) {
+        try {
+            LocalDate parsedDate = LocalDate.parse(date);
+
+            PortfolioReviewer existing =
+                    availabilityRepo.findByHandlerIdAndDate(id, parsedDate);
+
+            if (existing == null) {
+                return ResponseEntity.ok(
+                        new ApiResponse(false, "No unavailabilities found")
+                );
+            }
+
+            return ResponseEntity.ok(existing);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(new ApiResponse(false, "Invalid date format"));
+        }
     }
 
 }

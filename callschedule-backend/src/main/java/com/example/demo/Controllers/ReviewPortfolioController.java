@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.Models.ReviewPortfolio;
 import com.example.demo.Services.ReviewPortfolioService;
 import com.example.demo.dto.ApiResponse;
+import com.example.demo.dto.UnavailabilityTimeSlotsRequest;
 import com.example.demo.dto.UpdateBookingRequest;
 import com.example.demo.dto.review_portfolio.InvestmentRequest;
 import com.example.demo.dto.review_portfolio.ReviewPortfolioRequest;
@@ -166,5 +167,20 @@ public class ReviewPortfolioController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse(false, "Failed to update Review Portfolio"));
         }
+    }
+
+    @PostMapping("/save-unavailability")
+    public ResponseEntity<?> saveUnavailableSlots(
+            @RequestBody UnavailabilityTimeSlotsRequest req
+    ) {
+        return service.saveUnavailableSlots(req);
+    }
+
+    @GetMapping("/unavailabilities")
+    public ResponseEntity<?> getUnavailabilities(
+            @RequestParam String date,
+            @RequestParam String id
+    ) {
+        return service.getUnavailabilities(date, id);
     }
 }

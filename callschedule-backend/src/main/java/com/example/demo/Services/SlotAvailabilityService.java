@@ -108,4 +108,24 @@ public class SlotAvailabilityService {
                     .body(new ApiResponse(false, e.getMessage()));
         }
     }
+
+    public ResponseEntity<?> getUnavailabilities(String date, String id) {
+        try {
+            LocalDate parsedDate = LocalDate.parse(date);
+
+            CallHandlerAvailability existing =
+                    availabilityRepo.findByHandlerIdAndDate(id, parsedDate);
+
+            if (existing == null) {
+                return ResponseEntity.ok(
+                        new ApiResponse(false, "No unavailabilities found")
+                );
+            }
+            return ResponseEntity.ok(existing);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(new ApiResponse(false, "Invalid date format"));
+        }
+    }
+
 }
