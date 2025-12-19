@@ -110,7 +110,7 @@ function CallBooking() {
         date:editBooking.date, 
         time : editBooking.time}
       
-      const res = await updateCallBooking(payload);
+      const res = await updateCallBooking(editBooking.id, payload); // Id nhi pass ho rhi thi pahle yha
       console.log(res);
           const updated = bookings.map((b) =>
         b.id === editBooking.id ? editBooking : b
