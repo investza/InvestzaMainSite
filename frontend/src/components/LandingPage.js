@@ -590,42 +590,98 @@ const LandingPage = () => {
 
   // GSAP Stacking Cards Animation
   useEffect(() => {
-    const cards = gsap.utils.toArray(".lenis-card");
-    const wrapper = document.querySelector(".lenis-cards-wrapper");
-    const leftText = document.querySelector(".lenis-left");
+    const setupScrollTriggers = () => {
+      const cards = gsap.utils.toArray(".lenis-card");
+      const wrapper = document.querySelector(".lenis-cards-wrapper");
+      const leftText = document.querySelector(".lenis-left");
 
-    if (!wrapper) return;
+      if (!wrapper) return;
 
-    // Pin the left text
-    if (leftText) {
-      ScrollTrigger.create({
-        trigger: leftText,
-        start: "top 20%",
-        endTrigger: wrapper,
-        end: "bottom bottom",
-        pin: true,
-        pinSpacing: false,
-        markers: false,
+      // Clear existing triggers
+      ScrollTrigger.getAll().forEach((trigger) => {
+        const triggerElement = trigger.vars.trigger;
+        if (
+          triggerElement &&
+          (triggerElement.classList.contains("lenis-card") ||
+            triggerElement.classList.contains("lenis-left"))
+        ) {
+          trigger.kill();
+        }
       });
-    }
 
-    // Pin each card with 20px offset
-    cards.forEach((card, index) => {
-      const offset = index * 20; // 20px gap between cards
+      // Pin the left text
+      if (leftText) {
+        ScrollTrigger.create({
+          trigger: leftText,
+          start: "top 20%",
+          endTrigger: wrapper,
+          end: "bottom bottom",
+          pin: true,
+          pinSpacing: false,
+          markers: false,
+        });
+      }
 
-      ScrollTrigger.create({
-        trigger: card,
-        start: `top ${20 + (offset / window.innerHeight) * 100}%`,
-        endTrigger: wrapper,
-        end: "bottom bottom",
-        pin: true,
-        pinSpacing: false,
-        markers: false,
-        invalidateOnRefresh: true,
+      // Pin each card with responsive positioning
+      cards.forEach((card, index) => {
+        const offset = index * 20; // 20px gap between cards
+        const windowWidth = window.innerWidth;
+        const isMobile = windowWidth <= 768;
+        
+        let startPosition;
+        
+        if (isMobile && index === 0) {
+          // Mobile positioning: 37% for >737px, 45% for 640-737px, 47% for <640px
+          let mobilePosition;
+          if (windowWidth < 640) {
+            mobilePosition = 47;
+          } else if (windowWidth <= 737) {
+            mobilePosition = 45;
+          } else {
+            mobilePosition = 37;
+          }
+          startPosition = `top ${mobilePosition}%`;
+        } else if (isMobile) {
+          // Other cards follow with same logic
+          let mobilePosition;
+          if (windowWidth < 640) {
+            mobilePosition = 47;
+          } else if (windowWidth <= 737) {
+            mobilePosition = 45;
+          } else {
+            mobilePosition = 37;
+          }
+          startPosition = `top ${mobilePosition + (offset / window.innerHeight) * 100}%`;
+        } else {
+          startPosition = `top ${20 + (offset / window.innerHeight) * 100}%`; // Desktop behavior
+        }
+
+        ScrollTrigger.create({
+          trigger: card,
+          start: startPosition,
+          endTrigger: wrapper,
+          end: "bottom bottom",
+          pin: true,
+          pinSpacing: false,
+          markers: false,
+          invalidateOnRefresh: true,
+        });
       });
-    });
+    };
+
+    // Initial setup
+    setupScrollTriggers();
+
+    // Handle window resize
+    const handleResize = () => {
+      ScrollTrigger.refresh();
+      setupScrollTriggers();
+    };
+
+    window.addEventListener('resize', handleResize);
 
     return () => {
+      window.removeEventListener('resize', handleResize);
       ScrollTrigger.getAll().forEach((trigger) => {
         const triggerElement = trigger.vars.trigger;
         if (
