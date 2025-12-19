@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Users.module.css";
+import {getAllAdmins,deleteAdmin,addAdmin} from "../../api/flowApi";
 
 function Users() {
   const emptyForm = {
-    username: "",
+    adminName: "",
     email: "",
     password: "",
     role: "",
@@ -13,22 +14,47 @@ function Users() {
   const [users, setUsers] = useState([]);
   const [editUser, setEditUser] = useState(null);
 
+  useEffect(()=> {
+    fetchAdminDetails();
+    // console.log("fetchingDetails");
+  },[])
+
+  const fetchAdminDetails = async() => {
+     const res = await getAllAdmins();
+     setUsers(res.data);
+    //  console.log(res.data);
+  }
+   
+
   /* ------------------------
         ADD USER
   ------------------------- */
-  const addUser = () => {
-    if (!formData.username || !formData.email || !formData.password) {
+  const addUser = async() => {
+    if (!formData.adminName || !formData.email || !formData.password) {
       alert("Please fill all fields!");
       return;
+    } else {
+      try{
+        const payload = {
+           // payload = { adminName, email, password,role}
+           adminName:formData.adminName,
+           email:formData.email,
+           password:formData.password,
+           role:formData.role
+        };
+        await addAdmin(payload);
+        const newUser = {
+        ...formData,
+        id: Date.now().toString(),
+        };
+
+        setUsers([...users, newUser]);
+        setFormData(emptyForm);
+      } catch(err) {
+        alert(err);
+      }
     }
 
-    const newUser = {
-      ...formData,
-      id: Date.now().toString(),
-    };
-
-    setUsers([...users, newUser]);
-    setFormData(emptyForm);
   };
 
   /* ------------------------
@@ -45,10 +71,17 @@ function Users() {
   /* ------------------------
         DELETE USER
   ------------------------- */
-  const deleteUser = (id) => {
-    if (window.confirm("Delete this user?")) {
+  const deleteUser = async(id) => {
+    try{
+      if (window.confirm("Delete this user?")) {
+      await deleteAdmin(id);
+      // console.log(res);
       setUsers(users.filter((u) => u.id !== id));
     }
+    }catch(err) {
+      alert(err);
+    }
+   
   };
 
   return (
@@ -63,11 +96,11 @@ function Users() {
 
             <input
               type="text"
-              placeholder="Username"
+              placeholder="Admin name"
               className={styles.input}
-              value={formData.username}
+              value={formData.adminName}
               onChange={(e) =>
-                setFormData({ ...formData, username: e.target.value })
+                setFormData({ ...formData, adminName: e.target.value })
               }
             />
 
@@ -116,8 +149,9 @@ function Users() {
             <table className={styles.userTable}>
               <thead>
                 <tr>
-                  <th>Username</th>
+                  <th>Admin Name</th>
                   <th>Email</th>
+                  <th>Role</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -132,17 +166,18 @@ function Users() {
                 ) : (
                   users.map((u) => (
                     <tr key={u.id}>
-                      <td>{u.username}</td>
+                      <td>{u.adminName}</td>
                       <td>{u.email}</td>
+                      <td>{(u.role).toLowerCase()}</td>
 
                       <td>
                         <div className={styles.actionGroup}>
-                          <button
+                          {/* <button
                             className={styles.editBtn}
                             onClick={() => setEditUser({ ...u })}
                           >
                             Edit
-                          </button>
+                          </button> */}
 
                           <button
                             className={styles.deleteBtn}
@@ -160,44 +195,6 @@ function Users() {
           </div>
         </div>
       </div>
-
-      {/* EDIT MODAL */}
-      {editUser && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modalBox}>
-            <h2>Edit User</h2>
-
-            <input
-              className={styles.modalInput}
-              type="text"
-              value={editUser.username}
-              onChange={(e) =>
-                setEditUser({ ...editUser, username: e.target.value })
-              }
-            />
-
-            <input
-              className={styles.modalInput}
-              type="email"
-              value={editUser.email}
-              onChange={(e) =>
-                setEditUser({ ...editUser, email: e.target.value })
-              }
-            />
-
-            <button className={styles.saveBtn} onClick={updateUser}>
-              Update
-            </button>
-
-            <button
-              className={styles.closeBtn}
-              onClick={() => setEditUser(null)}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

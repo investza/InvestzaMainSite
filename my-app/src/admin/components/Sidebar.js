@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 import logo from "../assets/logo.svg";
@@ -24,7 +24,7 @@ function Sidebar({ onToggle, isOpen: isOpenProp = true }) {
   const [isOpen, setIsOpen] = useState(isOpenProp);
   const [openDropdown, setOpenDropdown] = useState(false);
   const [activeItem, setActiveItem] = useState("");
-
+  const [isAdmin,setIsAdmin] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -49,6 +49,13 @@ function Sidebar({ onToggle, isOpen: isOpenProp = true }) {
   useEffect(() => {
     setIsOpen(isOpenProp);
   }, [isOpenProp]);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user?.adminRole === "ADMIN") {
+    setIsAdmin(true);
+  }
+  },[])
 
   const goto = (path, type) => {
     navigate(path.toLowerCase());
@@ -166,12 +173,15 @@ function Sidebar({ onToggle, isOpen: isOpenProp = true }) {
           </li>
 
           {/* USERS */}
-          <li
-            className={activeItem === "users" ? styles.active : ""}
-            onClick={() => goto("/adminlogin/users", "users")}
-          >
-            <FaUsers className={styles.icon} /> {isOpen && <span>Users</span>}
-          </li>
+          {/*if admin role is admin then and then only show the admin page*/}
+         {isAdmin && (
+  <li
+    className={activeItem === "users" ? styles.active : ""}
+    onClick={() => goto("/adminlogin/users", "users")}
+  >
+    <FaUsers className={styles.icon} /> {isOpen && <span>Users</span>}
+  </li>
+)}
 
           {/* AVAILABILITY */}
           <li

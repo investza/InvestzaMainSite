@@ -29,7 +29,15 @@ function Login() {
       const response = await adminLogin(payload);
       // save the adminId taken from response to the localStorage 
       localStorage.setItem("JwtToken",response.data.token);
-      // console.log(response);
+
+      const user = {
+        adminId:response.data.adminId,
+        adminRole:response.data.role,
+      }
+      //saving users info
+      localStorage.setItem("user", JSON.stringify(user));
+
+      console.log(response);
       if (response.status === 200){
         setError("Login Successful");
         // alert(response.message || "Login Successful");

@@ -125,16 +125,16 @@ export const adminLogin = (payload) => {
   return axios.post(`${API}/auth/login`, payload);
 }; //(done)
 export const getAllAdmins = () =>
-  axiosPrivate.get("/auth/admin/list");
+  axiosPrivate.get("/auth/admin/list"); //(done)
 
 export const deleteAdmin = (id) =>
-  axiosPrivate.delete(`/auth/delete/${id}`);
+  axiosPrivate.delete(`/auth/delete/${id}`); //(done)
 
 export const changeAdminRole = (payload) =>
-  axiosPrivate.post("/auth/change-role", payload);
+  axiosPrivate.post("/auth/change-role", payload); //(where to integrate) iinstead of this i think we can give a functionality to update the username,password,role it will be 
 
 export const countAdmin = () =>
-  axiosPrivate.get("/auth/count");
+  axiosPrivate.get("/auth/count"); //(done)
 
 
 // ---------------- CALL SCHEDULING ----------------
@@ -154,6 +154,12 @@ export const adminSaveUnavailabilitySlots = (payload) =>
 
 export const updateCallBooking = (id, payload) =>
   axiosPrivate.patch(`/flow/update-booking/${id}`, payload);
+
+export const addAdmin = (payload) => {
+  // payload = { adminName, email, password,role}
+  return axiosPrivate.post(`${API}/auth/add-admin`, payload);
+}; //(not integrated)
+
 
 
 
@@ -217,10 +223,7 @@ export const updateCallBooking = (id, payload) =>
 //   return axios.post(`${API}/auth/login`, payload);
 // }; //(done)
 
-// export const addAdmin = (payload) => {
-//   // payload = { adminName, email, password }
-//   return axios.post(`${API}/auth/add-admin`, payload);
-// }; //(not integrated)
+
 
 // export const getAllAdmins = () => {
 //   return axios.get(`${API}/auth/admin/list`);

@@ -32,7 +32,7 @@ const TermsConditions = lazy(() => import('./pages/TermsConditions'));
 const WealthTracker = lazy(() => import('./components/WealthTracker'));
 const Page = lazy(() => import('./components/Page'));
 const ShowQR = lazy(() => import('./components/ShowQR'));
-// const AdminApp = lazy(()=> import('./admin/AdminApp'));
+const AdminApp = lazy(()=> import('./admin/AdminApp'));
 
 const MainLayout = lazy(()=> import('./layout/MainLayout'));
 
@@ -167,7 +167,7 @@ function App() {
                   />
 
                   <Route path="/confirmation" element={<ConfirmationPage />} />
-                  {/* <Route path="/adminlogin/*" element={<AdminApp />} /> */}
+                  <Route path="/adminlogin/*" element={<AdminApp />} />
                 </Routes> 
               </Suspense>
       </div>

@@ -112,7 +112,7 @@ function ReviewPortfolio() {
       date:editBooking.date, 
       time : editBooking.time}
     
-    const res = await updateReviewPortfolio(payload);
+    const res = await updateReviewPortfolio(editBooking.id,payload);
     console.log(res);
         const updated = bookings.map((b) =>
       b.id === editBooking.id ? editBooking : b
