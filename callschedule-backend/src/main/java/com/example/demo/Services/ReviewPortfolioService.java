@@ -10,6 +10,7 @@ import com.example.demo.Models.ReviewPortfolio;
 import com.example.demo.dto.review_portfolio.VerifyOtpRequest;
 import com.example.demo.dto.review_portfolio.StartRequest;
 import com.example.demo.dto.review_portfolio.SendOtpRequest;
+import com.example.demo.dto.UnavailabilityTimeSlotsRequest;
 import com.example.demo.dto.UpdateBookingRequest;
 import com.example.demo.dto.review_portfolio.InvestmentRequest;
 import com.example.demo.dto.review_portfolio.ReviewPortfolioRequest;
@@ -27,7 +28,10 @@ public interface ReviewPortfolioService {
     public List<ReviewPortfolio> getAll();
     public ReviewPortfolio getRequestById(String id);
     public ReviewPortfolio updateStatus(String id, String status);
-     public void deleteRequest(String id);
-     public Map<String, Object> getStats(); 
+    public void deleteRequest(String id);
+    public Map<String, Object> getStats(); 
     public ReviewPortfolio updateReviewPortfolio(String id, UpdateBookingRequest req);
+    public ResponseEntity<?> saveUnavailableSlots(UnavailabilityTimeSlotsRequest req);
+    public ResponseEntity<?> getUnavailabilities(String date, String id);
+
 }

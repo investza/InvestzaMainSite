@@ -215,6 +215,20 @@ export const addAdmin = (payload) => {
 // // { fullName, mobile, email, guestEmail, message, investmentRange, date, time }
 // export const updateReviewPortfolio = (id, payload) => axios.patch(`${API}/review_portfolio/update/${id}`, payload); //(done)
 
+// Save unavailable slots for Portfolio Reviewer
+export const savePortfolioUnavailabilitySlots = (payload) =>
+  axiosPrivate.post("/review_portfolio/save-unavailability", payload);
+
+
+// Get unavailable slots for Portfolio Reviewer
+export const getPortfolioUnavailabilities = (date, adminId) =>
+  axiosPrivate.get("/review_portfolio/unavailabilities", {
+    params: {
+      date,
+      id: adminId,
+    },
+  });
+
 
 // // ------------------ LOGIN / AUTH APIS ----------------------------------
 
@@ -255,6 +269,15 @@ export const addAdmin = (payload) => {
 
 // // { fullName, mobile, email, guestEmail, message, investmentRange, date, time }
 // export const updateCallBooking = (id, payload) => axios.patch(`${API}/flow/update-booking/${id}`, payload); //(done)
+
+// Get unavailable slots for Call Handler
+export const getCallHandlerUnavailabilities = (date, adminId) =>
+  axiosPrivate.get("/flow/unavailabilities", {
+    params: {
+      date,
+      id: adminId,
+    },
+  });
 
 
 
