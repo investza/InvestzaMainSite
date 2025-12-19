@@ -11,3 +11,4 @@ public class UnavailabilityTimeSlotsRequest {
     private String date;
     private List<String> timeSlots;
 }
+ 
