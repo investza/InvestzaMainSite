@@ -79,11 +79,7 @@ public class SlotAvailabilityService {
                     availabilityRepo.findByHandlerIdAndDate(req.getAdminId(), parsedDate);
 
             if (existing != null) {
-                // Append new unavailable slots → but avoid duplicates
-                Set<String> updatedSlots = new HashSet<>(existing.getUnavailableSlots());
-                updatedSlots.addAll(req.getTimeSlots());
-
-                existing.setUnavailableSlots(new ArrayList<>(updatedSlots));
+                existing.setUnavailableSlots(new ArrayList<>(req.getTimeSlots()));
                 availabilityRepo.save(existing);
 
                 return ResponseEntity.ok(

@@ -505,11 +505,8 @@ public class ReviewPortfolioServiceImpl implements ReviewPortfolioService {
                     availabilityRepo.findByHandlerIdAndDate(req.getAdminId(), parsedDate);
 
             if (existing != null) {
-                // Update (avoid duplicates)
-                Set<String> updatedSlots = new HashSet<>(existing.getUnavailableSlots());
-                updatedSlots.addAll(req.getTimeSlots());
-
-                existing.setUnavailableSlots(new ArrayList<>(updatedSlots));
+                // REPLACE old list with new list
+                existing.setUnavailableSlots(new ArrayList<>(req.getTimeSlots()));
                 availabilityRepo.save(existing);
 
                 return ResponseEntity.ok(
