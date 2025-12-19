@@ -151,7 +151,12 @@ const ScheduleComponent = () => {
   const isPast = (date) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    return date < today;
+
+    // Minimum selectable date is tomorrow
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    return date < tomorrow;
   };
 
   const timeSlots = [

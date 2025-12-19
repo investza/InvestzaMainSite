@@ -149,7 +149,7 @@ export const adminDeleteScheduledCall = (id) =>
 export const adminGetCallStats = () =>
   axiosPrivate.get("/flow/call/stats");
 
-export const adminSaveUnavailabilitySlots = (payload) =>
+export const saveCallHandlerUnavailabilitySlots = (payload) =>
   axiosPrivate.post("/flow/save-unavailability", payload);
 
 export const updateCallBooking = (id, payload) =>
@@ -168,54 +168,7 @@ export const addAdmin = (payload) => {
 
 
 
-// // ------------------------------------------------------------------ADMIN---------------------------------------------------------------------------------------
 
-// // ----------------CONTACT----------------------- [DONE]
-// export const adminGetAllContacts = () => axios.get(`${API}/contact/all`); //contact list (done)
-
-// export const adminDeleteContact = (id) => axios.delete(`${API}/contact/delete/${id}`); //deleting the contact (done)
-
-// export const adminUpdateContactStatus = (id, status) => axios.patch(`${API}/contact/${id}/status`,null, { params: { status }, }); //(done)
-
-// export const adminGetContactStats = () => axios.get(`${API}/contact/stats`); //contact message stats  (done)
-
-
-// // -------------------EVENT------------------------- [DONE]
-// export const createEvent = (payload) => axios.post(`${API}/events/create`, payload); // payload = title, description, images,  date, details //(done)
-
-// export const uploadEventImages = (files) => {
-//     const formData = new FormData();
-//     files.forEach((file) => formData.append("files", file));
-//     return axios.post(`${API}/events/upload`, formData, {
-//         headers: { "Content-Type": "multipart/form-data" },
-//     });
-// }; //(done)
-
-// export const getEventById = (id) => axios.get(`${API}/events/event/${id}`); //(not needed)
-
-// export const deleteEvent = (id) => axios.delete(`${API}/events/delete/${id}`); //(done)
-
-// export const updateEvent = (id, payload) => axios.put(`${API}/events/update/${id}`, payload); // payload = title, description, images, date, details (done)
-
-// export const countEvents = () => axios.get(`${API}/events/count`); //events counting and stats (done)
-
-
-// // -----------------REVIEW PORTFOLIO ADMIN----------------- [DONE]
-
-// export const getAllReviewPortfolios = () => axios.get(`${API}/review_portfolio/list`); //(done)
-
-// export const getReviewPortfolioById = (id) => axios.get(`${API}/review_portfolio/${id}`); //(not needed)
-
-// export const updateReviewPortfolioStatus = (id, status) => axios.patch(`${API}/review_portfolio/${id}/status`,null, { params: { status }, }); //(done)
-
-// export const deleteReviewPortfolio = (id) => axios.delete(`${API}/review_portfolio/${id}`); //(done)
-
-// export const getReviewPortfolioStats = () => axios.get(`${API}/review_portfolio/stats`); //portfolio stats count (done)
-
-// // { fullName, mobile, email, guestEmail, message, investmentRange, date, time }
-// export const updateReviewPortfolio = (id, payload) => axios.patch(`${API}/review_portfolio/update/${id}`, payload); //(done)
-
-// Save unavailable slots for Portfolio Reviewer
 export const savePortfolioUnavailabilitySlots = (payload) =>
   axiosPrivate.post("/review_portfolio/save-unavailability", payload);
 
@@ -230,47 +183,6 @@ export const getPortfolioUnavailabilities = (date, adminId) =>
   });
 
 
-// // ------------------ LOGIN / AUTH APIS ----------------------------------
-
-// export const adminLogin = (payload) => {
-//   // payload = { adminName, password }
-//   return axios.post(`${API}/auth/login`, payload);
-// }; //(done)
-
-
-
-// export const getAllAdmins = () => {
-//   return axios.get(`${API}/auth/admin/list`);
-// }; //(not integrated)
-
-// export const deleteAdmin = (id) => {
-//   return axios.delete(`${API}/auth/delete/${id}`);
-// }; //(not integrated)
-
-// export const changeAdminRole = (payload) => {
-//   // payload = { adminId, role }
-//   return axios.post(`${API}/auth/change-role`, payload);
-// }; //(not integrated)
-
-// export const countAdmin = () => axios.get(`${API}/auth/count`); //(done)
-
-
-
-// // ---------------------------Call Scheduling------------------------------
-
-// export const updateCallStatus = (id, status) => axios.patch(`${API}/flow/${id}/update-status`,null, { params: { status }, }); //(done)
-
-// export const adminDeleteScheduledCall = (id) => axios.delete(`${API}/flow/delete/${id}`); //(done)
-
-// export const adminGetCallStats = () => axios.get(`${API}/flow/call/stats`); //(done)
-
-// // payload = { adminId, date, timeSlots }
-// export const adminSaveUnavailabilitySlots = (payload) => axios.post(`${API}/flow/save-unavailability`, payload);   
-
-// // { fullName, mobile, email, guestEmail, message, investmentRange, date, time }
-// export const updateCallBooking = (id, payload) => axios.patch(`${API}/flow/update-booking/${id}`, payload); //(done)
-
-// Get unavailable slots for Call Handler
 export const getCallHandlerUnavailabilities = (date, adminId) =>
   axiosPrivate.get("/flow/unavailabilities", {
     params: {

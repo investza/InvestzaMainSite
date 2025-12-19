@@ -16,6 +16,7 @@ import AnkitMehta from './assets/Ankit-Mehta.webp';
 
 
 //  PAGE-LEVEL LAZY LOADING (Major optimization)
+
 const LandingPage = lazy(() => import('./components/LandingPage'));
 const EventsPage = lazy(() => import('./pages/EventsPage'));
 const AboutUs = lazy(() => import('./pages/AboutUs'));
@@ -48,6 +49,9 @@ const InvestmentDetails = lazy(() => import('./components/InvestmentDetails'));
 const ConfirmationPage = lazy(() => import('./components/ConfirmationPage'));
 const ScheduleComponent = lazy(() => import('./components/ScheduleComponent'));
 const EmailDetails = lazy(() => import('./components/EmailDetails'));
+
+
+const PageNotFound = lazy(() => import('./pages/PageNotFound'));
 
 // Scroll-to-top logic
 function ScrollToTop() {
@@ -168,6 +172,7 @@ function App() {
 
                   <Route path="/confirmation" element={<ConfirmationPage />} />
                   <Route path="/adminlogin/*" element={<AdminApp />} />
+                  <Route path = "*" element={<PageNotFound />} /> 
                 </Routes> 
               </Suspense>
       </div>

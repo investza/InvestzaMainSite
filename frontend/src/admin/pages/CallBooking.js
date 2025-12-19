@@ -3,12 +3,9 @@ import * as XLSX from "xlsx";
 import styles from "./CallBooking.module.css";
 // import api from "../api/axios";
 
-import { getAllReviewPortfolios,updateReviewPortfolioStatus,deleteReviewPortfolio,updateReviewPortfolio } from "../../api/flowApi";
+import { getBookings,updateCallStatus,adminDeleteScheduledCall, updateCallBooking} from "../../api/flowApi";
 
-
-
-
-function ReviewPortfolio() {
+function CallBooking() {
   const [bookings, setBookings] = useState([]);
   const [filtered, setFiltered] = useState([]);
 
@@ -26,7 +23,7 @@ function ReviewPortfolio() {
   // NEW BOOKING FORM
   const emptyForm = {
     fullName: "",
-    contactNumber: "",
+    mobile: "",
     email: "",
     guestEmail: "",
     message: "",
@@ -45,7 +42,7 @@ function ReviewPortfolio() {
 
   const fetchBookings = async () => {
     try {
-      const res = await getAllReviewPortfolios();
+      const res = await getBookings();
       // console.log(res);
       setBookings(res.data);
       setFiltered(res.data);
@@ -83,7 +80,8 @@ function ReviewPortfolio() {
   ----------------------------- */
   const updateStatus = async (id, status) => {
     try {
-      const res = await updateReviewPortfolioStatus(id,status);
+      // console.log(id,status);
+      await updateCallStatus(id,status);
       // Update local state
       const updated = bookings.map((b) =>
         b.id === id ? { ...b, status } : b
@@ -99,32 +97,32 @@ function ReviewPortfolio() {
      EDIT BOOKING
   ----------------------------- */
   const saveEdit = async() => {
-    try {
-      //API call
-    // { fullName, mobile, email, guestEmail, message, investmentRange, date, time }
-    const payload = { 
-      fullName:editBooking.fullName, 
-      mobile:editBooking.mobile, 
-      email:editBooking.email, 
-      guestEmail:editBooking.guestEmail,
-      message:editBooking.message, 
-      investmentRange:editBooking.investmentRange, 
-      date:editBooking.date, 
-      time : editBooking.time}
-    
-    const res = await updateReviewPortfolio(editBooking.id,payload);
-    console.log(res);
-        const updated = bookings.map((b) =>
-      b.id === editBooking.id ? editBooking : b
-    );
-
-    setBookings(updated);
-    setEditBooking(null);
-
-    } catch(err){
-      alert(err);
-      console.log(err);
-    }
+   try {
+        //API call
+      // { fullName, mobile, email, guestEmail, message, investmentRange, date, time }
+      const payload = { 
+        fullName:editBooking.fullName, 
+        mobile:editBooking.mobile, 
+        email:editBooking.email, 
+        guestEmail:editBooking.guestEmail,
+        message:editBooking.message, 
+        investmentRange:editBooking.investmentRange, 
+        date:editBooking.date, 
+        time : editBooking.time}
+      
+      const res = await updateCallBooking(editBooking.id, payload); // Id nhi pass ho rhi thi pahle yha
+      // console.log(res);
+          const updated = bookings.map((b) =>
+        b.id === editBooking.id ? editBooking : b
+      );
+  
+      setBookings(updated);
+      setEditBooking(null);
+  
+      } catch(err){
+        alert(err);
+        console.log(err);
+      }
   };
 
   /* ----------------------------
@@ -133,7 +131,7 @@ function ReviewPortfolio() {
   const deleteBooking = async (id) => {
     if (window.confirm("Are you sure you want to delete this booking?")) {
       try {
-        await deleteReviewPortfolio(id);
+        await adminDeleteScheduledCall(id);
         setBookings(bookings.filter((b) => b.id !== id));
       } catch (err) {
         console.error("Failed to delete booking", err);
@@ -165,7 +163,7 @@ function ReviewPortfolio() {
 
   return (
     <div className={styles.pageContainer}>
-      <h1>Review Portfolio</h1>
+      <h1>Call Booking</h1>
 
       {/* FILTERS */}
       <div className={styles.filtersRow}>
@@ -221,7 +219,7 @@ function ReviewPortfolio() {
             {paginated.map((b) => (
               <tr key={b.id}>
                 <td>{b.fullName}</td>
-                <td>{b.contactNumber}</td>
+                <td>{b.mobile}</td>
                 <td>{b.email}</td>
                 <td>{b.guestEmail}</td>
                 <td>{b.message}</td>
@@ -231,7 +229,7 @@ function ReviewPortfolio() {
 
                 <td>
                   <select
-                    value={b.status}
+                    value={b.status || ""}
                     onChange={(e) => updateStatus(b.id, e.target.value)}
                     className={styles.statusSelect}
                   >
@@ -244,9 +242,7 @@ function ReviewPortfolio() {
                   <div className={styles.actionGroup}>
                     <button
                       className={styles.viewBtn}
-                      onClick={() =>setViewBooking(b)
-                        // console.log(b);
-                    }
+                      onClick={() => setViewBooking(b)}
                     >
                       View
                     </button>
@@ -309,8 +305,9 @@ function ReviewPortfolio() {
         <div className={styles.modalOverlay}>
           <div className={styles.modalBox}>
             <h2>Booking Details</h2>
+
             <p><b>Name:</b> {viewBooking.fullName}</p>
-            <p><b>Mobile:</b> {viewBooking.contactNumber}</p>
+            <p><b>Mobile:</b> {viewBooking.mobile}</p>
             <p><b>Email:</b> {viewBooking.email}</p>
             <p><b>Guest Email:</b> {viewBooking.guestEmail}</p>
             <p><b>Message:</b> {viewBooking.message}</p>
@@ -326,23 +323,18 @@ function ReviewPortfolio() {
         </div>
       )}
 
-      {/* ----------------------
-          EDIT MODAL
-      ----------------------- */}
-      
-    {/* ----------------------
+{/* ----------------------
     EDIT MODAL
 ----------------------- */}
+
 {editBooking && (
   <div className={styles.modalOverlay}>
     <div className={styles.modalBox}>
       <h2>Edit Booking</h2>
 
       {Object.keys(emptyForm).map((key) => {
-        // ❌ Skip status
         if (key === "status") return null;
 
-        // ✅ investmentRange → SELECT
         if (key === "investmentRange") {
           return (
             <select
@@ -365,7 +357,6 @@ function ReviewPortfolio() {
           );
         }
 
-        // ✅ Default input
         return (
           <input
             key={key}
@@ -383,6 +374,7 @@ function ReviewPortfolio() {
         );
       })}
 
+      {/* BUTTONS MUST BE INSIDE MODAL */}
       <div className={styles.modalActions}>
         <button className={styles.saveBtn} onClick={saveEdit}>
           Update
@@ -397,10 +389,8 @@ function ReviewPortfolio() {
     </div>
   </div>
 )}
-
-
     </div>
   );
 }
 
-export default ReviewPortfolio;
+export default CallBooking;

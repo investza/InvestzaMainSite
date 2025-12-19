@@ -37,7 +37,7 @@ function Login() {
       //saving users info
       localStorage.setItem("user", JSON.stringify(user));
 
-      console.log(response);
+      // console.log(response);
       if (response.status === 200){
         setError("Login Successful");
         // alert(response.message || "Login Successful");

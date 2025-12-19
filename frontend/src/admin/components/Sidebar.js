@@ -67,10 +67,10 @@ function Sidebar({ onToggle, isOpen: isOpenProp = true }) {
     const ok = window.confirm("Are you sure you want to logout?");
     if (!ok) return;
 
-    localStorage.removeItem("token");
+    localStorage.removeItem("JwtToken");
     localStorage.removeItem("user");
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("user");
+    // sessionStorage.removeItem("token");
+    // sessionStorage.removeItem("user");
 
     navigate("/adminlogin");
   };
@@ -184,12 +184,15 @@ function Sidebar({ onToggle, isOpen: isOpenProp = true }) {
 )}
 
           {/* AVAILABILITY */}
-          <li
+          {(!isAdmin) && (
+            <li
             className={activeItem === "availability" ? styles.active : ""}
             onClick={() => goto("/adminlogin/availability", "availability")}
           >
             <FaClock className={styles.icon} /> {isOpen && <span>Availability</span>}
           </li>
+          )}
+          
 
           {/* LOGOUT */}
           <li className={styles.logoutButton} onClick={handleLogout}>

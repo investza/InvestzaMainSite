@@ -3,9 +3,12 @@ import * as XLSX from "xlsx";
 import styles from "./CallBooking.module.css";
 // import api from "../api/axios";
 
-import { getBookings,updateCallStatus,adminDeleteScheduledCall, updateCallBooking} from "../../api/flowApi";
+import { getAllReviewPortfolios,updateReviewPortfolioStatus,deleteReviewPortfolio,updateReviewPortfolio } from "../../api/flowApi";
 
-function CallBooking() {
+
+
+
+function ReviewPortfolio() {
   const [bookings, setBookings] = useState([]);
   const [filtered, setFiltered] = useState([]);
 
@@ -23,7 +26,7 @@ function CallBooking() {
   // NEW BOOKING FORM
   const emptyForm = {
     fullName: "",
-    mobile: "",
+    contactNumber: "",
     email: "",
     guestEmail: "",
     message: "",
@@ -42,7 +45,7 @@ function CallBooking() {
 
   const fetchBookings = async () => {
     try {
-      const res = await getBookings();
+      const res = await getAllReviewPortfolios();
       // console.log(res);
       setBookings(res.data);
       setFiltered(res.data);
@@ -80,8 +83,7 @@ function CallBooking() {
   ----------------------------- */
   const updateStatus = async (id, status) => {
     try {
-      // console.log(id,status);
-      await updateCallStatus(id,status);
+      const res = await updateReviewPortfolioStatus(id,status);
       // Update local state
       const updated = bookings.map((b) =>
         b.id === id ? { ...b, status } : b
@@ -97,32 +99,32 @@ function CallBooking() {
      EDIT BOOKING
   ----------------------------- */
   const saveEdit = async() => {
-   try {
-        //API call
-      // { fullName, mobile, email, guestEmail, message, investmentRange, date, time }
-      const payload = { 
-        fullName:editBooking.fullName, 
-        mobile:editBooking.mobile, 
-        email:editBooking.email, 
-        guestEmail:editBooking.guestEmail,
-        message:editBooking.message, 
-        investmentRange:editBooking.investmentRange, 
-        date:editBooking.date, 
-        time : editBooking.time}
-      
-      const res = await updateCallBooking(editBooking.id, payload); // Id nhi pass ho rhi thi pahle yha
-      console.log(res);
-          const updated = bookings.map((b) =>
-        b.id === editBooking.id ? editBooking : b
-      );
-  
-      setBookings(updated);
-      setEditBooking(null);
-  
-      } catch(err){
-        alert(err);
-        console.log(err);
-      }
+    try {
+      //API call
+    // { fullName, mobile, email, guestEmail, message, investmentRange, date, time }
+    const payload = { 
+      fullName:editBooking.fullName, 
+      mobile:editBooking.mobile, 
+      email:editBooking.email, 
+      guestEmail:editBooking.guestEmail,
+      message:editBooking.message, 
+      investmentRange:editBooking.investmentRange, 
+      date:editBooking.date, 
+      time : editBooking.time}
+    
+    const res = await updateReviewPortfolio(editBooking.id,payload);
+    // console.log(res);
+        const updated = bookings.map((b) =>
+      b.id === editBooking.id ? editBooking : b
+    );
+
+    setBookings(updated);
+    setEditBooking(null);
+
+    } catch(err){
+      alert(err);
+      console.log(err);
+    }
   };
 
   /* ----------------------------
@@ -131,7 +133,7 @@ function CallBooking() {
   const deleteBooking = async (id) => {
     if (window.confirm("Are you sure you want to delete this booking?")) {
       try {
-        await adminDeleteScheduledCall(id);
+        await deleteReviewPortfolio(id);
         setBookings(bookings.filter((b) => b.id !== id));
       } catch (err) {
         console.error("Failed to delete booking", err);
@@ -163,7 +165,7 @@ function CallBooking() {
 
   return (
     <div className={styles.pageContainer}>
-      <h1>Call Booking</h1>
+      <h1>Review Portfolio</h1>
 
       {/* FILTERS */}
       <div className={styles.filtersRow}>
@@ -219,7 +221,7 @@ function CallBooking() {
             {paginated.map((b) => (
               <tr key={b.id}>
                 <td>{b.fullName}</td>
-                <td>{b.mobile}</td>
+                <td>{b.contactNumber}</td>
                 <td>{b.email}</td>
                 <td>{b.guestEmail}</td>
                 <td>{b.message}</td>
@@ -229,7 +231,7 @@ function CallBooking() {
 
                 <td>
                   <select
-                    value={b.status || ""}
+                    value={b.status}
                     onChange={(e) => updateStatus(b.id, e.target.value)}
                     className={styles.statusSelect}
                   >
@@ -242,7 +244,9 @@ function CallBooking() {
                   <div className={styles.actionGroup}>
                     <button
                       className={styles.viewBtn}
-                      onClick={() => setViewBooking(b)}
+                      onClick={() =>setViewBooking(b)
+                        // console.log(b);
+                    }
                     >
                       View
                     </button>
@@ -305,9 +309,8 @@ function CallBooking() {
         <div className={styles.modalOverlay}>
           <div className={styles.modalBox}>
             <h2>Booking Details</h2>
-
             <p><b>Name:</b> {viewBooking.fullName}</p>
-            <p><b>Mobile:</b> {viewBooking.mobile}</p>
+            <p><b>Mobile:</b> {viewBooking.contactNumber}</p>
             <p><b>Email:</b> {viewBooking.email}</p>
             <p><b>Guest Email:</b> {viewBooking.guestEmail}</p>
             <p><b>Message:</b> {viewBooking.message}</p>
@@ -323,18 +326,23 @@ function CallBooking() {
         </div>
       )}
 
-{/* ----------------------
+      {/* ----------------------
+          EDIT MODAL
+      ----------------------- */}
+      
+    {/* ----------------------
     EDIT MODAL
 ----------------------- */}
-
 {editBooking && (
   <div className={styles.modalOverlay}>
     <div className={styles.modalBox}>
       <h2>Edit Booking</h2>
 
       {Object.keys(emptyForm).map((key) => {
+        // ❌ Skip status
         if (key === "status") return null;
 
+        // ✅ investmentRange → SELECT
         if (key === "investmentRange") {
           return (
             <select
@@ -357,6 +365,7 @@ function CallBooking() {
           );
         }
 
+        // ✅ Default input
         return (
           <input
             key={key}
@@ -374,7 +383,6 @@ function CallBooking() {
         );
       })}
 
-      {/* BUTTONS MUST BE INSIDE MODAL */}
       <div className={styles.modalActions}>
         <button className={styles.saveBtn} onClick={saveEdit}>
           Update
@@ -389,8 +397,10 @@ function CallBooking() {
     </div>
   </div>
 )}
+
+
     </div>
   );
 }
 
-export default CallBooking;
+export default ReviewPortfolio;

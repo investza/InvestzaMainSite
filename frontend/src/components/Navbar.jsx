@@ -17,7 +17,7 @@ function Navbar() {
 
   useEffect(() => {
     setOS(getOS());
-    console.log(getOS());
+    // console.log(getOS());
   }, []);
 
   useLayoutEffect(() => {

@@ -16,6 +16,7 @@ const EventParticipants = lazy(() => import("./pages/EventParticipants"));
 const Availability = lazy(() => import("./pages/Availability"));
 
 const AuthGuard = lazy(() => import("./utils/AuthGuard"));
+const AdminGuard = lazy(() => import("./utils/AdminGuard"));
 
 function AdminApp() {
   return (
@@ -35,7 +36,9 @@ function AdminApp() {
           <Route path="review-portfolio" element={<ReviewPortfolio />} />
           <Route path="contact-us" element={<ContactUs />} />
           <Route path="event-participants" element={<EventParticipants />} />
-          <Route path="users" element={<Users />} />
+          <Route element={<AdminGuard />}>
+             <Route path="users" element={<Users />} />
+          </Route>
           <Route path="availability" element={<Availability />} />
         </Route>
       </Route>

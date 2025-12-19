@@ -19,7 +19,7 @@ const ReviewMyPortfolioForm = ({ onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Portfolio Review Request:", formData);
+    // console.log("Portfolio Review Request:", formData);
     onClose();
   };
 
