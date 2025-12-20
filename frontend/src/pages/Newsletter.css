@@ -4,9 +4,32 @@
   background: #E7F0FF;
   color: white;
   position: relative;
-  overflow-x: hidden;
+  overflow: hidden !important;
   margin: 0;
   padding: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ensure body doesn't overflow when newsletter page is active */
+body:has(.newsletter-page) {
+  overflow: hidden !important;
+  max-width: 100%;
+}
+
+/* Fallback for browsers that don't support :has() */
+.newsletter-page-active {
+  overflow: hidden !important;
+  max-width: 100%;
+}
+
+/* Force all child elements to respect container width */
+.newsletter-page *,
+.newsletter-page *::before,
+.newsletter-page *::after {
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 
@@ -14,6 +37,23 @@
 /* Header Styling for Newsletter Page */
 .newsletter-page .header {
   background: transparent;
+}
+
+/* Ensure header links maintain correct font weight on newsletter page - COMPREHENSIVE FIX */
+.newsletter-page .header-link,
+.newsletter-page .header-links .header-link,
+.newsletter-page .header-container .header-link,
+body .newsletter-page .header-link {
+  font-weight: 600 !important;
+  font-family: 'Manrope', sans-serif !important;
+  font-style: normal !important;
+}
+
+/* Also fix any potential light mode overrides */
+.newsletter-page .light-mode-scrolled .header-link,
+.newsletter-page.light-mode-scrolled .header-link {
+  font-weight: 600 !important;
+  font-family: 'Manrope', sans-serif !important;
 }
 
 /* Hero Section */
@@ -28,6 +68,10 @@
   z-index: 2;
   background: linear-gradient(135deg, #4a9eff 0%, #2d7dd2 100%);
   transition: opacity 0.1s ease-out;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .newsletter-hero::after {
@@ -74,7 +118,7 @@
   color: rgba(0, 0, 0, 0.8);
   line-height: 1.6;
 }
-.nav-button {
+.newsletter-page .nav-button {
     font-family: 'Manrope', sans-serif;
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(3px);
@@ -91,7 +135,7 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.03);
 }
 
-.nav-button:hover {
+.newsletter-page .nav-button:hover {
   cursor: pointer;
   transform: translateY(-2px) scale(1.02);
 }
@@ -103,31 +147,43 @@
   background: transparent;
   position: relative;
   z-index: 10;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
+/* Newsletter Container */
 .newsletter-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 min(40px, 5vw);
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .newsletter-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(380px, 100%), 1fr));
   gap: 40px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 /* Newsletter Cards */
 .newsletter-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   cursor: pointer;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .newsletter-card:hover {
@@ -217,7 +273,7 @@
 /* Responsive Design */
 @media (max-width: 1024px) {
   .newsletter-grid {
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
     gap: 30px;
   }
 

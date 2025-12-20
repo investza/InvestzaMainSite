@@ -632,7 +632,7 @@
   }
 
   .footer-end-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 40px;
     padding: 0 40px 40px 40px;
   }
@@ -743,6 +743,7 @@
 
   .footer-end-container {
     padding: 0 20px 30px 20px;
+    grid-template-columns: 1fr;
   }
 
   .footer-end-left {

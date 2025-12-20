@@ -51,6 +51,36 @@ const LandingPage = () => {
     setCurrentSlide((prev) => prev - 1);
   };
 
+  // Touch/Swipe functionality for mobile
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
+  // Minimum swipe distance (in px)
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null); // Reset touchEnd
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      nextSlide();
+    } else if (isRightSwipe) {
+      prevSlide();
+    }
+  };
+
   // Calculate card width based on screen size
   useEffect(() => {
     //clearing the user data when he is on landing page
@@ -634,7 +664,7 @@ const LandingPage = () => {
           // Mobile positioning: 37% for >737px, 45% for 640-737px, 47% for <640px
           let mobilePosition;
           if (windowWidth < 640) {
-            mobilePosition = 47;
+            mobilePosition = 42;
           } else if (windowWidth <= 737) {
             mobilePosition = 45;
           } else {
@@ -645,7 +675,7 @@ const LandingPage = () => {
           // Other cards follow with same logic
           let mobilePosition;
           if (windowWidth < 640) {
-            mobilePosition = 47;
+            mobilePosition = 42;
           } else if (windowWidth <= 737) {
             mobilePosition = 45;
           } else {
@@ -761,7 +791,12 @@ const LandingPage = () => {
               <span>‹</span>
             </button>
 
-            <div className="carousel-viewport">
+            <div 
+              className="carousel-viewport"
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
+            >
               <div
                 ref={carouselRef}
                 className="insights-cards"
@@ -785,10 +820,12 @@ const LandingPage = () => {
                     <p className="insight-quote">
                       "Value investing never goes out of style"
                     </p>
-                    <h3 className="expert-name">Prashant Jain</h3>
-                    <p className="expert-title">
-                      Former CIO, HDFC Asset Management
-                    </p>
+                    <div className="expert-info">
+                      <h3 className="expert-name">Prashant Jain</h3>
+                      <p className="expert-title">
+                        Former CIO, HDFC Asset Management
+                      </p>
+                    </div>
                   </div>
                 </div>
 
@@ -808,10 +845,12 @@ const LandingPage = () => {
                     <p className="insight-quote">
                       "Equity is always a no brainer."
                     </p>
-                    <h3 className="expert-name">Aashish Sommaiyaa</h3>
-                    <p className="expert-title">
-                      ED & CEO, Whiteosk capital management
-                    </p>
+                    <div className="expert-info">
+                      <h3 className="expert-name">Aashish Sommaiyaa</h3>
+                      <p className="expert-title">
+                        ED & CEO, Whiteosk capital management
+                      </p>
+                    </div>
                   </div>
                 </div>
 
@@ -831,8 +870,10 @@ const LandingPage = () => {
                       "I feel blessed that I'm helping so many people build
                       financial independence"
                     </p>
-                    <h3 className="expert-name">Kalpen Parekh</h3>
-                    <p className="expert-title">CEO & MD at DSP mutual funds</p>
+                    <div className="expert-info">
+                      <h3 className="expert-name">Kalpen Parekh</h3>
+                      <p className="expert-title">CEO & MD at DSP mutual funds</p>
+                    </div>
                   </div>
                 </div>
 
@@ -852,10 +893,12 @@ const LandingPage = () => {
                       "When you are 25, your greatest asset cannot be fanancial
                       because you don't have wealth"
                     </p>
-                    <h3 className="expert-name">Radhika Gupta</h3>
-                    <p className="expert-title">
-                      MD & CEO, Edelweiss Asset Management
-                    </p>
+                    <div className="expert-info">
+                      <h3 className="expert-name">Radhika Gupta</h3>
+                      <p className="expert-title">
+                        MD & CEO, Edelweiss Asset Management
+                      </p>
+                    </div>
                   </div>
                 </div>
 
@@ -874,8 +917,10 @@ const LandingPage = () => {
                     <p className="insight-quote">
                       "What is important is to keep going on...."
                     </p>
-                    <h3 className="expert-name">Sanjay Choudhary</h3>
-                    <p className="expert-title">Founder & CEO at Incuspaze</p>
+                    <div className="expert-info">
+                      <h3 className="expert-name">Sanjay Choudhary</h3>
+                      <p className="expert-title">Founder & CEO at Incuspaze</p>
+                    </div>
                   </div>
                 </div>
 
@@ -895,10 +940,12 @@ const LandingPage = () => {
                       "Money has so much importance in your life but money
                       should not drive one person"
                     </p>
-                    <h3 className="expert-name">Vijai Mantri</h3>
-                    <p className="expert-title">
-                      Co-Founder & Chief Investment Strategist at JRL Money
-                    </p>
+                    <div className="expert-info">
+                      <h3 className="expert-name">Vijai Mantri</h3>
+                      <p className="expert-title">
+                        Co-Founder & Chief Investment Strategist at JRL Money
+                      </p>
+                    </div>
                   </div>
                 </div>
 
@@ -918,10 +965,12 @@ const LandingPage = () => {
                     <p className="insight-quote">
                       "Equity is always a no brainer."
                     </p>
-                    <h3 className="expert-name">Aashish Sommaiyaa</h3>
-                    <p className="expert-title">
-                      ED & CEO, Whiteosk capital management
-                    </p>
+                    <div className="expert-info">
+                      <h3 className="expert-name">Aashish Sommaiyaa</h3>
+                      <p className="expert-title">
+                        ED & CEO, Whiteosk capital management
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1418,7 +1467,12 @@ const LandingPage = () => {
         <div className="container">
           <h2 className="testimonials-title">What Our Client Says</h2>
 
-          <div className="testimonials-carousel">
+          <div 
+            className="testimonials-carousel"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
             <div className="testimonials-track">
               {/* First set of testimonials */}
               <div className="testimonial-card">

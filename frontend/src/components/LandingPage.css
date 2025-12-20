@@ -693,7 +693,7 @@ body {
 
 .stat-card p {
   font-family: 'Manrope', sans-serif;
-  font-size: 1.15rem;
+  font-size: 1rem;
   color: #e0e0e0;
   line-height: 1.5;
   margin: 0;
@@ -703,7 +703,7 @@ body {
 /* Tablet responsive - reduce font size to prevent overflow */
 @media (max-width: 1024px) and (min-width: 769px) {
   .stat-card p {
-    font-size: 0.95rem;
+    font-size: 0.75rem;
   }
   
   .stat-card {
@@ -1188,6 +1188,14 @@ body {
   overflow: hidden;
   position: relative;
   margin: 0 auto;
+  /* Touch-friendly properties */
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+}
+
+.carousel-viewport:active {
+  cursor: grabbing;
 }
 
 .carousel-arrow {
@@ -1535,7 +1543,10 @@ body {
     padding: 0 1.5rem;
     text-align: center;
     flex: none;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    height: 140px; /* Fixed height for consistent positioning */
+    justify-content: space-between;
   }
 
   .insights-cards .insight-card .insight-quote {
@@ -1543,8 +1554,19 @@ body {
     font-size: 0.95rem;
     line-height: 1.6;
     color: white;
-    margin: 0 0 1.5rem 0;
+    margin: 0;
     display: block;
+    flex: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limit to 3 lines */
+    line-clamp: 3; /* Standard property for compatibility */
+    -webkit-box-orient: vertical;
+  }
+
+  .insights-cards .insight-card .expert-info {
+    flex-shrink: 0; /* Prevent shrinking */
+    margin-top: auto; /* Push to bottom */
   }
 
   .insights-cards .insight-card .expert-name {
@@ -1770,12 +1792,12 @@ body {
   }
 
   .backdrop-stat-number {
-    font-size: 3rem;
+    font-size: 2rem;
     text-align: center;
   }
   
   .backdrop-stat-number span {
- font-size: 2.7rem;
+ font-size: 2rem;
     text-align: center;
 }
 
@@ -2624,10 +2646,10 @@ body {
   }
 
   .backdrop-stat-number {
-    font-size: 3rem;
+    font-size: 2rem;
   }
    .backdrop-stat-number span {
- font-size: 2.7rem;
+ font-size: 2rem;
 }
 
   .backdrop-stat-label {
@@ -2676,12 +2698,12 @@ body {
 /* Viewport height responsive adjustments for short screens - text scaling only */
 @media (max-width: 768px) and (max-height: 700px) {
   .backdrop-stat-number {
-    font-size: 2.5rem;
+    font-size: 2rem;
     line-height: 0.9;
   }
   
   .backdrop-stat-number span {
-    font-size: 2.2rem;
+    font-size: 2rem;
   }
   
   .backdrop-stat-label {
@@ -2689,34 +2711,13 @@ body {
     line-height: 1.1;
   }
   
-  .backdrop-stats {
-    gap: 4rem;
-  }
+
 }
+
 
 @media (max-width: 768px) and (max-height: 600px) {
   .backdrop-stat-number {
-    font-size: 2rem;
-    line-height: 0.9;
-  }
-  
-  .backdrop-stat-number span {
-    font-size: 2rem;
-  }
-  
-  .backdrop-stat-label {
-    font-size: 0.9rem;
-    line-height: 1.1;
-  }
-  
-  .backdrop-stats {
-    gap: 1rem;
-  }
-}
-
-@media (max-width: 768px) and (max-height: 500px) {
-  .backdrop-stat-number {
-    font-size: 2rem;
+    font-size: 1.8rem;
     line-height: 0.9;
   }
   
@@ -2730,18 +2731,18 @@ body {
   }
   
   .backdrop-stats {
-    gap: 2rem;
+    gap: 1.6rem;
   }
 }
 
-@media (max-width: 768px) and (max-height: 400px) {
+@media (max-width: 768px) and (max-height: 640px) {
   .backdrop-stat-number {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     line-height: 0.85;
   }
   
   .backdrop-stat-number span {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
   
   .backdrop-stat-label {
@@ -2894,7 +2895,18 @@ body {
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   margin-top: -0.7rem;
 }
+@media (max-width: 950px) {
 
+  .founder-quote {
+    font-size: 1rem !important;
+  }
+}
+@media (max-width: 1080px) {
+
+  .founder-quote {
+    font-size: 1.4rem;
+  }
+}
 @media (max-width: 768px) {
   .founder-text h2 {
     font-size: 2.5rem;
@@ -2925,7 +2937,7 @@ body {
   }
 
   .founder-quote {
-    font-size: 1rem;
+    font-size: 0.8rem;
     line-height: 1.4;
     margin-bottom: 0;
   }
@@ -3302,6 +3314,7 @@ is Cards Section */
   max-width: 1200px;
   margin: 0 auto 4rem auto;
   padding: 0 2rem;
+  place-items: center;
 }
 
 .team-member {
@@ -3309,6 +3322,41 @@ is Cards Section */
   flex-direction: column;
   align-items: center;
   text-align: center;
+  justify-self: center;
+}
+/* Fix centering for widths under 1035px down to tablet */
+@media (max-width: 1034px) and (min-width: 769px) {
+  .team-grid {
+    justify-content: center;
+    justify-items: center;
+    place-content: center;
+    gap: 0rem;
+  }
+  .team-member {
+    transform: scale(0.8);
+  }
+  
+}
+
+@media (max-width: 768px) {
+  .team-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .team-member {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 1064px) and (min-width: 1035px) {
+  .team-member {
+    transform: scale(0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 }
 
 .member-image {
@@ -4124,14 +4172,10 @@ Episodes Button - Remove underline from link */
   }
 }
 
-@media(min-width: 768px) {
-  .founder-profile {
-    transform: translateY(80px) !important;
-  }
-}
+
 
 @media (max-width:768px) {
   .founder-profile {
-    transform: translateY(-30px) !important;
+    transform: translateY(-140px) !important;
   }
 }
