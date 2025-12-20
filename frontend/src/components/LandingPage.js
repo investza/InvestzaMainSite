@@ -661,24 +661,29 @@ const LandingPage = () => {
         let startPosition;
         
         if (isMobile && index === 0) {
-          // Mobile positioning: 37% for >737px, 45% for 640-737px, 47% for <640px
+          // Mobile positioning: 37% for >737px, 45% for 640-737px, 42% for 410-640px, 47% for <410px
           let mobilePosition;
-          if (windowWidth < 640) {
+          if (windowWidth < 410) {
+            mobilePosition = 50;
+          } else if (windowWidth < 640) {
             mobilePosition = 42;
           } else if (windowWidth <= 737) {
             mobilePosition = 45;
-          } else {
+            } else {
             mobilePosition = 37;
           }
           startPosition = `top ${mobilePosition}%`;
         } else if (isMobile) {
           // Other cards follow with same logic
           let mobilePosition;
-          if (windowWidth < 640) {
+          if (windowWidth < 410) {
+            mobilePosition = 50;
+          } else if (windowWidth < 640) {
             mobilePosition = 42;
           } else if (windowWidth <= 737) {
             mobilePosition = 45;
-          } else {
+          } 
+          else {
             mobilePosition = 37;
           }
           startPosition = `top ${mobilePosition + (offset / window.innerHeight) * 100}%`;
