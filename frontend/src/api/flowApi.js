@@ -2,8 +2,8 @@ import axios from "axios";
 import axiosPrivate from "./axiosPrivate";
 
 
-const API = "http://localhost:8080/api";
-// const API = "/api";  // -> for production
+// const API = "http://localhost:8080/api";
+const API = "/api";  // -> for production
 
 // --------------------Call Scheduling----------------------------------------
 export const startFlow = (fullName) => axios.post(`${API}/flow/start`, { fullName });
