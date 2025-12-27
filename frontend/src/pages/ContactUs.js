@@ -90,24 +90,24 @@ const ContactUs = () => {
     setRecaptchaToken(token);
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!recaptchaToken) {
       alert('Please complete the reCAPTCHA verification');
       return;
     }
-    
+
     // console.log('Form submitted:', formData);
     // console.log('reCAPTCHA token:', recaptchaToken);
-    
+
     setFormData({
       name: '',
       email: '',
       subject: '',
       message: ''
     });
-    
+
     const payload = {
       name: formData.name,
       email: formData.email,
@@ -151,9 +151,9 @@ const ContactUs = () => {
   return (
     <div className="contact-page-wrapper">
       {/* <Header /> */}
-      
+
       {/* Hero Section */}
-      <section 
+      <section
         className="contact-hero"
         style={{
           backgroundImage: `url(/team/newsletter_hero.jpeg?v=${Date.now()})`,
@@ -186,7 +186,7 @@ const ContactUs = () => {
           <div className="contact-glass-card">
             <h2 className="contact-glass-title">Get in Touch</h2>
             <div className="contact-glass-divider"></div>
-            
+
             <div className="contact-info-list">
               <div className="contact-info-item">
                 <div className="contact-info-icon">
@@ -196,7 +196,7 @@ const ContactUs = () => {
                   </svg>
                 </div>
                 <div className="contact-info-text">
-                  <a href="https://www.google.com/maps?q=704A+81+Crest+Flora+Santacruz+West+Mumbai+400057" target="_blank">
+                  <a href="https://www.google.com/maps?q=704A+81+Crest+Flora+Santacruz+West+Mumbai+400057" target="_blank" rel="noreferrer">
                     <p>704A, 81 Crest Flora, Santacruz(W),</p>
                     <p>Mumbai, Maharashtra, India 400 057</p>
                   </a>
@@ -210,8 +210,8 @@ const ContactUs = () => {
                   </svg>
                 </div>
                 <div className="contact-info-text">
-                   <a href="tel:+918655447057">
-                      <p>+91 8655447057</p>
+                  <a href="tel:+918655447057">
+                    <p>+91 8655447057</p>
                   </a>
                 </div>
               </div>
@@ -224,8 +224,8 @@ const ContactUs = () => {
                   </svg>
                 </div>
                 <div className="contact-info-text">
-                 <a href="mailto:hello@investza.in">
-                    <p>hello@investza.in</p>  
+                  <a href="mailto:hello@investza.in">
+                    <p>hello@investza.in</p>
                   </a>
                 </div>
               </div>
@@ -236,7 +236,7 @@ const ContactUs = () => {
           <div className="contact-glass-card">
             <h2 className="contact-glass-title">Send us a message</h2>
             <p className="contact-glass-subtitle">
-              To take control of your investments you need ambition and possibilities to grow. 
+              To take control of your investments you need ambition and possibilities to grow.
               We assist our clients in achieving financial freedom.
             </p>
 
@@ -303,7 +303,7 @@ const ContactUs = () => {
       <section className="contact-map-section">
         <h2 className="contact-map-title">Find Us</h2>
         <div className="contact-map-container" onClick={() => window.open('https://maps.google.com/?q=704A,+81+Crest+Flora,+Santacruz(W),+Mumbai', '_blank')}>
-          <img src="/map_pc.jpeg" alt="Location Map" className="contact-map-image" />
+          <img src="/assets/map_pc.jpeg" alt="Location Map" className="contact-map-image" />
           <div className="contact-map-overlay">
             <span className="contact-map-link">View larger map →</span>
           </div>

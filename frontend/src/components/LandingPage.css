@@ -2287,7 +2287,7 @@ body {
 }
 
 .process-card {
-  background: url('./card-texture.jpeg') center center;
+  background: url('../assets/backgrounds/card-texture.jpeg') center center;
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 20px;

@@ -59,7 +59,11 @@ function Navbar() {
         <div className={styles.container}>
           {/* Logo */}
           <div className={styles.logoWrapper} onClick={goToHome}>
-            <img src="/logo.svg" alt="Investza" className={styles.logo} />
+            <img
+              src="/assets/logo.svg"
+              alt="Investza"
+              className={styles.logo}
+            />
           </div>
 
           {/* Buttons */}

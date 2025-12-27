@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import styles from "./ShowQR.module.css";
 import { useNavigate } from "react-router-dom";
-import QrImg from "../assets/QrOverlay.png";
+const QrImg = "/assets/QrOverlay.png";
 
 const ShowQR = () => {
   const navigate = useNavigate();

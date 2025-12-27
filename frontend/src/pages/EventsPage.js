@@ -1,11 +1,11 @@
-import { lazy, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Lenis from 'lenis';
 // import Header from '../components/Header';
 // import EventsFooter from './EventsFooter';
 import './EventsPage.css';
-import {getEvents} from "../api/flowApi";
+import { getEvents } from "../api/flowApi";
 
-import FAQ from "../assets/FAQ.webp";
+const FAQ = "/assets/FAQ.webp";
 
 
 const EventsPage = () => {
@@ -14,55 +14,55 @@ const EventsPage = () => {
   const [eventDetailsModal, setEventDetailsModal] = useState(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
 
-  const [fetchedData,setfetchedData] = useState([]);
-  const [upcomingEventsData,setUpcomingEventsData] = useState([]);
-  const [pastEventsData,setPastEventsData] = useState([]);
+  const [/* fetchedData, */setfetchedData] = useState([]);
+  const [upcomingEventsData, setUpcomingEventsData] = useState([]);
+  const [pastEventsData, setPastEventsData] = useState([]);
 
-const categorizeEvents = (events) => {
-  const today = new Date().toISOString().split("T")[0];
-  const upcoming = [];
-  const past = [];
+  const categorizeEvents = (events) => {
+    const today = new Date().toISOString().split("T")[0];
+    const upcoming = [];
+    const past = [];
 
-  events.forEach(event => {
-    if (event.date > today) upcoming.push(event);
-    else if (event.date < today) past.push(event);
-  });
+    events.forEach(event => {
+      if (event.date > today) upcoming.push(event);
+      else if (event.date < today) past.push(event);
+    });
 
-  return { upcoming, past };
-};
-
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const res = await getEvents();
-      setfetchedData(res.data);
-      // console.log(res.data);
-
-      const { upcoming, past } = categorizeEvents(res.data);
-      setUpcomingEventsData(upcoming);
-      setPastEventsData(past);
-
-    } catch (err) {
-      console.log(err);
-    }
+    return { upcoming, past };
   };
 
-  fetchData();
-}, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getEvents();
+        setfetchedData(res.data);
+        // console.log(res.data);
 
-function formatDate(dateStr) {
-  const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
+        const { upcoming, past } = categorizeEvents(res.data);
+        setUpcomingEventsData(upcoming);
+        setPastEventsData(past);
 
-  const [year, month, day] = dateStr.split("-");
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-  const monthName = months[parseInt(month) - 1];
-  const formattedDay = parseInt(day); // remove leading zero
+    fetchData();
+  }, []);
 
-  return `${monthName} ${formattedDay}, ${year}`;
-}
+  function formatDate(dateStr) {
+    const months = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    const [year, month, day] = dateStr.split("-");
+
+    const monthName = months[parseInt(month) - 1];
+    const formattedDay = parseInt(day); // remove leading zero
+
+    return `${monthName} ${formattedDay}, ${year}`;
+  }
 
 
   const toggleFaq = (index) => {
@@ -186,8 +186,8 @@ function formatDate(dateStr) {
   return (
     <div className="events-page">
       {/* <Header /> */}
-      
-      <section className="events-hero" style={{ backgroundImage: 'url(/webinar_pic.webp)' }}>
+
+      <section className="events-hero" style={{ backgroundImage: 'url(/assets/webinar_pic.webp)' }}>
         <div className="hero-overlay"></div>
         <div className="events-hero-content">
           <h1>Upcoming Events</h1>
@@ -199,61 +199,65 @@ function formatDate(dateStr) {
       <section className="events-content">
         <div className="container">
           <h2 className="section-title">Upcoming Events</h2>
-           <div className="events-grid events-grid-two">
-            {upcomingEventsData.map((ele,key) => {return(
-            <div className="event-card" key={key}>
-              <div className="event-image">
-                <img src={ele.images[0]} alt="Event" />
-              </div>
-              <div className="event-details">
-                <span className="event-date">{formatDate(ele.date)}</span>
-                <h3 className="event-title">{ele.title}</h3>
-                <p className="event-description">
-                  {ele.description}
-                </p>
-                <div className="event-buttons">
-                  <button className="event-register-btn" onClick={() => {
-                    window.dispatchEvent(new CustomEvent('openRegisterModal'));
-                  }}>Register</button>
-                  <button className="event-details-btn" onClick={() => openEventDetails({
-                    title: ele.title,
-                    date: formatDate(ele.date),
-                    images : ele.images,
-                    details: [
-                      ele.details
-                    ],
-                    centerAlign: true
-                  })}>View Details</button>
+          <div className="events-grid events-grid-two">
+            {upcomingEventsData.map((ele, key) => {
+              return (
+                <div className="event-card" key={key}>
+                  <div className="event-image">
+                    <img src={ele.images[0]} alt="Event" />
+                  </div>
+                  <div className="event-details">
+                    <span className="event-date">{formatDate(ele.date)}</span>
+                    <h3 className="event-title">{ele.title}</h3>
+                    <p className="event-description">
+                      {ele.description}
+                    </p>
+                    <div className="event-buttons">
+                      <button className="event-register-btn" onClick={() => {
+                        window.dispatchEvent(new CustomEvent('openRegisterModal'));
+                      }}>Register</button>
+                      <button className="event-details-btn" onClick={() => openEventDetails({
+                        title: ele.title,
+                        date: formatDate(ele.date),
+                        images: ele.images,
+                        details: [
+                          ele.details
+                        ],
+                        centerAlign: true
+                      })}>View Details</button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>   
-          )})}
+              )
+            })}
           </div>
 
           <h2 className="section-title" style={{ marginTop: '80px' }}>Past Events</h2>
           <div className="events-grid">
-            {pastEventsData.map((ele,key) => {return(
-              <div className="event-card" key={key}>
-              <div className="event-image">
-                <img src={ele.images[0]} alt="Event" />
-              </div>
-              <div className="event-details">
-                <span className="event-date">{formatDate(ele.date)}</span>
-                <h3 className="event-title">{ele.title}</h3>
-                <p className="event-description">
-                  {ele.description}
-                </p>
-                <button className="event-register-btn" onClick={() => openEventDetails({
-                    title: ele.title,
-                    date: formatDate(ele.date),
-                    images: ele.images,
-                    details: [
-                      ele.details
-                    ]
-                  })}>View Details</button>
-              </div>
-            </div>
-            )})}
+            {pastEventsData.map((ele, key) => {
+              return (
+                <div className="event-card" key={key}>
+                  <div className="event-image">
+                    <img src={ele.images[0]} alt="Event" />
+                  </div>
+                  <div className="event-details">
+                    <span className="event-date">{formatDate(ele.date)}</span>
+                    <h3 className="event-title">{ele.title}</h3>
+                    <p className="event-description">
+                      {ele.description}
+                    </p>
+                    <button className="event-register-btn" onClick={() => openEventDetails({
+                      title: ele.title,
+                      date: formatDate(ele.date),
+                      images: ele.images,
+                      details: [
+                        ele.details
+                      ]
+                    })}>View Details</button>
+                  </div>
+                </div>
+              )
+            })}
           </div>
 
           {/* Meet Your Mentor Section - INSIDE events-content */}
@@ -261,10 +265,10 @@ function formatDate(dateStr) {
             {/* Icon Bar */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '40px', marginBottom: '80px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '15px' }}>
-                <div style={{ 
-                  width: '70px', 
-                  height: '70px', 
-                  borderRadius: '50%', 
+                <div style={{
+                  width: '70px',
+                  height: '70px',
+                  borderRadius: '50%',
                   background: 'linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(0, 212, 255, 0.1) 100%)',
                   border: '2px solid rgba(74, 158, 255, 0.4)',
                   display: 'flex',
@@ -282,10 +286,10 @@ function formatDate(dateStr) {
                 <p style={{ fontSize: '16px', fontWeight: '600', color: 'rgba(255, 255, 255, 0.9)', margin: 0 }}>September 30<sup>th</sup></p>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '15px' }}>
-                <div style={{ 
-                  width: '70px', 
-                  height: '70px', 
-                  borderRadius: '50%', 
+                <div style={{
+                  width: '70px',
+                  height: '70px',
+                  borderRadius: '50%',
                   background: 'linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(0, 212, 255, 0.1) 100%)',
                   border: '2px solid rgba(74, 158, 255, 0.4)',
                   display: 'flex',
@@ -301,10 +305,10 @@ function formatDate(dateStr) {
                 <p style={{ fontSize: '16px', fontWeight: '600', color: 'rgba(255, 255, 255, 0.9)', margin: 0 }}>4 PM (IST)</p>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '15px' }}>
-                <div style={{ 
-                  width: '70px', 
-                  height: '70px', 
-                  borderRadius: '50%', 
+                <div style={{
+                  width: '70px',
+                  height: '70px',
+                  borderRadius: '50%',
                   background: 'linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(0, 212, 255, 0.1) 100%)',
                   border: '2px solid rgba(74, 158, 255, 0.4)',
                   display: 'flex',
@@ -324,7 +328,7 @@ function formatDate(dateStr) {
             </div>
 
             {/* Mentor Content */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'flex-start', paddingTop : "80px" }} className="mentor-content">
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'flex-start', paddingTop: "80px" }} className="mentor-content">
               <div>
                 <h2 style={{ fontSize: '52px', fontWeight: '700', marginBottom: '20px', color: 'white', lineHeight: '1.2' }}>Meet Your Mentor</h2>
                 <p style={{ fontSize: '18px', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '30px', lineHeight: '1.7' }}>
@@ -347,7 +351,7 @@ function formatDate(dateStr) {
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh' }}>
                 <div style={{ width: '100%', maxWidth: '450px', borderRadius: '25px', overflow: 'hidden', marginBottom: '30px' }}>
-                  <img src="/abhishek_working.webp" alt="Abhishek Mehta" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                  <img src="/team/abhishek_working.webp" alt="Abhishek Mehta" style={{ width: '100%', height: 'auto', display: 'block' }} />
                 </div>
                 <div style={{ textAlign: 'center' }}>
                   <h3 style={{ fontSize: '28px', fontWeight: '700', color: 'white', margin: '0 0 8px 0' }}>Abhishek Mehta</h3>
@@ -366,10 +370,10 @@ function formatDate(dateStr) {
           {/* Icon Bar */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '40px', marginBottom: '80px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '15px' }}>
-              <div style={{ 
-                width: '70px', 
-                height: '70px', 
-                borderRadius: '50%', 
+              <div style={{
+                width: '70px',
+                height: '70px',
+                borderRadius: '50%',
                 background: 'linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(0, 212, 255, 0.1) 100%)',
                 border: '2px solid rgba(74, 158, 255, 0.4)',
                 display: 'flex',
@@ -378,18 +382,18 @@ function formatDate(dateStr) {
                 color: '#4a9eff'
               }}>
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                  <path d="M16 2C8.27 2 2 8.27 2 16s6.27 14 14 14 14-6.27 14-14S23.73 2 16 2zm0 26c-6.63 0-12-5.37-12-12s5.37-12 12-12 12 5.37 12 12-5.37 12-12 12z" fill="currentColor"/>
-                  <path d="M16 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" fill="currentColor"/>
-                  <path d="M16 18c-3.31 0-6.29 1.66-8 4.18.33 2.85 1.99 5.34 4.4 6.8 1.38.77 2.99 1.22 4.6 1.22s3.22-.45 4.6-1.22c2.41-1.46 4.07-3.95 4.4-6.8-1.71-2.52-4.69-4.18-8-4.18z" fill="currentColor"/>
+                  <path d="M16 2C8.27 2 2 8.27 2 16s6.27 14 14 14 14-6.27 14-14S23.73 2 16 2zm0 26c-6.63 0-12-5.37-12-12s5.37-12 12-12 12 5.37 12 12-5.37 12-12 12z" fill="currentColor" />
+                  <path d="M16 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" fill="currentColor" />
+                  <path d="M16 18c-3.31 0-6.29 1.66-8 4.18.33 2.85 1.99 5.34 4.4 6.8 1.38.77 2.99 1.22 4.6 1.22s3.22-.45 4.6-1.22c2.41-1.46 4.07-3.95 4.4-6.8-1.71-2.52-4.69-4.18-8-4.18z" fill="currentColor" />
                 </svg>
               </div>
               <p style={{ fontSize: '16px', fontWeight: '600', color: 'rgba(255, 255, 255, 0.9)', margin: 0 }}>Expert Guidance</p>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '15px' }}>
-              <div style={{ 
-                width: '70px', 
-                height: '70px', 
-                borderRadius: '50%', 
+              <div style={{
+                width: '70px',
+                height: '70px',
+                borderRadius: '50%',
                 background: 'linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(0, 212, 255, 0.1) 100%)',
                 border: '2px solid rgba(74, 158, 255, 0.4)',
                 display: 'flex',
@@ -398,18 +402,18 @@ function formatDate(dateStr) {
                 color: '#4a9eff'
               }}>
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                  <path d="M16 2C8.27 2 2 8.27 2 16s6.27 14 14 14 14-6.27 14-14S23.73 2 16 2zm0 26c-6.63 0-12-5.37-12-12s5.37-12 12-12 12 5.37 12 12-5.37 12-12 12z" fill="currentColor"/>
-                  <path d="M14 10h4v8h-4z" fill="currentColor"/>
-                  <path d="M14 20h4v2h-4z" fill="currentColor"/>
+                  <path d="M16 2C8.27 2 2 8.27 2 16s6.27 14 14 14 14-6.27 14-14S23.73 2 16 2zm0 26c-6.63 0-12-5.37-12-12s5.37-12 12-12 12 5.37 12 12-5.37 12-12 12z" fill="currentColor" />
+                  <path d="M14 10h4v8h-4z" fill="currentColor" />
+                  <path d="M14 20h4v2h-4z" fill="currentColor" />
                 </svg>
               </div>
               <p style={{ fontSize: '16px', fontWeight: '600', color: 'rgba(255, 255, 255, 0.9)', margin: 0 }}>15+ Years Experience</p>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '15px' }}>
-              <div style={{ 
-                width: '70px', 
-                height: '70px', 
-                borderRadius: '50%', 
+              <div style={{
+                width: '70px',
+                height: '70px',
+                borderRadius: '50%',
                 background: 'linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(0, 212, 255, 0.1) 100%)',
                 border: '2px solid rgba(74, 158, 255, 0.4)',
                 display: 'flex',
@@ -418,8 +422,8 @@ function formatDate(dateStr) {
                 color: '#4a9eff'
               }}>
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                  <path d="M16 2C8.27 2 2 8.27 2 16s6.27 14 14 14 14-6.27 14-14S23.73 2 16 2zm0 26c-6.63 0-12-5.37-12-12s5.37-12 12-12 12 5.37 12 12-5.37 12-12 12z" fill="currentColor"/>
-                  <path d="M13 16l-3-3 1.41-1.41L13 13.17l5.59-5.59L20 9l-7 7z" fill="currentColor"/>
+                  <path d="M16 2C8.27 2 2 8.27 2 16s6.27 14 14 14 14-6.27 14-14S23.73 2 16 2zm0 26c-6.63 0-12-5.37-12-12s5.37-12 12-12 12 5.37 12 12-5.37 12-12 12z" fill="currentColor" />
+                  <path d="M13 16l-3-3 1.41-1.41L13 13.17l5.59-5.59L20 9l-7 7z" fill="currentColor" />
                 </svg>
               </div>
               <p style={{ fontSize: '16px', fontWeight: '600', color: 'rgba(255, 255, 255, 0.9)', margin: 0 }}>Proven Track Record</p>
@@ -437,10 +441,10 @@ function formatDate(dateStr) {
             <div className="team-member">
               <a href="https://www.linkedin.com/in/abhishek-mehta-ca-cfa/" target="_blank" rel="noopener noreferrer" className="member-image-link">
                 <div className="member-image">
-                  <img src="/abhishek.webp" alt="Abhishek Mehta" />
+                  <img src="/team/abhishek.webp" alt="Abhishek Mehta" />
                   <div className="hover-overlay">
                     <div className="linkedin-icon">
-                      <img src="/linkedin_icon.png" alt="LinkedIn" />
+                      <img src="//icons/linkedin_icon.png" alt="LinkedIn" />
                     </div>
                   </div>
                 </div>
@@ -454,10 +458,10 @@ function formatDate(dateStr) {
             <div className="team-member">
               <a href="https://www.linkedin.com/in/pooja-chandgothia-470054108/" target="_blank" rel="noopener noreferrer" className="member-image-link">
                 <div className="member-image">
-                  <img src="/pooja.webp" alt="Pooja Chandgothia" />
+                  <img src="/team/pooja.webp" alt="Pooja Chandgothia" />
                   <div className="hover-overlay">
                     <div className="linkedin-icon">
-                      <img src="/linkedin_icon.png" alt="LinkedIn" />
+                      <img src="//icons/linkedin_icon.png" alt="LinkedIn" />
                     </div>
                   </div>
                 </div>
@@ -471,10 +475,10 @@ function formatDate(dateStr) {
             <div className="team-member">
               <a href="https://www.linkedin.com/in/varunvinayan/" target="_blank" rel="noopener noreferrer" className="member-image-link">
                 <div className="member-image">
-                  <img src="/varun.webp" alt="Varun Vinayan" />
+                  <img src="/team/varun.webp" alt="Varun Vinayan" />
                   <div className="hover-overlay">
                     <div className="linkedin-icon">
-                      <img src="/linkedin_icon.png" alt="LinkedIn" />
+                      <img src="//icons/linkedin_icon.png" alt="LinkedIn" />
                     </div>
                   </div>
                 </div>
@@ -501,7 +505,7 @@ function formatDate(dateStr) {
           <div className="faq-content">
             <div className="faq-left">
               <h2 className="faq-title">FAQ's</h2>
-              
+
               <div className="faq-accordion">
                 <div className={`faq-item ${activeFaq === 0 ? 'active' : ''}`}>
                   <button className="faq-question" onClick={() => toggleFaq(0)}>
@@ -646,12 +650,12 @@ function formatDate(dateStr) {
                 {(() => {
                   const totalImages = eventDetailsModal.images.length;
                   const visibleImages = [];
-                  
+
                   for (let i = -1; i <= 1; i++) {
                     const index = (carouselIndex + i + totalImages) % totalImages;
                     visibleImages.push({ img: eventDetailsModal.images[index], offset: i, index });
                   }
-                  
+
                   return visibleImages.map(({ img, offset, index }) => (
                     <div key={index} style={{
                       position: 'absolute',
@@ -732,7 +736,7 @@ function formatDate(dateStr) {
                 fontFamily: 'Manrope, sans-serif',
                 textAlign: 'center'
               }}>Event Highlights</h3>
-              
+
               {eventDetailsModal.centerAlign ? (
                 <div style={{
                   textAlign: 'center',

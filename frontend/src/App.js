@@ -9,11 +9,8 @@ import Preloader from './components/Preloader';
 import './App.css';
 import './components/PreloaderAnimations.css';
 
-// Shared assets
-import AdnanKhan from './assets/Adnan-Khan.webp';
-import AnkitMehta from './assets/Ankit-Mehta.webp';
-
-
+const AdnanKhan = '/clients/client2.webp';
+const AnkitMehta = '/clients/client3.webp';
 
 //  PAGE-LEVEL LAZY LOADING (Major optimization)
 

@@ -2,12 +2,13 @@
 import React, { useEffect, useRef, useContext } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import slider1 from "../assets/holdingsScreen.png";
-import slider2 from "../assets/ExitSuggestionsScreen.png";
-import slider3 from "../assets/AssetAllocationScreen.png";
-import slider4 from "../assets/MutualFundsScreen.png";
 import { showFormContext } from "./contexts/showFormContext";
 import styles from "./Section2.module.css";
+
+const slider1 = "/mockup_screens/holdingsScreen.png";
+const slider2 = "/mockup_screens/ExitSuggestionsScreen.png";
+const slider3 = "/mockup_screens/AssetAllocationScreen.png";
+const slider4 = "/mockup_screens/MutualFundsScreen.png";
 
 gsap.registerPlugin(ScrollTrigger);
 

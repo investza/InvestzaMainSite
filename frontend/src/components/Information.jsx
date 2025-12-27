@@ -1,12 +1,12 @@
 import { React, useContext } from "react";
 import styles from "./Information.module.css";
-import Abhishek from "../assets/abhishek.webp";
-import groupPhoto from "../assets/pm2.png";
-
 import { userDataContext } from "./contexts/userDataContext";
 
+const Abhishek = "/team/abhishek.webp";
+const groupPhoto = "/team/pm2.png";
+
 const Information = () => {
-  const { userData, setUserData } = useContext(userDataContext);
+  const { userData, /* setUserData */ } = useContext(userDataContext);
 
   return (
     <div className={styles["information-section"]}>
@@ -42,9 +42,9 @@ const Information = () => {
           ></video> */}
           <img
             src={groupPhoto}
+            alt="Team group photo"
             className={styles["thumbnail-video"]}
-            controls
-          ></img>
+          />
         </div>
       </div>
     </div>

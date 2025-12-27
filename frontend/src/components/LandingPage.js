@@ -1,17 +1,17 @@
-import { useEffect, useRef, useState, useContext } from "react";
+import { useEffect, useRef, useState, useContext, Suspense } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-// import Header from "./Header";
-// import Footer from "./Footer";
 import ReviewMyPortfolioForm from "./ReviewMyportfolioForm";
 import GlassSurface from "./GlassSurface";
 import "./LandingPage.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
+
 //import userData context
 import { userDataContext } from "./contexts/userDataContext";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,8 +25,11 @@ const LandingPage = () => {
   const lenisRef = useRef(null);
   const [showPortfolioForm, setShowPortfolioForm] = useState(false);
 
+  // OPTIMIZATION 1: Lazy video loading - only load videos when carousel shows them
+  const [loadedVideos, setLoadedVideos] = useState(new Set([1])); // Start with first video loaded
+
   //userData context usage
-  const { userData, setUserData, clearUserData } = useContext(userDataContext);
+  const { setUserData, clearUserData } = useContext(userDataContext);
 
   const navigate = useNavigate();
 
@@ -69,7 +72,7 @@ const LandingPage = () => {
 
   const onTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
-    
+
     const distance = touchStart - touchEnd;
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
@@ -81,11 +84,12 @@ const LandingPage = () => {
     }
   };
 
-  // Calculate card width based on screen size
+  // OPTIMIZATION 5: Combined useEffects - merge initialization logic
   useEffect(() => {
-    //clearing the user data when he is on landing page
+    // Clear user data when on landing page
     clearUserData();
-    // console.log(userData);
+
+    // Calculate card width based on screen size
     const updateCardWidth = () => {
       const width = window.innerWidth;
 
@@ -103,11 +107,8 @@ const LandingPage = () => {
 
     updateCardWidth();
     window.addEventListener("resize", updateCardWidth);
-    return () => window.removeEventListener("resize", updateCardWidth);
-  }, []);
 
-  // Preload all expert images to prevent black screen
-  useEffect(() => {
+    // Preload expert images to prevent black screen
     const imageUrls = [
       "/expert1.jpg",
       "/expert2.jpg",
@@ -120,13 +121,16 @@ const LandingPage = () => {
       const img = new Image();
       img.src = url;
     });
-  }, []);
 
-  // Handle infinite scroll reset logic
+    return () => window.removeEventListener("resize", updateCardWidth);
+  }, [clearUserData]);
+
+  // OPTIMIZATION 5: Combined useEffects - merge carousel logic (infinite scroll + lazy loading)
   useEffect(() => {
     const carousel = carouselRef.current;
     if (!carousel) return;
 
+    // Handle infinite scroll reset logic
     const handleTransitionEnd = () => {
       if (currentSlide === 6) {
         // After last clone
@@ -146,9 +150,24 @@ const LandingPage = () => {
     };
 
     carousel.addEventListener("transitionend", handleTransitionEnd);
+
+    // OPTIMIZATION 1: Lazy load videos based on current slide
+    // Load current slide and adjacent slides for smooth transitions
+    const videosToLoad = new Set(loadedVideos);
+    const realSlide = currentSlide === 0 ? 5 : currentSlide === 6 ? 1 : currentSlide;
+
+    // Load current, previous, and next videos
+    videosToLoad.add(realSlide);
+    videosToLoad.add(realSlide === 1 ? 5 : realSlide - 1);
+    videosToLoad.add(realSlide === 5 ? 1 : realSlide + 1);
+
+    if (videosToLoad.size !== loadedVideos.size) {
+      setLoadedVideos(videosToLoad);
+    }
+
     return () =>
       carousel.removeEventListener("transitionend", handleTransitionEnd);
-  }, [currentSlide]);
+  }, [currentSlide, loadedVideos]);
 
   useEffect(() => {
     // Handle crossfade video looping
@@ -257,8 +276,6 @@ const LandingPage = () => {
     lenisRef.current = lenis;
     window.lenis = lenis;
 
-    // Backdrop image is now loaded via img element in HTML
-
     // Initialize wealth approach title for animation
     const wealthApproachTitle = document.querySelector(
       ".wealth-approach-title"
@@ -267,6 +284,18 @@ const LandingPage = () => {
       wealthApproachTitle.style.opacity = "0";
       wealthApproachTitle.style.transform = "translateY(-100px)"; // Start higher to end at -20px
     }
+
+    // OPTIMIZATION 2: Throttle function to limit scroll handler to 60fps (16ms)
+    const throttle = (func, delay) => {
+      let lastCall = 0;
+      return function (...args) {
+        const now = Date.now();
+        if (now - lastCall >= delay) {
+          lastCall = now;
+          func(...args);
+        }
+      };
+    };
 
     const handleScroll = (time) => {
       const scrollY = lenis.scroll;
@@ -421,7 +450,7 @@ const LandingPage = () => {
           founderImage.style.top = "0px";
           founderImage.style.left = "0px";
           founderImage.style.width = "100vw";
-          
+
           // Set minimum height on mobile to prevent image from shifting up
           if (isMobile) {
             founderImage.style.height = "100vh";
@@ -429,7 +458,7 @@ const LandingPage = () => {
           } else {
             founderImage.style.height = "100vh";
           }
-          
+
           founderImage.style.transform = "translateY(0px)";
           founderImage.style.zIndex = "1";
           founderImage.style.background = "transparent";
@@ -441,7 +470,7 @@ const LandingPage = () => {
               // Adjust object-position based on viewport height to prevent overlap
               const viewportHeight = window.innerHeight;
               let verticalPosition = "20%";
-              
+
               if (viewportHeight <= 400) {
                 verticalPosition = "60%";
               } else if (viewportHeight <= 500) {
@@ -453,7 +482,7 @@ const LandingPage = () => {
               } else if (viewportHeight <= 800) {
                 verticalPosition = "35%";
               }
-              
+
               founderImg.style.setProperty(
                 "object-position",
                 `15% ${verticalPosition}`,
@@ -483,9 +512,8 @@ const LandingPage = () => {
             const liftAmount = liftProgress * window.innerHeight * 1.5;
 
             if (wealthApproachTitle) {
-              wealthApproachTitle.style.transform = `translateY(-${
-                liftAmount + 20
-              }px)`;
+              wealthApproachTitle.style.transform = `translateY(-${liftAmount + 20
+                }px)`;
             }
             if (processCardsElement) {
               processCardsElement.style.transform = `translateY(-${liftAmount}px)`;
@@ -532,11 +560,6 @@ const LandingPage = () => {
                 "important"
               );
               founderText.style.setProperty("margin-bottom", "0", "important");
-              // founderProfile.style.setProperty(
-              //   // "transform",
-              //   // "translateY(-200px)",
-              //   // "important"
-              // );
               founderProfile.style.setProperty("margin-top", "0", "important");
             }
           }
@@ -580,15 +603,18 @@ const LandingPage = () => {
     // Add Lenis class to html element
     document.documentElement.classList.add("lenis");
 
-    // Add scroll limits to prevent bouncing above hero section
-    lenis.on("scroll", (e) => {
+    // OPTIMIZATION 2: Throttle scroll handler to 60fps (16ms) instead of running every frame
+    const throttledScroll = throttle((e) => {
       // Prevent scrolling above 0 (top of page)
       if (e.scroll < 0) {
         lenis.scrollTo(0, { immediate: true });
         return;
       }
       handleScroll(e);
-    });
+    }, 16); // 60fps = 1000ms / 60 = ~16ms
+
+    // Add scroll limits to prevent bouncing above hero section
+    lenis.on("scroll", throttledScroll);
 
     // Additional scroll limit enforcement
     const enforceScrollLimits = () => {
@@ -657,9 +683,9 @@ const LandingPage = () => {
         const offset = index * 20; // 20px gap between cards
         const windowWidth = window.innerWidth;
         const isMobile = windowWidth <= 768;
-        
+
         let startPosition;
-        
+
         if (isMobile && index === 0) {
           // Mobile positioning: 37% for >737px, 45% for 640-737px, 42% for 410-640px, 47% for <410px
           let mobilePosition;
@@ -669,7 +695,7 @@ const LandingPage = () => {
             mobilePosition = 42;
           } else if (windowWidth <= 737) {
             mobilePosition = 45;
-            } else {
+          } else {
             mobilePosition = 37;
           }
           startPosition = `top ${mobilePosition}%`;
@@ -682,7 +708,7 @@ const LandingPage = () => {
             mobilePosition = 42;
           } else if (windowWidth <= 737) {
             mobilePosition = 45;
-          } 
+          }
           else {
             mobilePosition = 37;
           }
@@ -738,27 +764,30 @@ const LandingPage = () => {
       {/* Hero Section */}
       <section id="home" className="hero">
         <div className="hero-video">
-          <video
-            ref={video1Ref}
-            autoPlay
-            muted
-            playsInline
-            preload="auto"
-            className="background-video video-1"
-            poster="/mountain-poster.jpg"
-          >
-            <source src="/hero_vid.mp4" type="video/mp4" />
-          </video>
-          <video
-            ref={video2Ref}
-            muted
-            playsInline
-            preload="auto"
-            className="background-video video-2"
-            poster="/mountain-poster.jpg"
-          >
-            <source src="/hero_vid.mp4" type="video/mp4" />
-          </video>
+          <Suspense fallback={<div className="video-loading">Loading...</div>}>
+            <video
+              ref={video1Ref}
+              autoPlay
+              muted
+              playsInline
+              loop
+              preload="auto"
+              className="background-video video-1"
+              poster="/mountain-poster.jpg"
+            >
+              <source src="/assets/hero_vid.mp4" type="video/mp4" />
+            </video>
+            <video
+              ref={video2Ref}
+              muted
+              playsInline
+              preload="auto"
+              className="background-video video-2"
+              poster="/mountain-poster.jpg"
+            >
+              <source src="/assets/hero_vid.mp4" type="video/mp4" />
+            </video>
+          </Suspense>
           <div className="background-image-fallback"></div>
         </div>
         <div className="video-overlay"></div>
@@ -796,7 +825,7 @@ const LandingPage = () => {
               <span>‹</span>
             </button>
 
-            <div 
+            <div
               className="carousel-viewport"
               onTouchStart={onTouchStart}
               onTouchMove={onTouchMove}
@@ -812,14 +841,18 @@ const LandingPage = () => {
                 {/* Clone of last card for seamless backward scroll */}
                 <div className="insight-card">
                   <div className="expert-image">
-                    <video
-                      src="/expert5.mp4"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      className="expert-video"
-                    />
+                    {loadedVideos.has(5) ? (
+                      <video
+                        src="/experts/expert5.mp4"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="expert-video"
+                      />
+                    ) : (
+                      <img src="/expert5.jpg" alt="Expert" />
+                    )}
                   </div>
                   <div className="insight-content">
                     <p className="insight-quote">
@@ -837,14 +870,18 @@ const LandingPage = () => {
                 {/* Original cards */}
                 <div className="insight-card">
                   <div className="expert-image">
-                    <video
-                      src="/expert1.mp4"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      className="expert-video"
-                    />
+                    {loadedVideos.has(1) ? (
+                      <video
+                        src="/experts/expert1.mp4"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="expert-video"
+                      />
+                    ) : (
+                      <img src="/expert1.jpg" alt="Expert" />
+                    )}
                   </div>
                   <div className="insight-content">
                     <p className="insight-quote">
@@ -861,14 +898,18 @@ const LandingPage = () => {
 
                 <div className="insight-card">
                   <div className="expert-image">
-                    <video
-                      src="/expert2.mp4"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      className="expert-video"
-                    />
+                    {loadedVideos.has(2) ? (
+                      <video
+                        src="/experts/expert2.mp4"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="expert-video"
+                      />
+                    ) : (
+                      <img src="/expert2.jpg" alt="Expert" />
+                    )}
                   </div>
                   <div className="insight-content">
                     <p className="insight-quote">
@@ -884,14 +925,18 @@ const LandingPage = () => {
 
                 <div className="insight-card">
                   <div className="expert-image">
-                    <video
-                      src="/expert3.mp4"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      className="expert-video"
-                    />
+                    {loadedVideos.has(3) ? (
+                      <video
+                        src="/experts/expert3.mp4"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="expert-video"
+                      />
+                    ) : (
+                      <img src="/expert3.jpg" alt="Expert" />
+                    )}
                   </div>
                   <div className="insight-content">
                     <p className="insight-quote">
@@ -909,14 +954,18 @@ const LandingPage = () => {
 
                 <div className="insight-card">
                   <div className="expert-image">
-                    <video
-                      src="/expert4.mp4"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      className="expert-video"
-                    />
+                    {loadedVideos.has(4) ? (
+                      <video
+                        src="/experts/expert4.mp4"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="expert-video"
+                      />
+                    ) : (
+                      <img src="/expert4.jpg" alt="Expert" />
+                    )}
                   </div>
                   <div className="insight-content">
                     <p className="insight-quote">
@@ -931,14 +980,18 @@ const LandingPage = () => {
 
                 <div className="insight-card">
                   <div className="expert-image">
-                    <video
-                      src="/expert5.mp4"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      className="expert-video"
-                    />
+                    {loadedVideos.has(5) ? (
+                      <video
+                        src="/experts/expert5.mp4"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="expert-video"
+                      />
+                    ) : (
+                      <img src="/expert5.jpg" alt="Expert" />
+                    )}
                   </div>
                   <div className="insight-content">
                     <p className="insight-quote">
@@ -957,14 +1010,18 @@ const LandingPage = () => {
                 {/* Clone of first card for seamless forward scroll */}
                 <div className="insight-card">
                   <div className="expert-image">
-                    <video
-                      src="/expert1.mp4"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      className="expert-video"
-                    />
+                    {loadedVideos.has(1) ? (
+                      <video
+                        src="/experts/expert1.mp4"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="expert-video"
+                      />
+                    ) : (
+                      <img src="/expert1.jpg" alt="Expert" />
+                    )}
                   </div>
                   <div className="insight-content">
                     <p className="insight-quote">
@@ -1144,7 +1201,9 @@ const LandingPage = () => {
       <section className="backdrop-section">
         <div className="backdrop-container">
           <div className="backdrop-image">
-            <img src="/backdrop1.png" alt="Backdrop" />
+            <Suspense fallback={<div className="image-loading">Loading...</div>}>
+              <img src="backgrounds/backdrop1.png" alt="Backdrop" loading="lazy" />
+            </Suspense>
           </div>
           <div className="backdrop-content">
             <div className="backdrop-stats">
@@ -1297,7 +1356,9 @@ const LandingPage = () => {
       <section className="founder-section">
         <div className="founder-container">
           <div className="founder-image">
-            <img src="/founder_bg.jpeg" alt="Founder Background" />
+            <Suspense fallback={<div className="image-loading">Loading...</div>}>
+              <img src="backgrounds/founder_bg.jpeg" loading="lazy" alt="Founder Background" />
+            </Suspense>
           </div>
           <div className="founder-content">
             <div className="founder-text">
@@ -1310,7 +1371,9 @@ const LandingPage = () => {
             </div>
             <div className="founder-profile">
               <div className="founder-profile-image">
-                <img src="/abhishek_prof.png" alt="Abhishek Mehta" />
+                <Suspense fallback={<div className="image-loading">Loading...</div>}>
+                  <img src="/team/abhishek_prof.png" loading="lazy" alt="Abhishek Mehta" />
+                </Suspense>
               </div>
               <h3 className="founder-name">Abhishek Mehta</h3>
               <p className="founder-title">Founder & Chief Strategist</p>
@@ -1396,10 +1459,14 @@ const LandingPage = () => {
                 className="member-image-link"
               >
                 <div className="member-image">
-                  <img src="/abhishek.webp" alt="Abhishek Mehta" />
+                  <Suspense fallback={<div className="image-loading">Loading...</div>}>
+                    <img src="/team/abhishek.webp" loading="lazy" alt="Abhishek Mehta" />
+                  </Suspense>
                   <div className="hover-overlay">
                     <div className="linkedin-icon">
-                      <img src="/linkedin_icon.png" alt="LinkedIn" />
+                      <Suspense fallback={<div className="icon-loading">Loading...</div>}>
+                        <img src="/icons/linkedin_icon.png" loading="lazy" alt="LinkedIn" />
+                      </Suspense>
                     </div>
                   </div>
                 </div>
@@ -1418,10 +1485,14 @@ const LandingPage = () => {
                 className="member-image-link"
               >
                 <div className="member-image">
-                  <img src="/pooja.webp" alt="Pooja Chandgothia" />
+                  <Suspense fallback={<div className="image-loading">Loading...</div>}>
+                    <img src="/team/pooja.webp" loading="lazy" alt="Pooja Chandgothia" />
+                  </Suspense>
                   <div className="hover-overlay">
                     <div className="linkedin-icon">
-                      <img src="/linkedin_icon.png" alt="LinkedIn" />
+                      <Suspense fallback={<div className="icon-loading">Loading...</div>}>
+                        <img src="/icons/linkedin_icon.png" loading="lazy" alt="LinkedIn" />
+                      </Suspense>
                     </div>
                   </div>
                 </div>
@@ -1440,10 +1511,14 @@ const LandingPage = () => {
                 className="member-image-link"
               >
                 <div className="member-image">
-                  <img src="/varun.webp" alt="Varun Vinayan" />
+                  <Suspense fallback={<div className="image-loading">Loading...</div>}>
+                    <img src="/team/varun.webp" loading="lazy" alt="Varun Vinayan" />
+                  </Suspense>
                   <div className="hover-overlay">
                     <div className="linkedin-icon">
-                      <img src="/linkedin_icon.png" alt="LinkedIn" />
+                      <Suspense fallback={<div className="icon-loading">Loading...</div>}>
+                        <img src="/icons/linkedin_icon.png" loading="lazy" alt="LinkedIn" />
+                      </Suspense>
                     </div>
                   </div>
                 </div>
@@ -1472,7 +1547,7 @@ const LandingPage = () => {
         <div className="container">
           <h2 className="testimonials-title">What Our Client Says</h2>
 
-          <div 
+          <div
             className="testimonials-carousel"
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
@@ -1488,7 +1563,9 @@ const LandingPage = () => {
                   </p>
                   <div className="client-info">
                     <div className="client-avatar">
-                      <img src="/client1.webp" alt="Parish Tekriwal" />
+                      <Suspense fallback={<div className="image-loading">Loading...</div>}>
+                        <img src="/clients/client1.webp" loading="lazy" alt="Parish Tekriwal" />
+                      </Suspense>
                     </div>
                     <div className="client-details">
                       <h4 className="client-name">Parish Tekriwal</h4>
@@ -1507,7 +1584,9 @@ const LandingPage = () => {
                   </p>
                   <div className="client-info">
                     <div className="client-avatar">
-                      <img src="/client2.webp" alt="Adnan Khan" />
+                      <Suspense fallback={<div className="image-loading">Loading...</div>}>
+                        <img src="/clients/client2.webp" loading="lazy" alt="Adnan Khan" />
+                      </Suspense>
                     </div>
                     <div className="client-details">
                       <h4 className="client-name">Adnan Khan</h4>
@@ -1526,7 +1605,9 @@ const LandingPage = () => {
                   </p>
                   <div className="client-info">
                     <div className="client-avatar">
-                      <img src="/client3.webp" alt="Ankit Mehta" />
+                      <Suspense fallback={<div className="image-loading">Loading...</div>}>
+                        <img src="/clients/client3.webp" loading="lazy" alt="Ankit Mehta" />
+                      </Suspense>
                     </div>
                     <div className="client-details">
                       <h4 className="client-name">Ankit Mehta</h4>
@@ -1544,7 +1625,9 @@ const LandingPage = () => {
                   </p>
                   <div className="client-info">
                     <div className="client-avatar">
-                      <img src="/client4.webp" alt="Anik Chhabria" />
+                      <Suspense fallback={<div className="image-loading">Loading...</div>}>
+                        <img src="/clients/client4.webp" loading="lazy" alt="Anik Chhabria" />
+                      </Suspense>
                     </div>
                     <div className="client-details">
                       <h4 className="client-name">Anik Chhabria</h4>
@@ -1563,7 +1646,9 @@ const LandingPage = () => {
                   </p>
                   <div className="client-info">
                     <div className="client-avatar">
-                      <img src="/client5.webp" alt="Shishir Gupta" />
+                      <Suspense fallback={<div className="image-loading">Loading...</div>}>
+                        <img src="/clients/client5.webp" loading="lazy" alt="Shishir Gupta" />
+                      </Suspense>
                     </div>
                     <div className="client-details">
                       <h4 className="client-name">Shishir Gupta</h4>
@@ -1582,7 +1667,9 @@ const LandingPage = () => {
                   </p>
                   <div className="client-info">
                     <div className="client-avatar">
-                      <img src="/client6.webp" alt="Vishnu Priya Jyotula" />
+                      <Suspense fallback={<div className="image-loading">Loading...</div>}>
+                        <img src="/clients/client6.webp" loading="lazy" alt="Vishnu Priya Jyotula" />
+                      </Suspense>
                     </div>
                     <div className="client-details">
                       <h4 className="client-name">Vishnu Priya Jyotula</h4>
@@ -1601,7 +1688,9 @@ const LandingPage = () => {
                   </p>
                   <div className="client-info">
                     <div className="client-avatar">
-                      <img src="/client1.webp" alt="Parish Tekriwal" />
+                      <Suspense fallback={<div className="image-loading">Loading...</div>}>
+                        <img src="/clients/client1.webp" loading="lazy" alt="Parish Tekriwal" />
+                      </Suspense>
                     </div>
                     <div className="client-details">
                       <h4 className="client-name">Parish Tekriwal</h4>
@@ -1620,7 +1709,9 @@ const LandingPage = () => {
                   </p>
                   <div className="client-info">
                     <div className="client-avatar">
-                      <img src="/client2.webp" alt="Adnan Khan" />
+                      <Suspense fallback={<div className="image-loading">Loading...</div>}>
+                        <img src="/clients/client2.webp" loading="lazy" alt="Adnan Khan" />
+                      </Suspense>
                     </div>
                     <div className="client-details">
                       <h4 className="client-name">Adnan Khan</h4>
@@ -1639,7 +1730,9 @@ const LandingPage = () => {
                   </p>
                   <div className="client-info">
                     <div className="client-avatar">
-                      <img src="/client3.webp" alt="Ankit Mehta" />
+                      <Suspense fallback={<div className="image-loading">Loading...</div>}>
+                        <img src="/clients/client3.webp" loading="lazy" alt="Ankit Mehta" />
+                      </Suspense>
                     </div>
                     <div className="client-details">
                       <h4 className="client-name">Ankit Mehta</h4>
@@ -1684,24 +1777,32 @@ const LandingPage = () => {
         >
           <div className="download-content">
             <div className="qr-container">
-              <img src="/qr-code.svg" alt="QR Code" className="qr-code-image" />
+              <Suspense fallback={<div className="icon-loading">Loading...</div>}>
+                <img src="/icons/qr-code.svg" loading="lazy" alt="QR Code" className="qr-code-image" />
+              </Suspense>
             </div>
             <div className="download-info">
               <div className="download-title">Download Wealth Tracker</div>
               <div className="app-store-buttons">
                 <div className="store-button google-play-btn">
-                  <img
-                    src="/google_play_icon.svg"
-                    alt="Google Play"
-                    className="store-icon"
-                  />
+                  <Suspense fallback={<div className="icon-loading">Loading...</div>}>
+                    <img
+                      src="/icons/google_play_icon.svg"
+                      alt="Google Play"
+                      loading="lazy"
+                      className="store-icon"
+                    />
+                  </Suspense>
                 </div>
                 <div className="store-button app-store-btn">
-                  <img
-                    src="/app_store_icon.svg"
-                    alt="App Store"
-                    className="store-icon"
-                  />
+                  <Suspense fallback={<div className="icon-loading">Loading...</div>}>
+                    <img
+                      src="/icons/app_store_icon.svg"
+                      alt="App Store"
+                      loading="lazy"
+                      className="store-icon"
+                    />
+                  </Suspense>
                 </div>
               </div>
             </div>

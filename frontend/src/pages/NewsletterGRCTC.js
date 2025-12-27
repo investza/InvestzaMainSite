@@ -4,8 +4,8 @@ import Lenis from 'lenis';
 // import AboutUsFooter from './AboutUsFooter';
 import './NewsletterGRCTC.css';
 
-import treasuryCentreOperatingModels from "../assets/treasuryCentreOperatingModels.png";
-import GRCTCWork from "../assets/GRCTCWorking.png";
+const treasuryCentreOperatingModels = "/newsletter5/treasuryCentreOperatingModels.png";
+const GRCTCWork = "/newsletter5/GRCTCWorking.png";
 
 
 function NewsletterGRCTC() {

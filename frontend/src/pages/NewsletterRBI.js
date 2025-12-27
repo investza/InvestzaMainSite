@@ -5,9 +5,9 @@ import Lenis from 'lenis';
 import './NewsletterRBI.css';
 
 
-import RateCutChart from "../assets/RateCutChart.png";
-import ImpactOnHomeLoans from "../assets/ImpactOnHomeLoans.png";
-import HomeLoanInterestRates from "../assets/HomeLoanInterestRates.png";
+const RateCutChart = "/newsletter4/RateCutChart.png";
+const ImpactOnHomeLoans = "/newsletter4/ImpactOnHomeLoans.png";
+const HomeLoanInterestRates = "/newsletter4/HomeLoanInterestRates.png";
 
 function NewsletterRBI() {
   const lenisRef = useRef(null);

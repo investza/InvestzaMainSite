@@ -1270,7 +1270,7 @@
 
 @media (max-width : 769px) {
    .footer-end-section {
-   background-image: url("../assets/FooterMobile.jpg") !important;
+   background-image: url("../assets/footer/FooterMobile.jpg") !important;
   }
 }
 

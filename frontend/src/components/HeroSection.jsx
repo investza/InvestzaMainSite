@@ -3,12 +3,14 @@ import React, { useEffect, useRef, useCallback, useContext } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import mobileimg from "../assets/MainScreen.png";
+
 import { showFormContext } from "./contexts/showFormContext";
 import styles from "./HeroSection.module.css";
 import Lenis from "@studio-freight/lenis";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const mobileimg = "/mockup_screens/MainScreen.png";
 
 const HeroSection = () => {
   const { setShowForm } = useContext(showFormContext);

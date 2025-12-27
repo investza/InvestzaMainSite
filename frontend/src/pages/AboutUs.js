@@ -8,12 +8,12 @@ import Lenis from 'lenis';
 // import AboutUsFooter from './AboutUsFooter';
 import "./AboutUs.css";
 
-const Customisation = "/customization-icon.webp";
-const Expertise = "/expertise-icon.webp";
-const Trust = "/trust-icon.webp";
-const LongTerm = "/long-term-value-icon.webp";
-const mission = "/our-mission-2048x1365.webp";
-const vision = "/our-vision-2048x1365.webp";
+const Customisation = "/icons/customization-icon.webp";
+const Expertise = "/icons/expertise-icon.webp";
+const Trust = "/icons/trust-icon.webp";
+const LongTerm = "/icons/long-term-value-icon.webp";
+const mission = "/mission_cards/our-mission-2048x1365.webp";
+const vision = "/mission_cards/our-vision-2048x1365.webp";
 
 gsap.registerPlugin(ScrollTrigger);
 

@@ -71,7 +71,7 @@ const Footer = () => {
     <footer
       className="footer-section"
       style={{
-        backgroundImage: "url(/footer_bg.jpeg)",
+        backgroundImage: "url(/footer_images/footer_bg.jpeg)",
         backgroundSize: "100% auto",
         backgroundPosition: "center top",
         backgroundRepeat: "no-repeat",
@@ -100,7 +100,7 @@ const Footer = () => {
                   </svg>
                 </div>
                 <div className="contact-text">
-                  <a href="https://www.google.com/maps?q=704A+81+Crest+Flora+Santacruz+West+Mumbai+400057" target="_blank">
+                  <a href="https://www.google.com/maps?q=704A+81+Crest+Flora+Santacruz+West+Mumbai+400057" target="_blank" rel="noreferrer">
                     <p>704A, 81 Crest Flora, Santacruz(W),</p>
                     <p>Mumbai, Maharashtra, India 400 057</p>
                   </a>
@@ -122,9 +122,9 @@ const Footer = () => {
                 </div>
                 <div className="contact-text">
                   <a href="tel:+918655447057">
-                      <p>+91 8655447057</p>
+                    <p>+91 8655447057</p>
                   </a>
-                  
+
                 </div>
               </div>
 
@@ -144,7 +144,7 @@ const Footer = () => {
                 </div>
                 <div className="contact-text">
                   <a href="mailto:hello@investza.in">
-                    <p>hello@investza.in</p>  
+                    <p>hello@investza.in</p>
                   </a>
                 </div>
               </div>
@@ -164,7 +164,7 @@ const Footer = () => {
             >
               <div className="map-placeholder">
                 <img
-                  src="/map_pc.jpeg"
+                  src="/assets/map_pc.jpeg"
                   alt="Location Map"
                   className="map-image"
                 />
@@ -322,7 +322,7 @@ const Footer = () => {
       <div
         className="footer-end-section"
         style={{
-          backgroundImage: "url(/footer.png)",
+          backgroundImage: "url(/footer_images/footer.png)",
           backgroundSize: "contain",
           backgroundPosition: "center bottom",
           backgroundRepeat: "no-repeat",
@@ -339,19 +339,19 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="qr-code-box"
               >
-                <img src="/qr-code.svg" alt="QR Code" />
+                <img src="icons/qr-code.svg" alt="QR Code" />
               </a>
               <div className="app-download-text">
                 <h4>Track All Your Investments In One Place</h4>
                 <p>Download Wealth Tracker App</p>
                 <div className="app-store-icons">
                   <img
-                    src="/google_play_icon.svg"
+                    src="/icons/google_play_icon.svg"
                     alt="Google Play"
                     className="store-icon"
                   />
                   <img
-                    src="/app_store_icon.svg"
+                    src="/icons/app_store_icon.svg"
                     alt="App Store"
                     className="store-icon"
                   />

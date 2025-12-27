@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 const Preloader = ({ onComplete }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -9,8 +9,8 @@ const Preloader = ({ onComplete }) => {
   const [videoRef, setVideoRef] = useState(null);
 
   useEffect(() => {
-    const styleTag = document.createElement('style');
-    styleTag.setAttribute('data-preloader-styles', 'true');
+    const styleTag = document.createElement("style");
+    styleTag.setAttribute("data-preloader-styles", "true");
     styleTag.innerHTML = `
       .preloader-wrapper {
         position: fixed;
@@ -92,7 +92,9 @@ const Preloader = ({ onComplete }) => {
     document.head.appendChild(styleTag);
 
     return () => {
-      const existing = document.querySelector("style[data-preloader-styles='true']");
+      const existing = document.querySelector(
+        "style[data-preloader-styles='true']"
+      );
       if (existing) existing.remove();
     };
   }, []);
@@ -108,12 +110,12 @@ const Preloader = ({ onComplete }) => {
         if (assetsLoaded && prev < 100) {
           return 100;
         }
-        
+
         // If assets not loaded yet, slow down near 95 and cap at 99
         if (!assetsLoaded && prev >= 95) {
           return Math.min(prev + 0.3, 99);
         }
-        
+
         // Normal increment - smooth progression
         const increment = prev < 60 ? 5 : prev < 85 ? 3 : 1;
         return Math.min(prev + increment, assetsLoaded ? 100 : 95);
@@ -123,23 +125,45 @@ const Preloader = ({ onComplete }) => {
     // Comprehensive asset loading check
     const checkAllAssetsLoaded = () => {
       // Check document ready state
-      const documentReady = document.readyState === 'complete';
-      
-      // Check all images are loaded
+      const documentReady = document.readyState === "complete";
+
+      // Check critical images only (hero section, not lazy-loaded carousel)
       const images = Array.from(document.images);
-      const imagesLoaded = images.every(img => img.complete && img.naturalHeight !== 0);
-      
+      const criticalImages = images.filter((img) => {
+        const src = img.src || "";
+        // Exclude lazy-loaded expert images (they'll load later)
+        return !src.includes("expert") || src.includes("expert1");
+      });
+      const imagesLoaded =
+        criticalImages.length === 0 ||
+        criticalImages.every((img) => img.complete && img.naturalHeight !== 0);
+
+      // Check only critical videos (hero videos, NOT carousel videos)
+      const videos = Array.from(document.querySelectorAll("video"));
+      const criticalVideos = videos.filter((video) => {
+        const src = video.getAttribute("src") || "";
+        // Only wait for hero videos, not carousel expert videos
+        return src.includes("hero_vid.mp4") || src.includes("preloader");
+      });
+      const videosLoaded =
+        criticalVideos.length === 0 ||
+        criticalVideos.every((video) => {
+          // Check if video is loaded (readyState >= 3 means HAVE_FUTURE_DATA)
+          return video.readyState >= 3;
+        });
+
       // Check all stylesheets are loaded
       const stylesheets = Array.from(document.styleSheets);
-      const stylesheetsLoaded = stylesheets.every(sheet => {
+      const stylesheetsLoaded = stylesheets.every((sheet) => {
         try {
           return sheet.cssRules !== null;
         } catch (e) {
           return true; // Cross-origin stylesheets
         }
       });
-      
-      return documentReady && imagesLoaded && stylesheetsLoaded;
+
+      // More lenient check - just need document ready and critical assets
+      return documentReady && imagesLoaded && videosLoaded && stylesheetsLoaded;
     };
 
     // Track actual asset loading
@@ -155,17 +179,17 @@ const Preloader = ({ onComplete }) => {
       if (!assetsLoaded && checkAllAssetsLoaded()) {
         handleAssetsLoaded();
       }
-      
+
       // When progress reaches 100% AND video has ended, start curtain lift
       if (loadingProgress >= 100 && videoEnded) {
         clearInterval(progressInterval);
         clearInterval(assetCheckInterval);
-        
+
         // Brief pause to show 100%, then lift curtain
         setTimeout(() => {
           setAssetsLoaded(true);
           setIsLiftingUp(true);
-          
+
           // Remove preloader AFTER curtain animation completes
           setTimeout(() => {
             setIsVisible(false);
@@ -186,23 +210,25 @@ const Preloader = ({ onComplete }) => {
     if (checkAllAssetsLoaded()) {
       setTimeout(handleAssetsLoaded, 300);
     } else {
-      window.addEventListener('load', loadHandler);
+      window.addEventListener("load", loadHandler);
     }
 
     return () => {
       clearInterval(progressInterval);
       clearInterval(assetCheckInterval);
-      window.removeEventListener('load', loadHandler);
+      window.removeEventListener("load", loadHandler);
     };
   }, [onComplete, loadingProgress, videoEnded]);
 
   // Determine which video to show based on screen size
   const getPreloaderVideo = () => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const isMobile = window.innerWidth <= 768;
-      return isMobile ? '/preloader_phone.mp4' : '/preloader_desktop.mp4';
+      return isMobile
+        ? "/preloaders/preloader_phone.mp4"
+        : "/preloaders/preloader_desktop.mp4";
     }
-    return '/preloader_desktop.mp4';
+    return "/preloaders/preloader_desktop.mp4";
   };
 
   const handleVideoRef = (video) => {
@@ -223,11 +249,11 @@ const Preloader = ({ onComplete }) => {
   if (!isVisible) return null;
 
   return (
-    <div className={`preloader-wrapper ${isLiftingUp ? 'lifting' : ''}`}>
+    <div className={`preloader-wrapper ${isLiftingUp ? "lifting" : ""}`}>
       <div className="preloader-video-container">
-        <video 
+        <video
           ref={handleVideoRef}
-          src={getPreloaderVideo()} 
+          src={getPreloaderVideo()}
           className="preloader-video"
           autoPlay
           muted
@@ -237,7 +263,9 @@ const Preloader = ({ onComplete }) => {
           onEnded={handleVideoEnded}
         />
       </div>
-      <div className={`preloader-loading-text ${assetsLoaded ? 'fade-out' : ''}`}>
+      <div
+        className={`preloader-loading-text ${assetsLoaded ? "fade-out" : ""}`}
+      >
         {Math.floor(loadingProgress)}%
       </div>
     </div>
