@@ -135,7 +135,7 @@ Should serious long-term capital be compounded in Mutual Funds or in PMS?</p>
       <p><strong>How the Performance Divergence Looks Visually</strong></p>
 
           <div className="mfpms-graph-image">
-            <img src="newsletter7/newsletter7_graph.png" alt="Performance Comparison: Mutual Funds vs PMS" />
+            <img src="newsletter/newsletter7_graph.webp" alt="Performance Comparison: Mutual Funds vs PMS" />
           </div>
 
      

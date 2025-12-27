@@ -1,6 +1,6 @@
 import LoadingPage from "./LoadingPage";
 // import Page from "./Page";
-import { Suspense, React } from "react";
+import { Suspense } from "react";
 // import Information from "./Information";
 // import ScheduleComponent from "./ScheduleComponent";
 import { useState, useEffect } from "react";

@@ -1202,7 +1202,7 @@ const LandingPage = () => {
         <div className="backdrop-container">
           <div className="backdrop-image">
             <Suspense fallback={<div className="image-loading">Loading...</div>}>
-              <img src="backgrounds/backdrop1.png" alt="Backdrop" loading="lazy" />
+              <img src="backgrounds/backdrop1.webp" alt="Backdrop" loading="lazy" />
             </Suspense>
           </div>
           <div className="backdrop-content">
@@ -1357,7 +1357,7 @@ const LandingPage = () => {
         <div className="founder-container">
           <div className="founder-image">
             <Suspense fallback={<div className="image-loading">Loading...</div>}>
-              <img src="backgrounds/founder_bg.jpeg" loading="lazy" alt="Founder Background" />
+              <img src="backgrounds/founder_bg.webp" loading="lazy" alt="Founder Background" />
             </Suspense>
           </div>
           <div className="founder-content">
@@ -1372,7 +1372,7 @@ const LandingPage = () => {
             <div className="founder-profile">
               <div className="founder-profile-image">
                 <Suspense fallback={<div className="image-loading">Loading...</div>}>
-                  <img src="/team/abhishek_prof.png" loading="lazy" alt="Abhishek Mehta" />
+                  <img src="/team/abhishek_prof.webp" loading="lazy" alt="Abhishek Mehta" />
                 </Suspense>
               </div>
               <h3 className="founder-name">Abhishek Mehta</h3>
@@ -1465,7 +1465,7 @@ const LandingPage = () => {
                   <div className="hover-overlay">
                     <div className="linkedin-icon">
                       <Suspense fallback={<div className="icon-loading">Loading...</div>}>
-                        <img src="/icons/linkedin_icon.png" loading="lazy" alt="LinkedIn" />
+                        <img src="/icons/linkedin_icon.svg" loading="lazy" alt="LinkedIn" />
                       </Suspense>
                     </div>
                   </div>
@@ -1491,7 +1491,7 @@ const LandingPage = () => {
                   <div className="hover-overlay">
                     <div className="linkedin-icon">
                       <Suspense fallback={<div className="icon-loading">Loading...</div>}>
-                        <img src="/icons/linkedin_icon.png" loading="lazy" alt="LinkedIn" />
+                        <img src="/icons/linkedin_icon.svg" loading="lazy" alt="LinkedIn" />
                       </Suspense>
                     </div>
                   </div>
@@ -1517,7 +1517,7 @@ const LandingPage = () => {
                   <div className="hover-overlay">
                     <div className="linkedin-icon">
                       <Suspense fallback={<div className="icon-loading">Loading...</div>}>
-                        <img src="/icons/linkedin_icon.png" loading="lazy" alt="LinkedIn" />
+                        <img src="/icons/linkedin_icon.svg" loading="lazy" alt="LinkedIn" />
                       </Suspense>
                     </div>
                   </div>

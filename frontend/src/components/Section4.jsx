@@ -1,9 +1,10 @@
 // src/components/Section4.jsx
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-const trio = "/team/trio.png";
 import styles from "./Section4.module.css";
+
+const trio = "/team/trio.png";
 
 gsap.registerPlugin(ScrollTrigger);
 

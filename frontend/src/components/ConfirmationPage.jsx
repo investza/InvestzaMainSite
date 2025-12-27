@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { CheckCircle, Calendar, Clock, Mail, ArrowRight } from "lucide-react";
 import styles from "./ConfirmationPage.module.css";
@@ -9,7 +9,7 @@ const ConfirmationPage = () => {
   const [showContent, setShowContent] = useState(false);
   const navigate = useNavigate();
 
-  const { userData, setUserData, clearUserData } = useContext(userDataContext);
+  const { userData, clearUserData } = useContext(userDataContext);
 
   const [UIDate, setUIdate] = useState("");
   const [UITime, setUITime] = useState("");

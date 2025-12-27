@@ -101,24 +101,24 @@ const Preloader = ({ onComplete }) => {
 
   useEffect(() => {
     let progressInterval;
-    let assetsLoaded = false;
+    let assetsLoadedFlag = false;
 
     // Animate progress from 0 to 100 based on asset loading
     progressInterval = setInterval(() => {
       setLoadingProgress((prev) => {
         // If assets are fully loaded, jump to 100
-        if (assetsLoaded && prev < 100) {
+        if (assetsLoadedFlag && prev < 100) {
           return 100;
         }
 
         // If assets not loaded yet, slow down near 95 and cap at 99
-        if (!assetsLoaded && prev >= 95) {
+        if (!assetsLoadedFlag && prev >= 95) {
           return Math.min(prev + 0.3, 99);
         }
 
         // Normal increment - smooth progression
         const increment = prev < 60 ? 5 : prev < 85 ? 3 : 1;
-        return Math.min(prev + increment, assetsLoaded ? 100 : 95);
+        return Math.min(prev + increment, assetsLoadedFlag ? 100 : 95);
       });
     }, 150);
 
@@ -169,35 +169,16 @@ const Preloader = ({ onComplete }) => {
     // Track actual asset loading
     const handleAssetsLoaded = () => {
       if (checkAllAssetsLoaded()) {
-        assetsLoaded = true;
+        assetsLoadedFlag = true;
+        setAssetsLoaded(true);
         // Assets are loaded, progress will jump to 100 in next interval
       }
     };
 
     // Check periodically for asset loading
     const assetCheckInterval = setInterval(() => {
-      if (!assetsLoaded && checkAllAssetsLoaded()) {
+      if (!assetsLoadedFlag && checkAllAssetsLoaded()) {
         handleAssetsLoaded();
-      }
-
-      // When progress reaches 100% AND video has ended, start curtain lift
-      if (loadingProgress >= 100 && videoEnded) {
-        clearInterval(progressInterval);
-        clearInterval(assetCheckInterval);
-
-        // Brief pause to show 100%, then lift curtain
-        setTimeout(() => {
-          setAssetsLoaded(true);
-          setIsLiftingUp(true);
-
-          // Remove preloader AFTER curtain animation completes
-          setTimeout(() => {
-            setIsVisible(false);
-            if (onComplete) {
-              onComplete();
-            }
-          }, 1500); // Exact curtain animation duration
-        }, 500);
       }
     }, 100);
 
@@ -218,7 +199,25 @@ const Preloader = ({ onComplete }) => {
       clearInterval(assetCheckInterval);
       window.removeEventListener("load", loadHandler);
     };
-  }, [onComplete, loadingProgress, videoEnded]);
+  }, [onComplete]); // Removed loadingProgress and videoEnded from dependencies
+
+  // Separate effect to handle completion when both conditions are met
+  useEffect(() => {
+    if (loadingProgress >= 100 && videoEnded) {
+      // Brief pause to show 100%, then lift curtain
+      setTimeout(() => {
+        setIsLiftingUp(true);
+
+        // Remove preloader AFTER curtain animation completes
+        setTimeout(() => {
+          setIsVisible(false);
+          if (onComplete) {
+            onComplete();
+          }
+        }, 1500); // Exact curtain animation duration
+      }, 500);
+    }
+  }, [loadingProgress, videoEnded, onComplete]);
 
   // Determine which video to show based on screen size
   const getPreloaderVideo = () => {

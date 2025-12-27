@@ -5,10 +5,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { showFormContext } from "./contexts/showFormContext";
 import styles from "./Section2.module.css";
 
-const slider1 = "/mockup_screens/holdingsScreen.png";
-const slider2 = "/mockup_screens/ExitSuggestionsScreen.png";
-const slider3 = "/mockup_screens/AssetAllocationScreen.png";
-const slider4 = "/mockup_screens/MutualFundsScreen.png";
+const slider1 = "/mockup_screens/holdingsScreen.webp";
+const slider2 = "/mockup_screens/ExitSuggestionsScreen.webp";
+const slider3 = "/mockup_screens/AssetAllocationScreen.webp";
+const slider4 = "/mockup_screens/MutualFundsScreen.webp";
 
 gsap.registerPlugin(ScrollTrigger);
 

@@ -156,7 +156,7 @@ const ContactUs = () => {
       <section
         className="contact-hero"
         style={{
-          backgroundImage: `url(/team/newsletter_hero.jpeg?v=${Date.now()})`,
+          backgroundImage: `url(/newsletter/newsletter_hero.webp?v=${Date.now()})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center 30%',
           backgroundRepeat: 'no-repeat'
@@ -303,7 +303,7 @@ const ContactUs = () => {
       <section className="contact-map-section">
         <h2 className="contact-map-title">Find Us</h2>
         <div className="contact-map-container" onClick={() => window.open('https://maps.google.com/?q=704A,+81+Crest+Flora,+Santacruz(W),+Mumbai', '_blank')}>
-          <img src="/assets/map_pc.jpeg" alt="Location Map" className="contact-map-image" />
+          <img src="/assets/map_pc.webp" alt="Location Map" className="contact-map-image" />
           <div className="contact-map-overlay">
             <span className="contact-map-link">View larger map →</span>
           </div>

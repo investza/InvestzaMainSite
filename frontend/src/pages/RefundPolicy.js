@@ -87,7 +87,7 @@ function RefundPolicy() {
       <section 
         className="refund-hero"
         style={{
-          backgroundImage: `url(/team/newsletter_hero.jpeg?v=${Date.now()})`,
+          backgroundImage: `url(/newsletter/newsletter_hero.webp?v=${Date.now()})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center 30%',
           backgroundRepeat: 'no-repeat'

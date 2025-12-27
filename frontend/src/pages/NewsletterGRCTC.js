@@ -4,8 +4,8 @@ import Lenis from 'lenis';
 // import AboutUsFooter from './AboutUsFooter';
 import './NewsletterGRCTC.css';
 
-const treasuryCentreOperatingModels = "/newsletter5/treasuryCentreOperatingModels.png";
-const GRCTCWork = "/newsletter5/GRCTCWorking.png";
+const treasuryCentreOperatingModels = "/newsletter/treasuryCentreOperatingModels.webp";
+const GRCTCWork = "/newsletter/GRCTCWorking.webp";
 
 
 function NewsletterGRCTC() {
@@ -190,7 +190,7 @@ function NewsletterGRCTC() {
                 height="450" 
                 src="https://www.youtube.com/embed/7m4pLSaKwWs" 
                 title="Ep.3 with Vijai Mantri | Co-Founder & Chief Investment Strategist at JRL Money" 
-                frameBorder="0" 
+                style={{border: 0}}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 allowFullScreen
               ></iframe>

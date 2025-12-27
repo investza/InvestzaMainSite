@@ -8,10 +8,10 @@ import Lenis from 'lenis';
 // import AboutUsFooter from './AboutUsFooter';
 import "./AboutUs.css";
 
-const Customisation = "/icons/customization-icon.webp";
-const Expertise = "/icons/expertise-icon.webp";
-const Trust = "/icons/trust-icon.webp";
-const LongTerm = "/icons/long-term-value-icon.webp";
+const Customisation = "/icons/customization-icon.svg";
+const Expertise = "/icons/expertise-icon.svg";
+const Trust = "/icons/trust-icon.svg";
+const LongTerm = "/icons/long-term-value-icon.svg";
 const mission = "/mission_cards/our-mission-2048x1365.webp";
 const vision = "/mission_cards/our-vision-2048x1365.webp";
 
@@ -318,7 +318,7 @@ function AboutUs() {
         className="aboutUs" 
         ref={heroRef}
         style={{
-          backgroundImage: `url(/team/newsletter_hero.jpeg?v=${Date.now()})`,
+          backgroundImage: `url(/newsletter/newsletter_hero.webp?v=${Date.now()})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center 30%',
           backgroundRepeat: 'no-repeat'

@@ -444,7 +444,7 @@ const EventsPage = () => {
                   <img src="/team/abhishek.webp" alt="Abhishek Mehta" />
                   <div className="hover-overlay">
                     <div className="linkedin-icon">
-                      <img src="//icons/linkedin_icon.png" alt="LinkedIn" />
+                      <img src="//icons/linkedin_icon.svg" alt="LinkedIn" />
                     </div>
                   </div>
                 </div>
@@ -461,7 +461,7 @@ const EventsPage = () => {
                   <img src="/team/pooja.webp" alt="Pooja Chandgothia" />
                   <div className="hover-overlay">
                     <div className="linkedin-icon">
-                      <img src="//icons/linkedin_icon.png" alt="LinkedIn" />
+                      <img src="//icons/linkedin_icon.svg" alt="LinkedIn" />
                     </div>
                   </div>
                 </div>
@@ -478,7 +478,7 @@ const EventsPage = () => {
                   <img src="/team/varun.webp" alt="Varun Vinayan" />
                   <div className="hover-overlay">
                     <div className="linkedin-icon">
-                      <img src="//icons/linkedin_icon.png" alt="LinkedIn" />
+                      <img src="//icons/linkedin_icon.svg" alt="LinkedIn" />
                     </div>
                   </div>
                 </div>

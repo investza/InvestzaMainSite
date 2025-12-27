@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 import logo from "../assets/logo.svg";
-import icon from "../assets/Asset 8 1.jpg";
 
 // Icons
 import {
@@ -20,7 +19,7 @@ import {
   FaUserFriends
 } from "react-icons/fa";
 
-function Sidebar({ onToggle, isOpen: isOpenProp = true }) {
+function Sidebar({ isOpen: isOpenProp = true }) {
   const [isOpen, setIsOpen] = useState(isOpenProp);
   const [openDropdown, setOpenDropdown] = useState(false);
   const [activeItem, setActiveItem] = useState("");
@@ -84,7 +83,7 @@ function Sidebar({ onToggle, isOpen: isOpenProp = true }) {
           {isOpen ? (
             <img src={logo} className={styles.sidebarLogo} alt="Logo" />
           ) : (
-            <img src={icon} className={styles.sidebarIcon} alt="Icon" />
+            <img src="/favicon/Asset 8 1.svg" className={styles.sidebarIcon} alt="Icon" />
           )}
         </div>
 

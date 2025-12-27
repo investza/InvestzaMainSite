@@ -10,7 +10,7 @@ import Lenis from "@studio-freight/lenis";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const mobileimg = "/mockup_screens/MainScreen.png";
+const mobileimg = "/mockup_screens/MainScreen.webp";
 
 const HeroSection = () => {
   const { setShowForm } = useContext(showFormContext);

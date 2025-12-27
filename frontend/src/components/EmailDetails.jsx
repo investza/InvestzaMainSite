@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ChevronLeft, MessageCircle } from "lucide-react";
 import styles from "./EmailDetails.module.css";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,7 @@ import { ChevronRight } from "lucide-react";
 import { createBooking } from "../api/flowApi";
 import { submit_reviewPortfolio } from "../api/flowApi";
 
-const EmailDetails = ({ onBack }) => {
+const EmailDetails = () => {
   const { userData, setUserData } = useContext(userDataContext);
 
   const [formData, setFormData] = useState({

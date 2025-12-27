@@ -71,7 +71,7 @@ const Footer = () => {
     <footer
       className="footer-section"
       style={{
-        backgroundImage: "url(/footer_images/footer_bg.jpeg)",
+        backgroundImage: "url(/footer_images/footer_bg.webp)",
         backgroundSize: "100% auto",
         backgroundPosition: "center top",
         backgroundRepeat: "no-repeat",
@@ -164,7 +164,7 @@ const Footer = () => {
             >
               <div className="map-placeholder">
                 <img
-                  src="/assets/map_pc.jpeg"
+                  src="/assets/map_pc.webp"
                   alt="Location Map"
                   className="map-image"
                 />
@@ -322,7 +322,7 @@ const Footer = () => {
       <div
         className="footer-end-section"
         style={{
-          backgroundImage: "url(/footer_images/footer.png)",
+          backgroundImage: "url(/footer_images/footer.webp)",
           backgroundSize: "contain",
           backgroundPosition: "center bottom",
           backgroundRepeat: "no-repeat",

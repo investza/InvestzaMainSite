@@ -1,9 +1,9 @@
-import { React, useContext } from "react";
+import { useContext } from "react";
 import styles from "./Information.module.css";
 import { userDataContext } from "./contexts/userDataContext";
 
 const Abhishek = "/team/abhishek.webp";
-const groupPhoto = "/team/pm2.png";
+const groupPhoto = "/team/pm2.webp";
 
 const Information = () => {
   const { userData, /* setUserData */ } = useContext(userDataContext);

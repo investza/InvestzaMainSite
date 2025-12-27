@@ -12,11 +12,11 @@ import NewsletterMFvsPMS from './NewsletterMFvsPMS';
 import './NewsletterDetail.css';
 
 
-const news1 = "/newsletter1/news1.png";
-const news2 = "/newsletter1/news2.png";
-const trumpImg = "/newsletter1/news3.png";
-const bar01 = "/newsletter1/bar-01.svg";
-const table01 = "/newsletter1/table01.svg";
+const news1 = "/newsletter/news1.webp";
+const news2 = "/newsletter/news2.webp";
+const trumpImg = "/newsletter/news3.webp";
+const bar01 = "/newsletter/bar-01.webp";
+const table01 = "/newsletter1/table01.webp";
 
 // Page 1 assets
 // const imgImage11 = "https://www.figma.com/api/mcp/asset/3a500cd4-3114-4e26-b454-2e10d98e2aaa";

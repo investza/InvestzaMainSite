@@ -5,9 +5,9 @@ import Lenis from 'lenis';
 import './NewsletterRBI.css';
 
 
-const RateCutChart = "/newsletter4/RateCutChart.png";
-const ImpactOnHomeLoans = "/newsletter4/ImpactOnHomeLoans.png";
-const HomeLoanInterestRates = "/newsletter4/HomeLoanInterestRates.png";
+const RateCutChart = "/newsletter/RateCutChart.webp";
+const ImpactOnHomeLoans = "/newsletter/ImpactOnHomeLoans.webp";
+const HomeLoanInterestRates = "/newsletter/HomeLoanInterestRates.webp";
 
 function NewsletterRBI() {
   const lenisRef = useRef(null);
@@ -222,7 +222,7 @@ function NewsletterRBI() {
                 height="450" 
                 src="https://www.youtube.com/embed/7m4pLSaKwWs" 
                 title="Ep.3 with Vijai Mantri | Co-Founder & Chief Investment Strategist at JRL Money" 
-                frameBorder="0" 
+                style={{border: 0}}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 allowFullScreen
               ></iframe>

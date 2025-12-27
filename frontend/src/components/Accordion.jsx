@@ -1,5 +1,5 @@
 // src/components/Accordion.jsx
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "./Accordion.module.css";
 
 function Accordion() {
